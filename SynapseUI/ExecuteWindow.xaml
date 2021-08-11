@@ -1,0 +1,175 @@
+﻿<Window
+    x:Class="SynapseUI.ExecuteWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:customControls="clr-namespace:SynapseUI.CustomControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:SynapseUI"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="ExecuteWindow"
+    Width="800"
+    Height="355"
+    MinWidth="800"
+    MinHeight="355"
+    FontFamily="Segoe UI"
+    ResizeMode="CanResize"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="SingleBorderWindow"
+    mc:Ignorable="d">
+
+    <Window.Resources />
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome
+            CaptionHeight="0"
+            CornerRadius="0"
+            GlassFrameThickness="0"
+            ResizeBorderThickness="7"
+            UseAeroCaptionButtons="False" />
+    </WindowChrome.WindowChrome>
+
+    <Grid Background="{StaticResource AppBackground}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="35" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="45" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="680*" />
+            <ColumnDefinition Width="125" />
+        </Grid.ColumnDefinitions>
+
+        <Grid
+            Grid.ColumnSpan="3"
+            Background="{StaticResource DraggableBarBackground}"
+            MouseLeftButtonDown="DraggableTop_MouseLeftButtonDown">
+            <Label
+                Height="30"
+                Content="Synapse X"
+                Style="{StaticResource DefaultCenterVertText}" />
+
+            <Image
+                Width="16"
+                Margin="8,0,0,0"
+                HorizontalAlignment="Left"
+                Source="Resources/logo.png"
+                Stretch="Uniform" />
+
+            <Button
+                x:Name="closeWindow"
+                HorizontalAlignment="Right"
+                Click="CloseWindow_Click"
+                Content="&#xE106;"
+                Style="{StaticResource WindowStateButton}" />
+
+            <!--  FIX LATER  -->
+            <!--
+            <Button
+                x:Name="maximiseWindow"
+                Margin="0,0,45,0"
+                HorizontalAlignment="Right"
+                Click="MaximiseWindow_Click"
+                Content="&#xE739;"
+                Style="{StaticResource windowState}" />
+            -->
+
+            <Button
+                x:Name="minimiseWindow"
+                Margin="0,0,45,0"
+                HorizontalAlignment="Right"
+                Click="MinimiseWindow_Click"
+                Content="&#xE949;"
+                Style="{StaticResource WindowStateButton}" />
+
+            <Button
+                Grid.Row="1"
+                Grid.Column="1"
+                Width="13"
+                Height="13"
+                Margin="0,0,100,0"
+                HorizontalAlignment="Right"
+                Click="OpenOptions_Click"
+                Style="{StaticResource HoverInvisibleButton}">
+                <Image Source="Resources/settings.png" Stretch="Uniform" />
+            </Button>
+        </Grid>
+
+        <Grid
+            Grid.Row="2"
+            Margin="7,0,0,7"
+            Background="Transparent" />
+
+        <ListBox
+            x:Name="scriptsListBox"
+            Grid.Row="2"
+            Grid.Column="2"
+            Margin="0,0,7,0"
+            Background="{StaticResource ScriptsListBoxColor}"
+            BorderThickness="0"
+            FontSize="12"
+            Foreground="White"
+            ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+
+            <ListBox.Resources>
+                <ContextMenu x:Key="contentMenu" Foreground="White">
+                    <MenuItem Header="Execute" />
+                    <MenuItem Header="Load into editor" />
+                </ContextMenu>
+
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="ContextMenu" Value="{StaticResource contentMenu}" />
+                </Style>
+            </ListBox.Resources>
+
+        </ListBox>
+
+        <DockPanel Grid.Row="3" HorizontalAlignment="Left">
+            <Button
+                x:Name="executeEditorButton"
+                Width="90"
+                Height="30"
+                Content="Execute"
+                Style="{StaticResource MarginHoverButton}" />
+
+            <Button
+                x:Name="clearEditorButton"
+                Content="Clear"
+                Style="{StaticResource MarginHoverButton}" />
+
+            <Button
+                x:Name="openFileButton"
+                Content="Open File"
+                Style="{StaticResource MarginHoverButton}" />
+
+            <Button
+                x:Name="executeFileButton"
+                Content="Execute File"
+                Style="{StaticResource MarginHoverButton}" />
+
+            <Button
+                x:Name="saveFileButton"
+                Content="Save File"
+                Style="{StaticResource MarginHoverButton}" />
+        </DockPanel>
+
+        <Button
+            x:Name="attachButton"
+            Grid.Row="3"
+            Grid.ColumnSpan="2"
+            Margin="0,0,104,0"
+            HorizontalAlignment="Right"
+            Content="Attach"
+            Style="{StaticResource MarginHoverButton}" />
+
+        <Button
+            x:Name="openScriptHubButton"
+            Grid.Row="3"
+            Grid.ColumnSpan="2"
+            Margin="0,0,7,0"
+            HorizontalAlignment="Right"
+            Content="Script Hub"
+            Style="{StaticResource MarginHoverButton}" />
+    </Grid>
+</Window>

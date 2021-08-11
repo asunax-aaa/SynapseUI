@@ -1,0 +1,141 @@
+﻿<Window
+    x:Class="SynapseUI.ErrorWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:customControls="clr-namespace:SynapseUI.CustomControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="ErrWindow"
+    Title="ErrorWindow"
+    Width="330"
+    Height="220"
+    MinWidth="330"
+    MinHeight="220"
+    DataContext="{Binding RelativeSource={RelativeSource Self}}"
+    FontFamily="Segoe UI"
+    ResizeMode="NoResize"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="None"
+    mc:Ignorable="d">
+
+    <Grid Background="{StaticResource AppBackground}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="30" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="65" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+        </Grid.RowDefinitions>
+
+        <Grid
+            x:Name="draggableTop"
+            Grid.ColumnSpan="3"
+            Background="{StaticResource DraggableBarBackground}"
+            MouseLeftButtonDown="DraggableTop_MouseLeftButtonDown">
+            <Label
+                Height="30"
+                HorizontalContentAlignment="Center"
+                Content="Synapse X - Error"
+                FontSize="13"
+                Foreground="#FFCF6679" />
+        </Grid>
+
+        <Image
+            Width="16"
+            Source="resources/logo.png"
+            Stretch="Uniform" />
+
+        <Label
+            Grid.Row="1"
+            Grid.Column="1"
+            FontFamily="Segoe UI SemiBold"
+            FontSize="14"
+            Foreground="#FFCF6679"
+            Style="{StaticResource DefaultText}">
+
+            <Label.Content>
+                <AccessText
+                    Text="{Binding Error.ErrorWelcome}"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap" />
+            </Label.Content>
+        </Label>
+
+        <Label
+            Grid.Row="2"
+            Grid.Column="1"
+            Content="{Binding Error.ErrorType}"
+            FontSize="12"
+            Style="{StaticResource DefaultText}" />
+
+        <Label
+            Grid.Row="3"
+            Grid.Column="1"
+            FontFamily="Segoe UI Semibold"
+            Style="{StaticResource DefaultText}">
+
+            <Label.Content>
+                <AccessText
+                    Text="{Binding Error.ErrorInformation}"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap" />
+            </Label.Content>
+        </Label>
+
+        <DockPanel
+            Grid.Row="5"
+            Grid.Column="1"
+            Height="40"
+            Margin="0,0,0,-10"
+            VerticalAlignment="Bottom">
+
+            <customControls:DropDownButton
+                x:Name="dropDownButton"
+                Width="20"
+                Height="20"
+                Foreground="#FF9E9E9E"
+                Style="{StaticResource HoverButton}" />
+
+            <Label
+                Padding="7,0,0,0"
+                VerticalContentAlignment="Center"
+                Content="Click to view possible fixes."
+                FontFamily="Segoe UI Semilight"
+                FontSize="13"
+                Foreground="#FFE0E0E0" />
+
+            <Button
+                x:Name="closeWindowButton"
+                Width="55"
+                Height="25"
+                Margin="0,0,0,5"
+                HorizontalAlignment="Right"
+                Click="CloseWindowButton_Click"
+                Content="Close"
+                Foreground="#FFE0E0E0"
+                Style="{StaticResource HoverButton}" />
+        </DockPanel>
+
+        <Grid
+            Grid.Row="4"
+            Grid.Column="1"
+            Margin="0,0,0,30">
+            <TextBlock
+                x:Name="informationBox"
+                Width="Auto"
+                Height="Auto"
+                VerticalAlignment="Top"
+                FontSize="12"
+                Foreground="White"
+                TextWrapping="Wrap" />
+        </Grid>
+    </Grid>
+</Window>

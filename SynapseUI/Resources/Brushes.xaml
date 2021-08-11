@@ -1,0 +1,24 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <SolidColorBrush x:Key="ButtonBackground" Color="#FF2D2D2D" />
+    <SolidColorBrush x:Key="ButtonBorderColor" Color="#FF868686" />
+    <SolidColorBrush x:Key="ButtonHighlightColor" Color="#FF2C3D4D" />
+
+    <SolidColorBrush x:Key="WindowStateButtonBackground" Color="#FF1F1F1F" />
+
+    <SolidColorBrush x:Key="DraggableBarBackground" Color="#FF1F1F1F" />
+
+    <SolidColorBrush x:Key="AppBackground" Color="#FF121212" />
+
+    <SolidColorBrush x:Key="CustomLoadingBarBackground" Color="#FF252525" />
+    <SolidColorBrush x:Key="CustomLoadingBarBarBackground" Color="#FF3700B3" />
+
+    <SolidColorBrush x:Key="CustomToggleSliderBackground" Color="#FF72767D" />
+
+    <SolidColorBrush x:Key="ContextMenuBackground" Color="#FF2B2B2B" />
+    <SolidColorBrush x:Key="ContextMenuBorderColor" Color="#FFA0A0A0" />
+
+    <SolidColorBrush x:Key="ScrollbarThumbColor" Color="#FF018786" />
+
+    <SolidColorBrush x:Key="ScriptsListBoxColor" Color="#FF1F1F1F" />
+</ResourceDictionary>

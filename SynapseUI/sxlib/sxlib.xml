@@ -1,0 +1,590 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>sxlib</name>
+    </assembly>
+    <members>
+        <member name="T:sxlib.Static.Data.Options">
+            <summary>
+            The Synapse X options.
+            </summary>
+        </member>
+        <member name="F:sxlib.Static.Data.Options.UnlockFPS">
+            <summary>
+            If FPS should be unlocked.
+            </summary>
+        </member>
+        <member name="F:sxlib.Static.Data.Options.AutoAttach">
+            <summary>
+            If AutoAttach should be enabled.
+            </summary>
+        </member>
+        <member name="F:sxlib.Static.Data.Options.AutoLaunch">
+            <summary>
+            If AutoLaunch should be enabled.
+            </summary>
+        </member>
+        <member name="F:sxlib.Static.Data.Options.TopMost">
+            <summary>
+            If TopMost is enabled. You must implement this yourself.
+            </summary>
+        </member>
+        <member name="F:sxlib.Static.Data.Options.InternalUI">
+            <summary>
+            If the Internal UI should be visible.
+            </summary>
+        </member>
+        <member name="F:sxlib.Static.Data.Options.IngameChat">
+            <summary>
+            Currently unused.
+            </summary>
+        </member>
+        <member name="F:sxlib.Static.Data.Options.BetaRelease">
+            <summary>
+            Currently unused.
+            </summary>
+        </member>
+        <member name="F:sxlib.Static.Data.Options.LegacyUi">
+            <summary>
+            Currently unused.
+            </summary>
+        </member>
+        <member name="F:sxlib.Static.Data.Options.CloseConfirmation">
+            <summary>
+            You should prompt if this option is enabled and the user is closing a tab.
+            </summary>
+        </member>
+        <member name="F:sxlib.Static.Data.Options.ClearConfirmation">
+            <summary>
+            You should prompt if this option is enabled and the user is clearing a tab.
+            </summary>
+        </member>
+        <member name="F:sxlib.Static.Data.Options.AutoJoin">
+            <summary>
+            Unused by sxlib. Do not modify.
+            </summary>
+        </member>
+        <member name="F:sxlib.Static.Data.Options.EditorThemeName">
+            <summary>
+            Unused by sxlib. Do not modify.
+            </summary>
+        </member>
+        <member name="F:sxlib.Static.Data.Options.WindowScale">
+            <summary>
+            The window scale of the Synapse X UI. You must implement this yourself.
+            </summary>
+        </member>
+        <member name="T:sxlib.Specialized.SxLibBase.SynLoadEvents">
+            <summary>
+            Loading events for Synapse (will be sent as callbacks with the 'Load' function)
+            </summary>
+        </member>
+        <member name="F:sxlib.Specialized.SxLibBase.SynLoadEvents.UNKNOWN">
+            <summary>
+            Unknown error. You should usually exit your application if this is received.
+            </summary>
+        </member>
+        <member name="F:sxlib.Specialized.SxLibBase.SynLoadEvents.NOT_LOGGED_IN">
+            <summary>
+            The user is not logged in to Synapse X. SxLib does not include methods to log a user in at the present moment, you must tell the user to login via the official UI.
+            </summary>
+        </member>
+        <member name="F:sxlib.Specialized.SxLibBase.SynLoadEvents.NOT_UPDATED">
+            <summary>
+            Synapse X is currently not updated.
+            </summary>
+        </member>
+        <member name="F:sxlib.Specialized.SxLibBase.SynLoadEvents.FAILED_TO_VERIFY">
+            <summary>
+            Synapse X detected a discrepancy within its data. You should usually exit your application if this is received.
+            </summary>
+        </member>
+        <member name="F:sxlib.Specialized.SxLibBase.SynLoadEvents.FAILED_TO_DOWNLOAD">
+            <summary>
+            Synapse X failed to download needed UI files. This is usually caused by anti-virus software.
+            </summary>
+        </member>
+        <member name="F:sxlib.Specialized.SxLibBase.SynLoadEvents.UNAUTHORIZED_HWID">
+            <summary>
+            User is not whitelisted for Synapse X.
+            </summary>
+        </member>
+        <member name="F:sxlib.Specialized.SxLibBase.SynLoadEvents.ALREADY_EXISTING_WL">
+            <summary>
+            This is a rare error - tell the user to use the official UI to fix this issue.
+            </summary>
+        </member>
+        <member name="F:sxlib.Specialized.SxLibBase.SynLoadEvents.NOT_ENOUGH_TIME">
+            <summary>
+            There was not enough time preceding the last whitelist change. Whitelist changes can only happen every 24 hours.
+            </summary>
+        </member>
+        <member name="F:sxlib.Specialized.SxLibBase.SynLoadEvents.CHECKING_WL">
+            <summary>
+            The 'Checking Whitelist' phase of Synapse X initialization.
+            </summary>
+        </member>
+        <member name="F:sxlib.Specialized.SxLibBase.SynLoadEvents.CHANGING_WL">
+             <summary>
+             The 'Changing Whitelist phase of Synapse X initialization.
+            
+             This won't occur as often, only if the user requires a whitelist change. You might get an error code after this.
+             </summary>
+        </member>
+        <member name="F:sxlib.Specialized.SxLibBase.SynLoadEvents.DOWNLOADING_DATA">
+            <summary>
+            The 'Downloading Data' phase of Synapse X initialization.
+            </summary>
+        </member>
+        <member name="F:sxlib.Specialized.SxLibBase.SynLoadEvents.CHECKING_DATA">
+            <summary>
+            The 'Checking Data' phase of Synapse X initialization.
+            </summary>
+        </member>
+        <member name="F:sxlib.Specialized.SxLibBase.SynLoadEvents.DOWNLOADING_DLLS">
+            <summary>
+            The 'Downloading DLLs' phase of Synapse X initialization.
+            </summary>
+        </member>
+        <member name="F:sxlib.Specialized.SxLibBase.SynLoadEvents.READY">
+            <summary>
+            Synapse X has loaded successfully and can now be used.
+            </summary>
+        </member>
+        <member name="T:sxlib.Specialized.SxLibBase.SynAttachEvents">
+            <summary>
+            Attaching events for Synapse (will be sent as callbacks with the 'Attach' function)
+            </summary>
+        </member>
+        <member name="F:sxlib.Specialized.SxLibBase.SynAttachEvents.CHECKING">
+             <summary>
+             The 'Checking' phase of Synapse X attaching.
+            
+             Note that this event may be sent if the user has Auto-Attach or Auto-Launch enabled, even if you did not invoke the SxLib.Attach() method.
+             </summary>
+        </member>
+        <member name="F:sxlib.Specialized.SxLibBase.SynAttachEvents.INJECTING">
+            <summary>
+            The 'Injecting' phase of Synapse X attaching.
+            </summary>
+        </member>
+        <member name="F:sxlib.Specialized.SxLibBase.SynAttachEvents.CHECKING_WHITELIST">
+            <summary>
+            The 'Checking Whitelist' phase of Synapse X attaching.
+            </summary>
+        </member>
+        <member name="F:sxlib.Specialized.SxLibBase.SynAttachEvents.SCANNING">
+             <summary>
+             The 'Scanning' phase of Synapse X attaching.
+            
+             Note this event is also sent in teleports as well.
+             </summary>
+        </member>
+        <member name="F:sxlib.Specialized.SxLibBase.SynAttachEvents.READY">
+            <summary>
+            Synapse X has successfully attached.
+            </summary>
+        </member>
+        <member name="F:sxlib.Specialized.SxLibBase.SynAttachEvents.FAILED_TO_ATTACH">
+            <summary>
+            Synapse X has failed to attach - generic error.
+            </summary>
+        </member>
+        <member name="F:sxlib.Specialized.SxLibBase.SynAttachEvents.FAILED_TO_FIND">
+            <summary>
+            Synapse X has failed to find Roblox.
+            </summary>
+        </member>
+        <member name="F:sxlib.Specialized.SxLibBase.SynAttachEvents.NOT_RUNNING_LATEST_VER_UPDATING">
+            <summary>
+            Synapse X has detected they are not running the latest version of Synapse X. Synapse will now update itself.
+            </summary>
+        </member>
+        <member name="F:sxlib.Specialized.SxLibBase.SynAttachEvents.UPDATING_DLLS">
+            <summary>
+            This is if Synapse X is updating itself and is currently updating its DLLs.
+            </summary>
+        </member>
+        <member name="F:sxlib.Specialized.SxLibBase.SynAttachEvents.NOT_UPDATED">
+            <summary>
+            This is if Synapse X has detected an update, is not released yet.
+            </summary>
+        </member>
+        <member name="F:sxlib.Specialized.SxLibBase.SynAttachEvents.FAILED_TO_UPDATE">
+            <summary>
+            This is if Synapse X auto-update failed.
+            </summary>
+        </member>
+        <member name="F:sxlib.Specialized.SxLibBase.SynAttachEvents.REINJECTING">
+            <summary>
+            This event is called after Synapse X updates, and also specifies 'Param' as a string (the new version string)
+            </summary>
+        </member>
+        <member name="F:sxlib.Specialized.SxLibBase.SynAttachEvents.NOT_INJECTED">
+            <summary>
+            This event is sent if you attempt to use the SxLib.Execute() method without being attached.
+            </summary>
+        </member>
+        <member name="F:sxlib.Specialized.SxLibBase.SynAttachEvents.ALREADY_INJECTED">
+            <summary>
+            This event is sent if you attempt to use the SxLib.Attach() method while already being attached.
+            </summary>
+        </member>
+        <member name="F:sxlib.Specialized.SxLibBase.SynAttachEvents.PROC_CREATION">
+            <summary>
+            This event is sent if Synapse X detects a new Roblox process being created.
+            </summary>
+        </member>
+        <member name="F:sxlib.Specialized.SxLibBase.SynAttachEvents.PROC_DELETION">
+            <summary>
+            This event is sent if Synapse X detects a Roblox process being deleted.
+            </summary>
+        </member>
+        <member name="T:sxlib.Specialized.SxLibBase.SynHubEntry">
+            <summary>
+            A entry in the Synapse X script hub.
+            </summary>
+        </member>
+        <member name="F:sxlib.Specialized.SxLibBase.SynHubEntry.Name">
+            <summary>
+            A name for the script.
+            </summary>
+        </member>
+        <member name="F:sxlib.Specialized.SxLibBase.SynHubEntry.Description">
+            <summary>
+            A description of the script.
+            </summary>
+        </member>
+        <member name="F:sxlib.Specialized.SxLibBase.SynHubEntry.Picture">
+            <summary>
+            A URL to a picture of the script in use.
+            </summary>
+        </member>
+        <member name="M:sxlib.Specialized.SxLibBase.SynHubEntry.#ctor(System.String,sxlib.Specialized.SxLibBase)">
+            <summary>
+            Do not use this constructor.
+            </summary>
+            <param name="_Url"></param>
+            <param name="_Parent"></param>
+        </member>
+        <member name="M:sxlib.Specialized.SxLibBase.SynHubEntry.Execute">
+            <summary>
+            Execute the script.
+            </summary>
+        </member>
+        <member name="T:sxlib.Specialized.SxLibOffscreen">
+            <summary>
+            SxLib for non-GUI applications.
+            </summary>
+        </member>
+        <member name="T:sxlib.Specialized.SxLibOffscreen.SynLoadDelegate">
+            <summary>
+            A delegate for a callback from SxLib.Load().
+            </summary>
+            <param name="Event">A enum containing states of Synapse X loading.</param>
+            <param name="Param">An extra parameter used for some events.</param>
+        </member>
+        <member name="E:sxlib.Specialized.SxLibOffscreen.LoadEvent">
+            <summary>
+            This event will be periodically called back during Synapse X initialization. Use SxLib.Load() to start initialization.
+            </summary>
+        </member>
+        <member name="T:sxlib.Specialized.SxLibOffscreen.SynAttachDelegate">
+            <summary>
+            A delegate for a callback from SxLib.Attach().
+            </summary>
+            <param name="Event">A enum containing states of Synapse X attaching.</param>
+            <param name="Param">An extra parameter used for some events.</param>
+        </member>
+        <member name="E:sxlib.Specialized.SxLibOffscreen.AttachEvent">
+            <summary>
+            This event will be periodically called back during Synapse X attaching. Use SxLib.Attach() to start the attaching process.
+            </summary>
+        </member>
+        <member name="T:sxlib.Specialized.SxLibOffscreen.SynScriptHubDelegate">
+            <summary>
+            A delegate for a callback from SxLib.ScriptHub().
+            </summary>
+            <param name="Entries">A list of script hub entries.</param>
+        </member>
+        <member name="E:sxlib.Specialized.SxLibOffscreen.ScriptHubEvent">
+            <summary>
+            This event will be called after Synapse X successfully grabs the Script Hub contents from the SxLib.ScriptHub method.
+            </summary>
+        </member>
+        <member name="M:sxlib.Specialized.SxLibOffscreen.#ctor(System.String)">
+            <summary>
+            Do not call this constructor. Use SxLib.InitializeOffscreen instead.
+            </summary>
+            <param name="_Current"></param>
+            <param name="_SynapseDir"></param>
+        </member>
+        <member name="M:sxlib.Specialized.SxLibOffscreen.Load">
+            <summary>
+            This will start the initial loading process of Synapse X. You must attach a handler to 'LoadEvent' to get callback events from this function.
+            </summary>
+            <returns>If initial loading fails, this will return false.</returns>
+        </member>
+        <member name="M:sxlib.Specialized.SxLibOffscreen.Attach">
+            <summary>
+            This will start the initial attaching process of Synapse X. You must attach a handler to 'AttachEvent' to get callback events from this function.
+            </summary>
+            <returns>If initial attaching fails, this will return false.</returns>
+        </member>
+        <member name="M:sxlib.Specialized.SxLibOffscreen.ScriptHub">
+            <summary>
+            This will start the script hub. You must attach a handler to 'ScriptHubEvent' to get the actual script hub contents from this function.
+            </summary>
+            <returns>If the script hub is already open, this will return false. Use SxLib.ScriptHubMarkAsClosed() to allow the script hub to be open again.</returns>
+        </member>
+        <member name="M:sxlib.Specialized.SxLibOffscreen.Ready">
+            <summary>
+            This will return if Synapse X can execute scripts at the current time.
+            </summary>
+            <returns>If Synapse X is fully loaded and can execute scripts.</returns>
+        </member>
+        <member name="M:sxlib.Specialized.SxLibOffscreen.Execute(System.String)">
+            <summary>
+            This will execute a script in Synapse X. Note if you try to call this function without being attached, you will get a 'NOT_ATTACHED' event from the AttachEvent callback.
+            </summary>
+            <param name="Script">The script to be executed.</param>
+        </member>
+        <member name="M:sxlib.Specialized.SxLibOffscreen.GetOptions">
+            <summary>
+            This will return the current options the user has selected.
+            </summary>
+            <returns>The user's options.</returns>
+        </member>
+        <member name="M:sxlib.Specialized.SxLibOffscreen.SetOptions(sxlib.Static.Data.Options)">
+            <summary>
+            This will set the options of the current user.
+            </summary>
+            <param name="Options">The options to set.</param>
+        </member>
+        <member name="T:sxlib.Specialized.SxLibWinForms">
+            <summary>
+            SxLib for WinForms-based UIs.
+            </summary>
+        </member>
+        <member name="T:sxlib.Specialized.SxLibWinForms.SynLoadDelegate">
+            <summary>
+            A delegate for a callback from SxLib.Load().
+            </summary>
+            <param name="Event">A enum containing states of Synapse X loading.</param>
+            <param name="Param">An extra parameter used for some events.</param>
+        </member>
+        <member name="E:sxlib.Specialized.SxLibWinForms.LoadEvent">
+            <summary>
+            This event will be periodically called back during Synapse X initialization. Use SxLib.Load() to start initialization.
+            </summary>
+        </member>
+        <member name="T:sxlib.Specialized.SxLibWinForms.SynAttachDelegate">
+            <summary>
+            A delegate for a callback from SxLib.Attach().
+            </summary>
+            <param name="Event">A enum containing states of Synapse X attaching.</param>
+            <param name="Param">An extra parameter used for some events.</param>
+        </member>
+        <member name="E:sxlib.Specialized.SxLibWinForms.AttachEvent">
+            <summary>
+            This event will be periodically called back during Synapse X attaching. Use SxLib.Attach() to start the attaching process.
+            </summary>
+        </member>
+        <member name="T:sxlib.Specialized.SxLibWinForms.SynScriptHubDelegate">
+            <summary>
+            A delegate for a callback from SxLib.ScriptHub().
+            </summary>
+            <param name="Entries">A list of script hub entries.</param>
+        </member>
+        <member name="E:sxlib.Specialized.SxLibWinForms.ScriptHubEvent">
+            <summary>
+            This event will be called after Synapse X successfully grabs the Script Hub contents from the SxLib.ScriptHub method.
+            </summary>
+        </member>
+        <member name="M:sxlib.Specialized.SxLibWinForms.#ctor(System.Windows.Forms.Form,System.String)">
+            <summary>
+            Do not call this constructor. Use SxLib.InitializeWinForms instead.
+            </summary>
+            <param name="_Current"></param>
+            <param name="_SynapseDir"></param>
+        </member>
+        <member name="M:sxlib.Specialized.SxLibWinForms.Load">
+            <summary>
+            This will start the initial loading process of Synapse X. You must attach a handler to 'LoadEvent' to get callback events from this function.
+            </summary>
+            <returns>If initial loading fails, this will return false.</returns>
+        </member>
+        <member name="M:sxlib.Specialized.SxLibWinForms.Attach">
+            <summary>
+            This will start the initial attaching process of Synapse X. You must attach a handler to 'AttachEvent' to get callback events from this function.
+            </summary>
+            <returns>If initial attaching fails, this will return false.</returns>
+        </member>
+        <member name="M:sxlib.Specialized.SxLibWinForms.ScriptHub">
+            <summary>
+            This will start the script hub. You must attach a handler to 'ScriptHubEvent' to get the actual script hub contents from this function.
+            </summary>
+            <returns>If the script hub is already open, this will return false. Use SxLib.ScriptHubMarkAsClosed() to allow the script hub to be open again.</returns>
+        </member>
+        <member name="M:sxlib.Specialized.SxLibWinForms.Ready">
+            <summary>
+            This will return if Synapse X can execute scripts at the current time.
+            </summary>
+            <returns>If Synapse X is fully loaded and can execute scripts.</returns>
+        </member>
+        <member name="M:sxlib.Specialized.SxLibWinForms.Execute(System.String)">
+            <summary>
+            This will execute a script in Synapse X. Note if you try to call this function without being attached, you will get a 'NOT_ATTACHED' event from the AttachEvent callback.
+            </summary>
+            <param name="Script">The script to be executed.</param>
+        </member>
+        <member name="M:sxlib.Specialized.SxLibWinForms.ScriptHubMarkAsClosed">
+            <summary>
+            This will mark the Script Hub as closed, allowing you to call SxLib.ScriptHub() again.
+            </summary>
+        </member>
+        <member name="M:sxlib.Specialized.SxLibWinForms.GetOptions">
+            <summary>
+            This will return the current options the user has selected.
+            </summary>
+            <returns>The user's options.</returns>
+        </member>
+        <member name="M:sxlib.Specialized.SxLibWinForms.SetOptions(sxlib.Static.Data.Options)">
+            <summary>
+            This will set the options of the current user.
+            </summary>
+            <param name="Options">The options to set.</param>
+        </member>
+        <member name="M:sxlib.Specialized.SxLibWinForms.SetWindow(System.Windows.Forms.Form)">
+            <summary>
+            Set the Window currently in use. You must call this every time you create a new 'main' form.
+            </summary>
+            <param name="_Current">The current window.</param>
+        </member>
+        <member name="T:sxlib.Specialized.SxLibWPF">
+            <summary>
+            SxLib for WPF-based UIs.
+            </summary>
+        </member>
+        <member name="T:sxlib.Specialized.SxLibWPF.SynLoadDelegate">
+            <summary>
+            A delegate for a callback from SxLib.Load().
+            </summary>
+            <param name="Event">A enum containing states of Synapse X loading.</param>
+            <param name="Param">An extra parameter used for some events.</param>
+        </member>
+        <member name="E:sxlib.Specialized.SxLibWPF.LoadEvent">
+            <summary>
+            This event will be periodically called back during Synapse X initialization. Use SxLib.Load() to start initialization.
+            </summary>
+        </member>
+        <member name="T:sxlib.Specialized.SxLibWPF.SynAttachDelegate">
+            <summary>
+            A delegate for a callback from SxLib.Attach().
+            </summary>
+            <param name="Event">A enum containing states of Synapse X attaching.</param>
+            <param name="Param">An extra parameter used for some events.</param>
+        </member>
+        <member name="E:sxlib.Specialized.SxLibWPF.AttachEvent">
+            <summary>
+            This event will be periodically called back during Synapse X attaching. Use SxLib.Attach() to start the attaching process.
+            </summary>
+        </member>
+        <member name="T:sxlib.Specialized.SxLibWPF.SynScriptHubDelegate">
+            <summary>
+            A delegate for a callback from SxLib.ScriptHub().
+            </summary>
+            <param name="Entries">A list of script hub entries.</param>
+        </member>
+        <member name="E:sxlib.Specialized.SxLibWPF.ScriptHubEvent">
+            <summary>
+            This event will be called after Synapse X successfully grabs the Script Hub contents from the SxLib.ScriptHub method.
+            </summary>
+        </member>
+        <member name="M:sxlib.Specialized.SxLibWPF.#ctor(System.Windows.Window,System.String)">
+            <summary>
+            Do not call this constructor. Use SxLib.InitializeWPF instead.
+            </summary>
+            <param name="_Current"></param>
+            <param name="_SynapseDir"></param>
+        </member>
+        <member name="M:sxlib.Specialized.SxLibWPF.Load">
+            <summary>
+            This will start the initial loading process of Synapse X. You must attach a handler to 'LoadEvent' to get callback events from this function.
+            </summary>
+            <returns>If initial loading fails, this will return false.</returns>
+        </member>
+        <member name="M:sxlib.Specialized.SxLibWPF.Attach">
+            <summary>
+            This will start the initial attaching process of Synapse X. You must attach a handler to 'AttachEvent' to get callback events from this function.
+            </summary>
+            <returns>If initial attaching fails, this will return false.</returns>
+        </member>
+        <member name="M:sxlib.Specialized.SxLibWPF.ScriptHub">
+            <summary>
+            This will start the script hub. You must attach a handler to 'ScriptHubEvent' to get the actual script hub contents from this function.
+            </summary>
+            <returns>If the script hub is already open, this will return false. Use SxLib.ScriptHubMarkAsClosed() to allow the script hub to be open again.</returns>
+        </member>
+        <member name="M:sxlib.Specialized.SxLibWPF.Ready">
+            <summary>
+            This will return if Synapse X can execute scripts at the current time.
+            </summary>
+            <returns>If Synapse X is fully loaded and can execute scripts.</returns>
+        </member>
+        <member name="M:sxlib.Specialized.SxLibWPF.Execute(System.String)">
+            <summary>
+            This will execute a script in Synapse X. Note if you try to call this function without being attached, you will get a 'NOT_ATTACHED' event from the AttachEvent callback.
+            </summary>
+            <param name="Script">The script to be executed.</param>
+        </member>
+        <member name="M:sxlib.Specialized.SxLibWPF.ScriptHubMarkAsClosed">
+            <summary>
+            This will mark the Script Hub as closed, allowing you to call SxLib.ScriptHub() again.
+            </summary>
+        </member>
+        <member name="M:sxlib.Specialized.SxLibWPF.GetOptions">
+            <summary>
+            This will return the current options the user has selected.
+            </summary>
+            <returns>The user's options.</returns>
+        </member>
+        <member name="M:sxlib.Specialized.SxLibWPF.SetOptions(sxlib.Static.Data.Options)">
+            <summary>
+            This will set the options of the current user.
+            </summary>
+            <param name="Options">The options to set.</param>
+        </member>
+        <member name="M:sxlib.Specialized.SxLibWPF.SetWindow(System.Windows.Window)">
+            <summary>
+            Set the Window currently in use. You must call this every time you create a new 'main' form.
+            </summary>
+            <param name="_Current">The current window.</param>
+        </member>
+        <member name="T:sxlib.SxLib">
+            <summary>
+            Setup class for SxLib.
+            </summary>
+        </member>
+        <member name="M:sxlib.SxLib.InitializeWinForms(System.Windows.Forms.Form,System.String)">
+            <summary>
+            Sets up SxLib for WinForms.
+            </summary>
+            <param name="Startup">Your initialization form.</param>
+            <param name="SynapseDirectory">The base Synapse directory.</param>
+        </member>
+        <member name="M:sxlib.SxLib.InitializeWPF(System.Windows.Window,System.String)">
+            <summary>
+            Sets up SxLib for WPF.
+            </summary>
+            <param name="Startup">Your initialization window.</param>
+            <param name="SynapseDirectory">The base Synapse directory.</param>
+        </member>
+        <member name="M:sxlib.SxLib.InitializeOffscreen(System.String)">
+            <summary>
+            Sets up SxLib for non-GUI apps.
+            </summary>
+            <param name="SynapseDirectory">The base Synapse directory.</param>
+        </member>
+    </members>
+</doc>

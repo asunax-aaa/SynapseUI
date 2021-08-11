@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Blend for Visual Studio Version 16
+VisualStudioVersion = 16.0.31424.327
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SynapseUI", "SynapseUI\SynapseUI.csproj", "{00BB2BCF-5C67-4946-AC0B-4252939E4855}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{00BB2BCF-5C67-4946-AC0B-4252939E4855}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00BB2BCF-5C67-4946-AC0B-4252939E4855}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00BB2BCF-5C67-4946-AC0B-4252939E4855}.Debug|x86.ActiveCfg = Debug|x86
+		{00BB2BCF-5C67-4946-AC0B-4252939E4855}.Debug|x86.Build.0 = Debug|x86
+		{00BB2BCF-5C67-4946-AC0B-4252939E4855}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00BB2BCF-5C67-4946-AC0B-4252939E4855}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00BB2BCF-5C67-4946-AC0B-4252939E4855}.Release|x86.ActiveCfg = Release|x86
+		{00BB2BCF-5C67-4946-AC0B-4252939E4855}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0D0E9F43-CDD3-493D-A78B-B1B08743F803}
+	EndGlobalSection
+EndGlobal

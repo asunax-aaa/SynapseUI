@@ -1,0 +1,39 @@
+<?xml version = "1.0"?>
+<error-information>
+    <error name="ALREADY_EXISTING_WL">
+		<text text="The only known fix (as stated by the ALREADY_EXISTING_WL event information) is to use the official Synapse UI."/>
+    </error>
+
+    <error name="FAILED_TO_DOWNLOAD">
+		<text text="Known fixes taken directly from the official FAQ: |NEWLINE||NEWLINE|1. Uninstall/disable any antivirus that you have installed, alternatively add Synapse (including the custom UI) to their exclusion list. |NEWLINE|2. Download, install and run ProtonVPN, and then run Synapse. |NEWLINE|3. Reinstall Synapse + custom UI completely, delete the entire Synapse Folder and reinstall it from "/>
+		<hyperlink link="https://x.synapse.to/" text="here."/>
+		<text text="|NEWLINE|4. Open the Task Manager and close any processes called 'Runtime Broker'. |NEWLINE|6. Make sure your OS is up-to-date with updates."/>
+	</error>
+
+	<error name="FAILED_TO_VERIFY">
+		<text text="Known fixes taken directly from the official FAQ: |NEWLINE||NEWLINE|1. Uninstall/disable any antivirus that you have installed, alternatively add Synapse (including the custom UI) to their exclusion list. |NEWLINE|2. Download, install and run ProtonVPN, and then run Synapse. |NEWLINE|3. Reinstall Synapse + custom UI completely, delete the entire Synapse Folder and reinstall it from "/>
+		<hyperlink link="https://x.synapse.to/" text="here."/>
+		<text text="|NEWLINE|4. Open the Task Manager and close any processes called 'Runtime Broker'. |NEWLINE|6. Make sure your OS is up-to-date with updates."/>
+	</error>
+
+	<error name="NOT_ENOUGH_TIME">
+		<text text="This error occures when you use Synapse on more than one device, it can also be triggered by HWID spoofing. |NEWLINE|The solutions are either to: |NEWLINE||NEWLINE|1. Wait the 24 hours. |NEWLINE|2. Contant a Synapse admin and ask them to 'reset your time', they will ask that you provide the hostname of any known PCs, type 'hostname' into CMD to get the hostname for that computer."/>
+	</error>
+
+	<error name="NOT_LOGGED_IN">
+		<text text="The only solution (as stated by the NOT_LOGGED_IN event information) is to login via the offical Synapse UI, as the SXLIB api does not provide authentication methods."/>
+	</error>
+
+	<error name="NOT_UPDATED">
+		<text text="Most likely Roblox just launched an update out, patching Synapse in the process, this happens every Wednesday or so. Otherwise, it's just a generic update. |NEWLINE|The fix for both is to wait for 3dsboy08 to update Synapse."/>
+	</error>
+
+	<error name="UNAUTHORIZED_HWID">
+		<text text="You are not whitelisted to use Synapse (as stated by the UNAUTHORIZED_HWID event information)."/>
+	</error>
+
+	<error name="UNKNOWN">
+		<text text="This error was most likely caused by Synapse itself, try-reinstalling Synapse / running it once via the actual, official exe."/>
+	</error>
+	
+</error-information>
