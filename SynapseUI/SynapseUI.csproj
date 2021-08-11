@@ -176,8 +176,10 @@
     <Content Include="Resources\HelpInfo.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Monaco\ace\ace.js" />
+    <Content Include="Resources\Monaco\ace\mode-lua.js" />
+    <Content Include="Resources\Monaco\ace\theme-tomorrow_night_eighties.js" />
     <Content Include="Resources\Monaco\Editor.html" />
-    <Content Include="Resources\Monaco\mode-lua.js" />
     <Resource Include="Resources\settings.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

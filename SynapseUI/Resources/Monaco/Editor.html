@@ -18,7 +18,7 @@
         right: 0;
     }
   </style>
-  <script src="../ace/ace.js" type="text/javascript" charset="utf-8"></script>
+  <script src="ace/ace.js" type="text/javascript" charset="utf-8"></script>
   <script src="../ace/ext-language_tools.js"></script>
 </head>
   <body style="background-color: #25282c">
@@ -31,8 +31,8 @@
 
         ace.require("../ace/ext/language_tools");
         var editor = ace.edit("editor");
-        editor.setTheme("../ace/theme/tomorrow_night_eighties");
-        editor.session.setMode("../ace/mode/lua");
+        editor.setTheme("ace/theme/tomorrow_night_eighties");
+        editor.session.setMode("ace/mode/lua");
         editor.setOption("enableLiveAutocompletion", true);
         editor.setOption("cursorStyle", "smooth");
         editor.setShowPrintMargin(false);
