@@ -25,7 +25,7 @@ namespace SynapseUI.Functions.EventMapNames
         {
             { BaseException.CefSharpLibraryNotFound, "CefSharp libraries used for the Monaco editor are not found, this custom UI reuses these." },
             { BaseException.GenericSynapseException, "A generic custom Synapse UI exception was thrown, no information provided." },
-            { BaseException.InvalidSynapseInstall, "THe detected Synapse installation is incorrect as it does not have the required folders/files." }
+            { BaseException.InvalidSynapseInstall, "The detected Synapse installation is incorrect, it does not have the required folders/files." }
         };
     }
 }

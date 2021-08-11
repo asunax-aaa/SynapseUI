@@ -18,8 +18,8 @@
         right: 0;
     }
   </style>
-  <script src="ace/ace.js" type="text/javascript" charset="utf-8"></script>
-  <script src="ace/ext-language_tools.js"></script>
+  <script src="../ace/ace.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../ace/ext-language_tools.js"></script>
 </head>
   <body style="background-color: #25282c">
     <pre id="editor"></pre>
@@ -29,15 +29,16 @@
         var ClearText;
         var SetTheme;
 
-        ace.require("ace/ext/language_tools");
+        ace.require("../ace/ext/language_tools");
         var editor = ace.edit("editor");
-        editor.setTheme("ace/theme/tomorrow_night_eighties");
-        editor.session.setMode("ace/mode/lua");
+        editor.setTheme("../ace/theme/tomorrow_night_eighties");
+        editor.session.setMode("../ace/mode/lua");
         editor.setOption("enableLiveAutocompletion", true);
         editor.setOption("cursorStyle", "smooth");
         editor.setShowPrintMargin(false);
         document.getElementById('editor').style.fontSize='13px';
 
+        /* do not edit below - Synapse X internal code */
         GetText = function()
         {
             return editor.getValue();
@@ -56,7 +57,7 @@
 
         SetTheme = function(th)
         {
-          editor.setTheme("ace/theme/" + th);
+          editor.setTheme("../ace/theme/" + th);
         }
 
         editor.on("input", async function() 

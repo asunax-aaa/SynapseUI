@@ -3,6 +3,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using SynapseUI.Exceptions;
+using SynapseUI.Functions.Web;
 /*
 using CefSharp;
 using CefSharp.Wpf;
@@ -106,6 +107,7 @@ namespace SynapseUI
             return false;
         }
 
+        [STAThread]
         private void ValidateCustomInstall()
         {
             string path = @".\bin\custom\";
@@ -127,7 +129,10 @@ namespace SynapseUI
             {
                 if (!File.Exists(path + file))
                 {
-                    MessageBox.Show(file);
+                    string url = file == "HelpInfo.xml" ? @"https://raw.githubusercontent.com/asunax-aaa/SynapseUI/master/SynapseUI/Resources/" + file
+                        : @"https://raw.githubusercontent.com/asunax-aaa/SynapseUI/master/SynapseUI/Resources/Monaco/" + file;
+
+                    WebHelper.DownloadFile(url, @".\bin\custom\" + file);
                 }
             }
         }
