@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -110,31 +111,30 @@ namespace SynapseUI
         [STAThread]
         private void ValidateCustomInstall()
         {
-            string path = @".\bin\custom\";
-
-            string[] files = new string[]
+            string[] folders = new string[]
             {
-                "HelpInfo.xml",
-                "Editor.html",
-                "mode-lua.js"
+                @".\bin",
+                @".\bin\custom\",
+                @".\bin\custom\ace\"
             };
 
-            if (!Directory.Exists(@".\bin"))
-                Directory.CreateDirectory(@".\bin");
+            foreach (string folder in folders)
+                if (!Directory.Exists(folder))
+                    Directory.CreateDirectory(folder);
 
-            if (!Directory.Exists(@".\bin\custom"))
-                Directory.CreateDirectory(@".\bin\custom");
-
-            foreach (string file in files)
+            var downloader = new FileDownloader
             {
-                if (!File.Exists(path + file))
-                {
-                    string url = file == "HelpInfo.xml" ? @"https://raw.githubusercontent.com/asunax-aaa/SynapseUI/master/SynapseUI/Resources/" + file
-                        : @"https://raw.githubusercontent.com/asunax-aaa/SynapseUI/master/SynapseUI/Resources/Monaco/" + file;
+                BaseDir = @".\bin\custom\",
+                BaseUrl = @"https://raw.githubusercontent.com/asunax-aaa/SynapseUI/master/SynapseUI/Resources/"
+            };
 
-                    WebHelper.DownloadFile(url, @".\bin\custom\" + file);
-                }
-            }
+            downloader.Add(new FileEntry("HelpInfo.xml"));
+            downloader.Add(new FileEntry("Editor.html", "", "Monaco"));
+            downloader.Add(new FileEntry("ace.js", "ace", "Monaco/ace"));
+            downloader.Add(new FileEntry("mode-lua.js", "ace", "Monaco/ace"));
+            downloader.Add(new FileEntry("theme-tomorrow_night_eighties.js", "ace", "Monaco/ace"));
+
+            downloader.Begin();
         }
 
         private void ThrowError(BaseException error)

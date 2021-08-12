@@ -29,7 +29,7 @@
         var ClearText;
         var SetTheme;
 
-        ace.require("../ace/ext/language_tools");
+        ace.require("ace/ext/language_tools");
         var editor = ace.edit("editor");
         editor.setTheme("ace/theme/tomorrow_night_eighties");
         editor.session.setMode("ace/mode/lua");
@@ -57,7 +57,7 @@
 
         SetTheme = function(th)
         {
-          editor.setTheme("../ace/theme/" + th);
+          editor.setTheme("ace/theme/" + th);
         }
 
         editor.on("input", async function() 
