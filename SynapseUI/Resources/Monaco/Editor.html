@@ -29,11 +29,11 @@
         var ClearText;
         var SetTheme;
 		
-		ace.config.set('basePath', '../ace');
-		ace.config.set('modePath', '../custom/ace');
+        ace.config.set('basePath', '../ace');
+        ace.config.set('modePath', '../custom/ace');
         ace.require("ace/ext/language_tools");
         var editor = ace.edit("editor");
-		editor.getSession().setUseWorker(false);
+        editor.getSession().setUseWorker(false);
         editor.setTheme("ace/theme/tomorrow_night_eighties");
         editor.session.setMode("ace/mode/lua");
         editor.setOption("enableLiveAutocompletion", true);
