@@ -29,7 +29,7 @@ namespace SynapseUI
             Left = main.Left + (main.ActualWidth - Width) / 2;
             Top = main.Top + 10;
 
-            Loaded += delegate
+            Loaded += (s, e) =>
             {
                 AnimateShow();
                 LoadOptions();

@@ -62,6 +62,10 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>
+    </ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="sxlib, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
@@ -122,6 +126,7 @@
       <DependentUpon>ExecuteWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Functions\BaseEventMap.cs" />
+    <Compile Include="Functions\CefLoader.cs" />
     <Compile Include="Functions\CustomControls.cs" />
     <Compile Include="ErrorWindow.xaml.cs">
       <DependentUpon>ErrorWindow.xaml</DependentUpon>
@@ -173,13 +178,9 @@
     <Resource Include="Resources\logo.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\HelpInfo.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Monaco\ace\ace.js" />
-    <Content Include="Resources\Monaco\ace\mode-lua.js" />
-    <Content Include="Resources\Monaco\ace\theme-tomorrow_night_eighties.js" />
-    <Content Include="Resources\Monaco\Editor.html" />
+    <EmbeddedResource Include="Resources\HelpInfo.xml" />
+    <None Include="Resources\Monaco\ace\mode-lua.js" />
+    <None Include="Resources\Monaco\Editor.html" />
     <Resource Include="Resources\settings.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -8,10 +8,10 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("SynapseUI")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Custom Synapse X UI, by asunax#5833.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("SynapseUI")]
+[assembly: AssemblyProduct("Synapse X UI.")]
 [assembly: AssemblyCopyright("Copyright ©  2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

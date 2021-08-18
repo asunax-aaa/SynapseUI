@@ -8,6 +8,10 @@ using System.Windows.Shapes;
 using System.Windows.Media;
 using SynapseUI.Functions.Utils;
 using System.ComponentModel;
+using System.Collections.Generic;
+using System.Windows.Threading;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace SynapseUI.CustomControls
 {
@@ -15,23 +19,6 @@ namespace SynapseUI.CustomControls
     [TemplatePart(Name = "innerBar", Type = typeof(Border))]
     public class CustomLoadingBar : Control
     {
-        public CustomLoadingBar()
-        {
-            Loaded += CustomLoadingBar_Loaded;
-        }
-
-        private void CustomLoadingBar_Loaded(object sender, RoutedEventArgs e)
-        {
-            OutterBorder.Width = OutterBorder.ActualWidth;
-            InnerBorder.Width = (OutterBorder.Width - 2) * (Progress / 100);
-
-            AnimationStoryboard.Completed += delegate
-            {
-                Locked = false;
-                AnimationStoryboard.Stop();
-            };
-        }
-
         public double Progress
         {
             get { return (double)GetValue(ProgressProperty); }
@@ -42,6 +29,23 @@ namespace SynapseUI.CustomControls
                 "Progress", typeof(double), typeof(CustomLoadingBar),
                 new PropertyMetadata(
                     new PropertyChangedCallback(ProgressChangedCallback)));
+
+        public CustomLoadingBar()
+        {
+            Loaded += CustomLoadingBar_Loaded;
+        }
+
+        private void CustomLoadingBar_Loaded(object sender, RoutedEventArgs e)
+        {
+            OutterBorder.Width = OutterBorder.ActualWidth;
+            InnerBorder.Width = (OutterBorder.Width - 2) * (Progress / 100);
+
+            AnimationStoryboard.Completed += (s, ee) =>
+            {
+                Locked = false;
+                AnimationStoryboard.Stop();
+            };
+        }
 
         private static void ProgressChangedCallback(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
@@ -185,16 +189,11 @@ namespace SynapseUI.CustomControls
     [TemplatePart(Name = "contentPresenter", Type = typeof(ContentPresenter))]
     public class DropDownButton : Button
     {
-        public DropDownButton()
-        {
-            Loaded += delegate { ContentPresenterElement.Content = dropChr; };
-        }
-
         private readonly string dropChr = "▼";
         private readonly string upChr = "▲";
 
         public bool IsDropped { get; private set; } = false;
-        public double TargetHeight { set; get; } = 0;
+        public double TargetHeight { get; set; } = 0;
         public Border ButtonElement { get; private set; }
         public ContentPresenter ContentPresenterElement { get; private set; }
 
@@ -208,6 +207,11 @@ namespace SynapseUI.CustomControls
                 baseHeight = value.Height;
                 window = value;
             }
+        }
+
+        public DropDownButton()
+        {
+            Loaded += (s, e) => { ContentPresenterElement.Content = dropChr; };
         }
 
         public override void OnApplyTemplate()
@@ -345,4 +349,54 @@ namespace SynapseUI.CustomControls
             RoutedEvent = e;
         }
     }
+
+    
+    [TemplatePart(Name = "presenter", Type = typeof(ContentPresenter))]
+    public class DisappearingLabel : Label, INotifyPropertyChanged
+    {
+        public TimeSpan Duration { get; set; } = TimeSpan.FromMilliseconds(1500);
+
+        public bool IsActive
+        {
+            get { return (bool)GetValue(ActiveProperty); }
+            private set
+            {
+                SetValue(ActiveProperty, value);
+                OnPropertyChanged("IsActive");
+            }
+        }
+
+        public DisappearingLabel() { }
+
+        public async Task SetActive(bool val)
+        {
+            if (!val)
+            {
+                await Task.Delay(Duration);
+                IsActive = false;
+                await Task.Delay(TimeSpan.FromMilliseconds(250));
+                Content = null;
+            }
+            IsActive = val;
+        }
+
+        public static readonly DependencyProperty ActiveProperty = DependencyProperty.Register(
+            "IsActive", typeof(bool), typeof(DisappearingLabel));
+
+        protected override void OnContentChanged(object oldContent, object newContent)
+        {
+            if (!IsActive && Content != null)
+                IsActive = true;
+
+            base.OnContentChanged(oldContent, newContent);
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string name)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+    }
+    
 }

@@ -69,6 +69,9 @@ namespace SynapseUI.Functions.EventMapNames
         /// <summary>
         /// Critical Synapse attach errors that will halt the program and open up a new 'Error Window', most errors get displayed, rather than thrown.
         /// </summary>
-        public static Dictionary<SynAttachEvents, string> AttachErrorEvents = new Dictionary<SynAttachEvents, string>();
+        public static List<SynAttachEvents> AttachErrorEvents = new List<SynAttachEvents>()
+        {
+
+        };
     }
 }

@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Windows;
+using SynapseUI.Functions;
 using SynapseUI.Exceptions;
 using SynapseUI.Functions.Web;
-/*
-using CefSharp;
-using CefSharp.Wpf;
-*/
 
 namespace SynapseUI
 {
@@ -18,6 +13,7 @@ namespace SynapseUI
     public partial class App : Application
     {
         public static readonly bool OVERRIDE_DEBUG = false;
+        public static readonly bool SKIP_CEF = false;
 
 #if DEBUG
         public static bool DEBUG
@@ -31,8 +27,6 @@ namespace SynapseUI
         }
 #endif
 
-        string path = Path.Combine(Directory.GetCurrentDirectory(), @"bin\");
-
         [STAThread]
         private void ApplicationStartup(object sender, StartupEventArgs e)
         {
@@ -41,48 +35,24 @@ namespace SynapseUI
 
             ValidateCustomInstall();
 
-            /*
-            var libraryLoader = new CefLibraryHandle(path + "libcef.dll");
-            var isValid = !libraryLoader.IsInvalid;
-
-            LoadCef();
-
-            libraryLoader.Dispose();
-            */
-
-            LoadCef();
-        }
-
-        /// <summary>
-        /// To maximise compatibility and reduce download times and files, this function loads the already downloaded CefSharp libraries that Synapse typically uses.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        private void LoadCef()
-        {
-            /*
-            var settings = new CefSettings
+            if (!SKIP_CEF)
             {
-                BrowserSubprocessPath = path + "CefSharp.BrowserSubprocess.exe",
-                LocalesDirPath = path + @"locales\",
-                CachePath = path + @"GPUCache\",
-                LogFile = path + "debug.log",
-                ResourcesDirPath = path,
-                IgnoreCertificateErrors = true
-            };
+                if (CefLoader.Init())
+                {
+                    ThrowError(BaseException.CEF_NOT_FOUND);
+                    return;
+                }
+            }
 
-            //Cef.Initialize(settings, performDependencyCheck: false, cefApp: null);
-
-            */
-
-            //SplashScreen splash = new SplashScreen();
-            //splash.Show();
+            SplashScreen splash = new SplashScreen();
+            splash.Show();
         }
 
         private bool ValidateSynapseInstall()
         {
             if (!File.Exists(@".\S^X.exe"))
             {
-                ThrowError(BaseException.InvalidSynapseInstall);
+                ThrowError(BaseException.INVALID_SYNAPSE_INSTALL);
                 return true;
             }
 
@@ -100,7 +70,7 @@ namespace SynapseUI
             {
                 if (!Directory.Exists(folder))
                 {
-                    ThrowError(BaseException.InvalidSynapseInstall);
+                    ThrowError(BaseException.INVALID_SYNAPSE_INSTALL);
                     return true;
                 }
             }
@@ -108,7 +78,6 @@ namespace SynapseUI
             return false;
         }
 
-        [STAThread]
         private void ValidateCustomInstall()
         {
             string[] folders = new string[]
@@ -128,11 +97,15 @@ namespace SynapseUI
                 BaseUrl = @"https://raw.githubusercontent.com/asunax-aaa/SynapseUI/master/SynapseUI/Resources/"
             };
 
-            downloader.Add(new FileEntry("HelpInfo.xml"));
             downloader.Add(new FileEntry("Editor.html", "", "Monaco"));
-            downloader.Add(new FileEntry("ace.js", "ace", "Monaco/ace"));
             downloader.Add(new FileEntry("mode-lua.js", "ace", "Monaco/ace"));
+            downloader.Add(new FileEntry("HelpInfo.xml"));
+
+            // NO LONGER NEEDED.
+            /*
+            downloader.Add(new FileEntry("ace.js", "ace", "Monaco/ace"));
             downloader.Add(new FileEntry("theme-tomorrow_night_eighties.js", "ace", "Monaco/ace"));
+            */
 
             downloader.Begin();
         }

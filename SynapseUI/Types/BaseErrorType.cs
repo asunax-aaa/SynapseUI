@@ -12,8 +12,6 @@ namespace SynapseUI.Types
     /// </summary>
     public class BaseError : INotifyPropertyChanged
     {
-        private HelpInfoParser infoParser = new HelpInfoParser();
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         private string errorWelcome;
@@ -64,7 +62,7 @@ namespace SynapseUI.Types
 
         public BaseError(BaseException error)
         {
-            ErrorWelcome = "An error occured while trying to inject Synapse X.";
+            ErrorWelcome = "An error occured while trying to start the custom Synapse UI.";
             ErrorType = GenericErrorMap[error];
             ErrorInformation = GenericErrorEvents[error];
             ErrorName = error.ToString();
@@ -88,6 +86,7 @@ namespace SynapseUI.Types
             if (string.IsNullOrWhiteSpace(ErrorName))
                 throw new ArgumentNullException("Error has not been initialised.");
 
+            var infoParser = new HelpInfoParser();
             infoParser.Parse(block, ErrorName);
         }
 

@@ -13,9 +13,9 @@ namespace SynapseUI.Functions.EventMapNames
         /// </summary>
         public static Dictionary<BaseException, string> GenericErrorMap = new Dictionary<BaseException, string>
         {
-            { BaseException.CefSharpLibraryNotFound, "CefSharp libraries not found." },
-            { BaseException.GenericSynapseException, "Generic custom Synapse UI exception." },
-            { BaseException.InvalidSynapseInstall, "Invalid Synapse installation." }
+            { BaseException.CEF_NOT_FOUND, "CefSharp libraries not found." },
+            { BaseException.GENERIC_EXCEPTION, "Generic custom Synapse UI exception." },
+            { BaseException.INVALID_SYNAPSE_INSTALL, "Invalid Synapse installation." }
         };
 
         /// <summary>
@@ -23,9 +23,9 @@ namespace SynapseUI.Functions.EventMapNames
         /// </summary>
         public static Dictionary<BaseException, string> GenericErrorEvents = new Dictionary<BaseException, string>
         {
-            { BaseException.CefSharpLibraryNotFound, "CefSharp libraries used for the Monaco editor are not found, this custom UI reuses these." },
-            { BaseException.GenericSynapseException, "A generic custom Synapse UI exception was thrown, no information provided." },
-            { BaseException.InvalidSynapseInstall, "The detected Synapse installation is incorrect, it does not have the required folders/files." }
+            { BaseException.CEF_NOT_FOUND, "CefSharp libraries used for the Monaco editor are not found, this custom UI reuses these." },
+            { BaseException.GENERIC_EXCEPTION, "A generic custom Synapse UI exception was thrown, no information provided." },
+            { BaseException.INVALID_SYNAPSE_INSTALL, "The detected Synapse installation is incorrect, it does not have the required folders/files." }
         };
     }
 }

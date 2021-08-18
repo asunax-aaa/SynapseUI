@@ -96,10 +96,28 @@
             </Button>
         </Grid>
 
+        <Label
+            x:Name="statusLabel"
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="0,0,0,10"
+            Content="Status"
+            FontSize="8.5"
+            Foreground="#FFE1E1E1"
+            Style="{StaticResource DefaultCenterVertText}"
+            Visibility="Hidden" />
+
+        <customControls:DisappearingLabel
+            x:Name="statusInfoLabel"
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="0,9,0,0"
+            FontSize="11" />
+
         <Grid
+            x:Name="cefSharpGrid"
             Grid.Row="2"
-            Margin="7,0,0,7"
-            Background="Transparent" />
+            Margin="7,0,7,0" />
 
         <ListBox
             x:Name="scriptsListBox"
@@ -130,26 +148,31 @@
                 x:Name="executeEditorButton"
                 Width="90"
                 Height="30"
+                Click="ExecuteEditorButton_Click"
                 Content="Execute"
                 Style="{StaticResource MarginHoverButton}" />
 
             <Button
                 x:Name="clearEditorButton"
+                Click="ClearEditorButton_Click"
                 Content="Clear"
                 Style="{StaticResource MarginHoverButton}" />
 
             <Button
                 x:Name="openFileButton"
+                Click="OpenFileButton_Click"
                 Content="Open File"
                 Style="{StaticResource MarginHoverButton}" />
 
             <Button
                 x:Name="executeFileButton"
+                Click="ExecuteFileButton_Click"
                 Content="Execute File"
                 Style="{StaticResource MarginHoverButton}" />
 
             <Button
                 x:Name="saveFileButton"
+                Click="SaveFileButton_Click"
                 Content="Save File"
                 Style="{StaticResource MarginHoverButton}" />
         </DockPanel>
@@ -160,6 +183,7 @@
             Grid.ColumnSpan="2"
             Margin="0,0,104,0"
             HorizontalAlignment="Right"
+            Click="AttachButton_Click"
             Content="Attach"
             Style="{StaticResource MarginHoverButton}" />
 
@@ -169,6 +193,7 @@
             Grid.ColumnSpan="2"
             Margin="0,0,7,0"
             HorizontalAlignment="Right"
+            Click="OpenScriptHubButton_Click"
             Content="Script Hub"
             Style="{StaticResource MarginHoverButton}" />
     </Grid>

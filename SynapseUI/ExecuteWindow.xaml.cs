@@ -12,11 +12,12 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.IO;
 using sxlib.Specialized;
 using CefSharp;
 using CefSharp.Wpf;
 using SynapseUI.Types;
-using System.IO;
+using static SynapseUI.Functions.EventMapNames.EventMap;
 
 namespace SynapseUI
 {
@@ -42,6 +43,8 @@ namespace SynapseUI
                 lib.SetWindow(this);
 
                 SynOptions = new Options(lib.GetOptions());
+
+                SxUI.AttachEvent += SxUI_AttachEvent;
             }
 
             if (Directory.Exists("./scripts"))
@@ -54,8 +57,34 @@ namespace SynapseUI
                 ScriptWatcher.EnableRaisingEvents = true;
             }
 
-
             Loaded += ExecutorWindow_Loaded;
+        }
+
+        private void ExecutorWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Adds scripts to scripts listbox.
+            foreach (var file in new DirectoryInfo(@".\scripts\").GetFiles())
+            {
+                if (!(file.Extension != ".txt" || file.Extension != ".lua"))
+                    return;
+
+                scriptsListBox.Items.Add(file.Name);
+            }
+            
+            // Add the CefSharp browser
+            if (!App.SKIP_CEF)
+            {
+                Functions.CefLoader.InitBrowser(cefSharpGrid);
+            }
+
+
+            /*
+            var browser = new ChromiumWebBrowser();
+            mainGrid.Children.Add(browser);
+            await Task.Delay(3000);
+
+            browser.Load("https://x.synapse.to/");
+            */
         }
 
         private void ScriptWatcher_Deleted(object sender, FileSystemEventArgs e)
@@ -82,20 +111,27 @@ namespace SynapseUI
             });
         }
 
-        private void ExecutorWindow_Loaded(object sender, RoutedEventArgs e)
+        private async void SxUI_AttachEvent(SxLibBase.SynAttachEvents Event, object Param)
         {
-            //var p = new OptionsWindow();
-            //p.Show();
+            statusInfoLabel.Content = AttachEventMap.TryGetValue(Event, out string name) ? name : "";
 
-            /*
-            var browser = new ChromiumWebBrowser();
-            mainGrid.Children.Add(browser);
-            await Task.Delay(3000);
-
-            browser.Load("https://x.synapse.to/");
-            */
+            switch (Event)
+            {
+                case SxLibBase.SynAttachEvents.READY:
+                case SxLibBase.SynAttachEvents.NOT_INJECTED:
+                case SxLibBase.SynAttachEvents.NOT_RUNNING_LATEST_VER_UPDATING:
+                case SxLibBase.SynAttachEvents.NOT_UPDATED:
+                case SxLibBase.SynAttachEvents.FAILED_TO_ATTACH:
+                case SxLibBase.SynAttachEvents.FAILED_TO_FIND:
+                case SxLibBase.SynAttachEvents.FAILED_TO_UPDATE:
+                case SxLibBase.SynAttachEvents.ALREADY_INJECTED:
+                    await statusInfoLabel.SetActive(false);
+                    break;
+            }
+            
         }
 
+        // BUTTON EVENTS
         private void OpenOptions_Click(object sender, RoutedEventArgs e)
         {
             if (_optionWindowOpened)
@@ -104,12 +140,50 @@ namespace SynapseUI
             var p = new OptionsWindow(SxUI, this);
 
             p.Show();
-            p.Closed += delegate (object s, EventArgs eve) { _optionWindowOpened = false; };
-            p.OptionChanged += delegate (object s, OptionChangedEventArgs eve) { SynOptions = eve.Option; };
+            p.Closed += (s, ev) => { _optionWindowOpened = false; };
+            p.OptionChanged += (s, ev) => { SynOptions = ev.Option; };
 
             _optionWindowOpened = true;
         }
 
+        private void AttachButton_Click(object sender, RoutedEventArgs e)
+        {
+            
+            if (SxUI != null)
+                SxUI.Attach();
+        }
+
+        private void OpenScriptHubButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SaveFileButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ExecuteFileButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OpenFileButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ClearEditorButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ExecuteEditorButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        // WINDOW EVENTS
         private void DraggableTop_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             this.DragMove();

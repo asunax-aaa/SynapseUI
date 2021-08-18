@@ -46,6 +46,13 @@
                 Content="Synapse X - Error"
                 FontSize="13"
                 Foreground="#FFCF6679" />
+
+            <Button
+                x:Name="closeWindow"
+                HorizontalAlignment="Right"
+                Click="CloseWindowButton_Click"
+                Content="&#xE106;"
+                Style="{StaticResource WindowStateButton}" />
         </Grid>
 
         <Image

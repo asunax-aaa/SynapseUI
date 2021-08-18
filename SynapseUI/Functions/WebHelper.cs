@@ -5,15 +5,30 @@ using System.IO;
 
 namespace SynapseUI.Functions.Web
 {
-    public static class WebHelper
+    public class WebHelper
     {
-        public static void DownloadFile(string url, string location)
+        public WebClient Client;
+
+        public WebHelper()
+        {
+            Client = new WebClient();
+        }
+
+        public void DownloadFile(string url, string location)
         {
             using (WebClient client = new WebClient())
             {
                 Uri uri = new Uri(url);
 
                 client.DownloadFile(uri, location);
+            }
+        }
+
+        public static void DownloadFile(string url, string location, WebClient client)
+        {
+            using (client)
+            {
+                client.DownloadFile(url, location);
             }
         }
     }
@@ -32,13 +47,17 @@ namespace SynapseUI.Functions.Web
 
         public void Begin()
         {
-            foreach (var entry in FileEntries)
+            var web = new WebHelper();
+            using (web.Client)
             {
-                string path = Path.Combine(BaseDir, entry.Location, entry.Filename);
-                if (!File.Exists(path))
+                foreach (var entry in FileEntries)
                 {
-                    string url = BaseUrl + entry.Url + "/" + entry.Filename;
-                    WebHelper.DownloadFile(url, path);
+                    string path = Path.Combine(BaseDir, entry.Location, entry.Filename);
+                    if (!File.Exists(path))
+                    {
+                        string url = BaseUrl + entry.Url + "/" + entry.Filename;
+                        web.DownloadFile(url, path);
+                    }
                 }
             }
         }

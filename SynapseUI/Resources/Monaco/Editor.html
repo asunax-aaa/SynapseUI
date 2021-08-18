@@ -18,7 +18,7 @@
         right: 0;
     }
   </style>
-  <script src="ace/ace.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../ace/ace.js" type="text/javascript" charset="utf-8"></script>
   <script src="../ace/ext-language_tools.js"></script>
 </head>
   <body style="background-color: #25282c">
@@ -28,9 +28,12 @@
         var SetText;
         var ClearText;
         var SetTheme;
-
+		
+		ace.config.set('basePath', '../ace');
+		ace.config.set('modePath', '../custom/ace');
         ace.require("ace/ext/language_tools");
         var editor = ace.edit("editor");
+		editor.getSession().setUseWorker(false);
         editor.setTheme("ace/theme/tomorrow_night_eighties");
         editor.session.setMode("ace/mode/lua");
         editor.setOption("enableLiveAutocompletion", true);
@@ -38,7 +41,6 @@
         editor.setShowPrintMargin(false);
         document.getElementById('editor').style.fontSize='13px';
 
-        /* do not edit below - Synapse X internal code */
         GetText = function()
         {
             return editor.getValue();
@@ -59,37 +61,7 @@
         {
           editor.setTheme("ace/theme/" + th);
         }
-
-        editor.on("input", async function() 
-        {
-          await CefSharp.BindObjectAsync("synServiceAsync");
-
-          synServiceAsync.textChanged(editor.getValue());
-        });
-
-        document.addEventListener('keydown', async e => 
-        {
-          if (e.ctrlKey) 
-          {
-            if (e.key === 's')
-            {
-              e.preventDefault();
-
-              await CefSharp.BindObjectAsync("synServiceAsync");
-
-              synServiceAsync.saveRequest(editor.getValue());
-            }
-            else if (e.key === 'o')
-            {
-              e.preventDefault();
-
-              await CefSharp.BindObjectAsync("synServiceAsync");
-
-              synServiceAsync.openRequest();
-            }
-          }
-        });
-
+        
         document.oncontextmenu = function()
         {
           return false;

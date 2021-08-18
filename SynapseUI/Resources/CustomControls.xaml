@@ -82,8 +82,8 @@
                                             Duration="0:0:0.50" />
                                     </Storyboard>
                                 </BeginStoryboard>
-
                             </DataTrigger.EnterActions>
+
                             <DataTrigger.ExitActions>
                                 <BeginStoryboard>
                                     <Storyboard>
@@ -104,6 +104,77 @@
                                             Storyboard.TargetProperty="Margin"
                                             To="0, 0, 18, 0"
                                             Duration="0:0:0.50" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <Style
+        x:Key="{x:Type customControls:DisappearingLabel}"
+        BasedOn="{StaticResource DefaultCenterVertText}"
+        TargetType="{x:Type customControls:DisappearingLabel}">
+
+        <Style.Resources>
+            <Storyboard x:Key="animation">
+                <DoubleAnimation
+                    EasingFunction="{StaticResource QuarticEaseOut}"
+                    Storyboard.TargetProperty="Opacity"
+                    From="0"
+                    To="1"
+                    Duration="0:0:0.50" />
+            </Storyboard>
+
+            <Storyboard x:Key="outAnimation">
+                <DoubleAnimation
+                    EasingFunction="{StaticResource QuarticEaseOut}"
+                    Storyboard.TargetProperty="Opacity"
+                    From="1"
+                    To="0"
+                    Duration="0:0:0.50" />
+            </Storyboard>
+        </Style.Resources>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="customControls:DisappearingLabel">
+                    <ContentPresenter
+                        x:Name="presenter"
+                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                        Opacity="0" />
+
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsActive}" Value="True">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            EasingFunction="{StaticResource QuarticEaseOut}"
+                                            Storyboard.TargetName="presenter"
+                                            Storyboard.TargetProperty="Opacity"
+                                            From="0"
+                                            To="1"
+                                            Duration="0:0:0.25" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            EasingFunction="{StaticResource QuarticEaseOut}"
+                                            Storyboard.TargetName="presenter"
+                                            Storyboard.TargetProperty="Opacity"
+                                            From="1"
+                                            To="0"
+                                            Duration="0:0:0.25" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </DataTrigger.ExitActions>

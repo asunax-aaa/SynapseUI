@@ -25,7 +25,7 @@
 	</error>
 
 	<error name="NOT_UPDATED">
-		<text text="Most likely Roblox just launched an update out, patching Synapse in the process, this happens every Wednesday or so. Otherwise, it's just a generic update. |NEWLINE|The fix for both is to wait for 3dsboy08 to update Synapse."/>
+		<text text="Roblox most likely just launched an update out, patching Synapse in the process, this happens every Wednesday or so. Otherwise, it's just a generic update. |NEWLINE||NEWLINE|The fix for both is to wait for 3dsboy08 to update Synapse."/>
 	</error>
 
 	<error name="UNAUTHORIZED_HWID">
@@ -35,5 +35,16 @@
 	<error name="UNKNOWN">
 		<text text="This error was most likely caused by Synapse itself, try-reinstalling Synapse / running it once via the actual, official exe."/>
 	</error>
-	
+
+	<error name="GENERIC_EXCEPTION">
+		<text text="An unknown Synapse Custom UI error was thrown, try: |NEWLINE||NEWLINE|1. Restarting this UI. |NEWLINE|2. Disabling your antivirus / adding this exe to it's exclusion list. |NEWLINE|3. Reinstalling both this UI and Synapse. "/>
+	</error>
+
+	<error name="INVALID_SYNAPSE_INSTALL">
+		<text text="The detected Synapse installation is invalid, this typically means that the required folders/files are not detected. Make sure: |NEWLINE||NEWLINE|1. You have ran and logged into Synapse alteast once. |NEWLINE|2. You have placed this file in the same folder as your S^X.exe file. |NEWLINE|3. You are running the latest version of Synapse / this custom UI."/>
+	</error>
+
+	<error name="CEF_NOT_FOUND">
+		<text text="The detected CefSharp installation is invalid, make sure: |NEWLINE||NEWLINE|1. You have ran and logged into Synapse alteast once. |NEWLINE|2. You have placed this file in the same folder as your S^X.exe file. |NEWLINE|3. You are running the latest version of Synapse / this custom UI."/>
+	</error>
 </error-information>

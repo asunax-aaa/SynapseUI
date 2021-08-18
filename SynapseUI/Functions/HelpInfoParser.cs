@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Xml.Linq;
@@ -14,6 +15,13 @@ namespace SynapseUI.Functions.InfoParser
         
         public HelpInfoParser()
         {
+            try
+            {
+                var file = Assembly.GetExecutingAssembly().GetManifestResourceStream("SynapseUI.Resources.HelpInfo.xml");
+                helpInfo = XElement.Load(file);
+                return;
+            } catch { }
+
             string debugPath = @".\Resources\HelpInfo.xml";
             string finalPath = @".\bin\custom\HelpInfo.xml";
 
