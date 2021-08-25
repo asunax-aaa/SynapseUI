@@ -185,5 +185,88 @@
         </Setter>
     </Style>
 
+    <Style x:Key="{x:Type customControls:ScriptsTabPanel}" TargetType="{x:Type customControls:ScriptsTabPanel}">
+        <Style.Resources>
+            <Storyboard x:Key="outAnimation">
+                <ColorAnimation
+                    EasingFunction="{StaticResource QuarticEaseOut}"
+                    Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                    To="#FF121212"
+                    Duration="0:0:0.15" />
+            </Storyboard>
+
+            <Storyboard x:Key="inAnimation">
+                <ColorAnimation
+                    EasingFunction="{StaticResource QuarticEaseOut}"
+                    Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                    To="#FF1F1F1F"
+                    Duration="0:0:0.15" />
+            </Storyboard>
+
+            <Style TargetType="TabItem">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="TabItem">
+                            <Border
+                                x:Name="border"
+                                Width="65"
+                                Height="30"
+                                HorizontalAlignment="Left"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="5, 5, 0, 0">
+
+                                <Grid Margin="0,0,0,10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="50" />
+                                        <ColumnDefinition Width="10" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label
+                                        Padding="4,0,4,4"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Content="{TemplateBinding Header}"
+                                        FontSize="11"
+                                        Foreground="White" />
+                                    <Button
+                                        x:Name="closeButton"
+                                        Grid.Column="1"
+                                        Width="10"
+                                        Height="10"
+                                        Background="#FF121212"
+                                        BorderThickness="0">
+                                        <Button.Content>
+                                            <TextBlock
+                                                FontFamily="Segoe MDL2 Assets"
+                                                FontSize="5"
+                                                Foreground="White"
+                                                Text="&#xE106;" />
+                                        </Button.Content>
+
+                                        <Button.Resources>
+                                            <Style TargetType="Border">
+                                                <Setter Property="CornerRadius" Value="5" />
+                                            </Style>
+                                        </Button.Resources>
+                                    </Button>
+                                </Grid>
+                            </Border>
+
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter TargetName="border" Property="Background" Value="#FF1F1F1F" />
+                                    <Setter TargetName="closeButton" Property="Background" Value="#FF1F1F1F" />
+                                </Trigger>
+                                <Trigger Property="IsSelected" Value="False">
+                                    <Setter TargetName="closeButton" Property="Background" Value="#FF121212" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Style.Resources>
+    </Style>
+
 </ResourceDictionary>
 

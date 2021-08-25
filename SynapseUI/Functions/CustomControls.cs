@@ -2,16 +2,14 @@
 using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Media.Animation;
+using System.Collections.Generic;
 using System.Windows.Data;
 using System.Globalization;
 using System.Windows.Shapes;
-using System.Windows.Media;
 using SynapseUI.Functions.Utils;
 using System.ComponentModel;
-using System.Collections.Generic;
-using System.Windows.Threading;
 using System.Threading.Tasks;
-using System.Threading;
+using System.Windows.Media;
 
 namespace SynapseUI.CustomControls
 {
@@ -103,7 +101,7 @@ namespace SynapseUI.CustomControls
 
         public IEasingFunction EasingFunction { get; set; } = new QuarticEase() { EasingMode = EasingMode.EaseOut };
         public double Offset { get; set; } = 1d;
-        
+
         private DoubleAnimation CreateAnimation(double value, int? duration, object easingFunction = null)
         {
             var anim = new DoubleAnimation
@@ -140,7 +138,7 @@ namespace SynapseUI.CustomControls
                     SetProgress(targetValue);
                     return;
                 }
-            }            
+            }
 
             var anim = CreateAnimation(targetValue, duration, ease);
 
@@ -242,7 +240,6 @@ namespace SynapseUI.CustomControls
             if (ButtonElement is null || ContentPresenterElement is null)
                 return;
 
-            
             IsDropped = !IsDropped;
             var anim = new DoubleAnimation
             {
@@ -350,7 +347,7 @@ namespace SynapseUI.CustomControls
         }
     }
 
-    
+
     [TemplatePart(Name = "presenter", Type = typeof(ContentPresenter))]
     public class DisappearingLabel : Label, INotifyPropertyChanged
     {
@@ -398,5 +395,105 @@ namespace SynapseUI.CustomControls
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
     }
-    
+
+    public class ScriptsTabPanel : TabControl
+    {
+        public Storyboard OutAnimation { get; private set; }
+        public Storyboard InAnimation { get; private set; }
+
+        private int lastIndex = 0;
+        public TabItem LastItem
+        {
+            get => lastIndex != -1 ? (TabItem)Items[lastIndex] : null;
+        }
+
+        public EventHandler<ScriptChangedEventArgs> SelectedScriptChanged;
+        public EventHandler<ScriptChangedEventArgs> ScriptTabDeleted;
+        public EventHandler<ScriptChangedEventArgs> ScriptTabAdded;
+
+        public override void OnApplyTemplate()
+        {
+            OutAnimation = (Storyboard)FindResource("outAnimation");
+            InAnimation = (Storyboard)FindResource("inAnimation");
+            base.OnApplyTemplate();
+        }
+
+        protected override void OnSelectionChanged(SelectionChangedEventArgs e)
+        {
+            if (e.RemovedItems.Count == 0 && e.AddedItems.Count == 0)
+            {
+                var _outAnim = OutAnimation.Clone();
+                Storyboard.SetTarget(_outAnim, (TabItem)Items[lastIndex]);
+                _outAnim.Begin();
+            }
+
+            var tab = (TabItem)SelectedItem;
+            if (tab != null)
+                SelectedScriptChanged?.Invoke(this, new ScriptChangedEventArgs((string)tab.Header, (string)tab.Tag));
+
+            lastIndex = SelectedIndex;
+            base.OnSelectionChanged(e);
+        }
+
+        public void AddScript(string header, string dir)
+        {
+            foreach (TabItem item in Items)
+                if ((string)item.Header == header && (string)item.Tag == dir)
+                    return;
+            
+            var tab = new TabItem
+            {
+                Header = header,
+                Tag = dir,
+                Background = HexColorConverter.Convert("#FF121212")
+            };
+
+            tab.MouseLeave += (o, e) => { PlayAnimation(OutAnimation, (TabItem)o); };
+            tab.MouseEnter += (o, e) => { PlayAnimation(InAnimation, (TabItem)o); };
+
+            Items.Add(tab);
+
+            tab.ApplyTemplate();
+            var child = (Border)VisualTreeHelper.GetChild(tab, 0);
+            var closeButton = (Button)child.FindName("closeButton");
+
+            closeButton.Click += CloseButton_Click;
+
+            SelectedItem = tab;
+            ScriptTabAdded?.Invoke(this, new ScriptChangedEventArgs(header, dir));
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            var t = (TabItem)(sender as Button).TemplatedParent;
+            if (Items.Count != 1)
+            {
+                Items.Remove(t);
+                ScriptTabDeleted?.Invoke(this, new ScriptChangedEventArgs((string)t.Header, (string)t.Tag));
+            }
+        }
+
+        private void PlayAnimation(Storyboard anim, TabItem tab)
+        {
+            var current = Items.Count <= SelectedIndex ? (TabItem)Items[SelectedIndex] : null;
+            if (current != tab)
+            {
+                var _anim = anim.Clone();
+                Storyboard.SetTarget(_anim, tab);
+                _anim.Begin();
+            }
+        }
+
+        public class ScriptChangedEventArgs : EventArgs
+        {
+            public string File { get; }
+            public string Dir { get; }
+            public ScriptChangedEventArgs(string name, string dir)
+            {
+                File = name;
+                Dir = dir;
+            }
+        }
+
+    }
 }

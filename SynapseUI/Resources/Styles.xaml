@@ -150,7 +150,8 @@
                         <ContentPresenter
                             x:Name="contentPresenter"
                             HorizontalAlignment="Center"
-                            VerticalAlignment="Center" />
+                            VerticalAlignment="Center"
+                            Content="{TemplateBinding Content}" />
                     </Border>
 
                     <ControlTemplate.Triggers>
@@ -183,6 +184,19 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style
+        x:Key="RoundedHoverButton"
+        BasedOn="{StaticResource WindowStateButton}"
+        TargetType="Button">
+
+        <Setter Property="FontFamily" Value="Segoe UI Bold" />
+        <Style.Resources>
+            <Style TargetType="Border">
+                <Setter Property="CornerRadius" Value="30" />
+            </Style>
+        </Style.Resources>
     </Style>
 
     <Style x:Key="ScrollThumbs" TargetType="{x:Type Thumb}">

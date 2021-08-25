@@ -1,22 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.IO;
-using sxlib.Specialized;
-using CefSharp;
+﻿using CefSharp;
 using CefSharp.Wpf;
+using sxlib.Specialized;
+using SynapseUI.Functions;
 using SynapseUI.Types;
+using System;
+using System.IO;
+using System.Windows;
+using System.Windows.Input;
 using static SynapseUI.Functions.EventMapNames.EventMap;
 
 namespace SynapseUI
@@ -29,6 +19,7 @@ namespace SynapseUI
         public Options SynOptions;
 
         private SxLibWPF SxUI;
+        private AceEditor Editor;
         private FileSystemWatcher ScriptWatcher;
 
         private bool _optionWindowOpened = false;
@@ -70,34 +61,42 @@ namespace SynapseUI
 
                 scriptsListBox.Items.Add(file.Name);
             }
-            
+
             // Add the CefSharp browser
             if (!App.SKIP_CEF)
             {
-                Functions.CefLoader.InitBrowser(cefSharpGrid);
+                if (!File.Exists(@".\bin\custom\Editor.html"))
+                    return;
+
+                var editor = new AceEditor(Directory.GetCurrentDirectory() + @"\bin\custom\Editor.html", scriptsTabPanel);
+                cefSharpGrid.Children.Add(editor);
+
+                Editor = editor;
             }
-
-
-            /*
-            var browser = new ChromiumWebBrowser();
-            mainGrid.Children.Add(browser);
-            await Task.Delay(3000);
-
-            browser.Load("https://x.synapse.to/");
-            */
         }
 
+        private void SaveEditorScript()
+        {
+
+        }
+
+        private void OpenEditorScript()
+        {
+
+        }
+
+        // SCRIPT WATCHER EVENTS
         private void ScriptWatcher_Deleted(object sender, FileSystemEventArgs e)
         {
             if (!(e.Name.EndsWith(".txt") || e.Name.EndsWith(".lua")))
                 return;
 
-            this.Dispatcher.Invoke(() =>
+            Dispatcher.BeginInvoke(new Action(delegate
             {
                 int i = scriptsListBox.Items.IndexOf(e.Name);
                 if (i != -1)
                     scriptsListBox.Items.RemoveAt(i);
-            });
+            }));
         }
 
         private void ScriptWatcher_Created(object sender, FileSystemEventArgs e)
@@ -105,12 +104,13 @@ namespace SynapseUI
             if (!(e.Name.EndsWith(".txt") || e.Name.EndsWith(".lua")))
                 return;
 
-            this.Dispatcher.Invoke(() =>
+            Dispatcher.BeginInvoke(new Action(delegate
             {
                 scriptsListBox.Items.Add(e.Name);
-            });
+            }));
         }
 
+        // SX ATTACH EVENTS
         private async void SxUI_AttachEvent(SxLibBase.SynAttachEvents Event, object Param)
         {
             statusInfoLabel.Content = AttachEventMap.TryGetValue(Event, out string name) ? name : "";
@@ -128,7 +128,7 @@ namespace SynapseUI
                     await statusInfoLabel.SetActive(false);
                     break;
             }
-            
+
         }
 
         // BUTTON EVENTS
@@ -148,7 +148,6 @@ namespace SynapseUI
 
         private void AttachButton_Click(object sender, RoutedEventArgs e)
         {
-            
             if (SxUI != null)
                 SxUI.Attach();
         }
@@ -175,12 +174,34 @@ namespace SynapseUI
 
         private void ClearEditorButton_Click(object sender, RoutedEventArgs e)
         {
-
+            Editor.ClearEditor();
         }
 
         private void ExecuteEditorButton_Click(object sender, RoutedEventArgs e)
         {
+            var contents = Editor.GetText();
+            if (contents != null && SxUI != null)
+                SxUI.Execute(contents);
+        }
 
+        private void ExecuteMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (SxUI is null || scriptsListBox.SelectedIndex == -1)
+                return;
+
+            string path = @".\scripts\" + (string)scriptsListBox.SelectedItem;
+            if (File.Exists(path))
+                SxUI.Execute(File.ReadAllText(path));
+        }
+
+        private void LoadEditorMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (scriptsListBox.SelectedIndex == -1)
+                return;
+
+            string path = @".\scripts\" + (string)scriptsListBox.SelectedItem;
+            if (File.Exists(path))
+                Editor.SetText(File.ReadAllText(path));
         }
 
         // WINDOW EVENTS
@@ -197,6 +218,14 @@ namespace SynapseUI
         private void CloseWindow_Click(object sender, RoutedEventArgs e)
         {
             Environment.Exit(0); // Closes all Windows, unlike this.Close();
+        }
+
+        private void ScriptsListBox_LostFocus(object sender, RoutedEventArgs e) => scriptsListBox.SelectedItem = null;
+
+        private void AddScript_Click(object sender, RoutedEventArgs e)
+        {
+            var r = new Random();
+            scriptsTabPanel.AddScript(r.Next(100).ToString(), "");
         }
     }
 }

@@ -115,5 +115,10 @@ namespace SynapseUI
             var err = new ErrorWindow(new Types.BaseError(error));
             err.Show();
         }
+
+        public static void Debug(string text)
+        {
+            System.Diagnostics.Debug.WriteLine(text);
+        }
     }
 }

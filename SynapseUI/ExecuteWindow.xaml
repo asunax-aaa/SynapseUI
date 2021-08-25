@@ -114,6 +114,47 @@
             Margin="0,9,0,0"
             FontSize="11" />
 
+        <Grid Grid.Row="1" Margin="5,15,0,0">
+            <DockPanel>
+                <customControls:ScriptsTabPanel
+                    x:Name="scriptsTabPanel"
+                    Width="Auto"
+                    Height="30"
+                    Background="Transparent"
+                    BorderThickness="0" />
+                <Button
+                    x:Name="addScript"
+                    Width="15"
+                    Height="15"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Background="#FF1F1F1F"
+                    BorderThickness="0"
+                    Click="AddScript_Click"
+                    Style="{StaticResource WindowStateButton}">
+
+                    <Button.Content>
+                        <Grid>
+                            <Rectangle
+                                Width="8"
+                                Height="2"
+                                Fill="White" />
+                            <Rectangle
+                                Width="2"
+                                Height="8"
+                                Fill="White" />
+                        </Grid>
+                    </Button.Content>
+
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="30" />
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </DockPanel>
+        </Grid>
+
         <Grid
             x:Name="cefSharpGrid"
             Grid.Row="2"
@@ -128,12 +169,13 @@
             BorderThickness="0"
             FontSize="12"
             Foreground="White"
+            LostFocus="ScriptsListBox_LostFocus"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 
             <ListBox.Resources>
                 <ContextMenu x:Key="contentMenu" Foreground="White">
-                    <MenuItem Header="Execute" />
-                    <MenuItem Header="Load into editor" />
+                    <MenuItem Click="ExecuteMenuItem_Click" Header="Execute" />
+                    <MenuItem Click="LoadEditorMenuItem_Click" Header="Load into editor" />
                 </ContextMenu>
 
                 <Style TargetType="ListBoxItem">

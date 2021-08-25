@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Media;
+using Microsoft.Win32;
 
 namespace SynapseUI.Functions.Utils
 {
     public static class HexColorConverter
     {
         public static BrushConverter Converter = new BrushConverter();
-        
+
         public static Brush Convert(string hexColor)
         {
             return (Brush)Converter.ConvertFrom(hexColor);
@@ -39,6 +35,35 @@ namespace SynapseUI.Functions.Utils
                 }
             }
             return child;
+        }
+    }
+
+    public static class Dialog
+    {
+        public static OpenFileDialog OpenFileDialog()
+        {
+            var dialog = new OpenFileDialog
+            {
+                Filter = "Lua script (*.lua, *.txt)|*lua;*.txt|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = true,
+                Title = "Open Script File"
+            };
+
+            return dialog;
+        }
+
+        public static SaveFileDialog SaveFileDialog()
+        {
+            var dialog = new SaveFileDialog
+            {
+                Filter = "Lua script (*.lua, *.txt)|*lua;*.txt|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = true,
+                Title = "Save Script File"
+            };
+
+            return dialog;
         }
     }
 }

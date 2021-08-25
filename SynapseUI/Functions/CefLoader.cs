@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
 using CefSharp;
@@ -36,14 +38,141 @@ namespace SynapseUI.Functions
 
             return false;
         }
+    }
 
-        public static void InitBrowser(Grid grid)
+    public class CefSharpService
+    {
+        public event EventHandler<SaveFileEventArgs> SaveFileRequest;
+        public event EventHandler OpenFileRequest;
+
+        public void saveFileRequest(object contents)
         {
-            if (!File.Exists(@".\bin\custom\Editor.html"))
-                return;
-
-            var browser = new ChromiumWebBrowser(path + @"\custom\Editor.html");
-            grid.Children.Add(browser);
+            SaveFileRequest?.Invoke(this, new SaveFileEventArgs((string)contents));
         }
+
+        public void openFileRequest()
+        {
+            OpenFileRequest?.Invoke(this, EventArgs.Empty);
+        }
+    }
+
+    public class SaveFileEventArgs : EventArgs
+    {
+        public string Value { get; }
+        public SaveFileEventArgs(string value)
+        {
+            Value = value;
+        }
+    }
+
+    public class AceEditor : ChromiumWebBrowser
+    {
+        public CefSharpService Service = new CefSharpService();
+        public CustomControls.ScriptsTabPanel ScriptsPanel;
+
+        public Dictionary<string, string> ScriptMap = new Dictionary<string, string>();
+
+        public AceEditor(string url, CustomControls.ScriptsTabPanel scriptsTab) : base(url)
+        {
+            ScriptsPanel = scriptsTab;
+            ScriptsPanel.SelectedScriptChanged += ScriptTabChanged;
+            ScriptsPanel.ScriptTabDeleted += ScriptTabDeleted;
+            ScriptsPanel.ScriptTabAdded += ScriptTabAdded;
+            Service.OpenFileRequest += (o, e) => { OpenScript(); };
+
+            Loaded += (o, e) =>
+            {
+                JavascriptObjectRepository.Register("cefServiceAsync", Service, true, BindingOptions.DefaultBinder);
+            };
+        }
+
+        public object CefExecute(string script, object[] args = null, bool eval = false)
+        {
+            if (IsInitialized && IsLoaded)
+            {
+                if (eval)
+                {
+                    var result = this.EvaluateScriptAsync(script, args ?? new object[] { });
+                    return result.Result.Result;
+                }
+                else
+                {
+                    this.ExecuteScriptAsync(script, args ?? new object[] { });
+                }
+            }
+
+            return null;
+        }
+
+        public void SetText(string contents)
+        {
+            CefExecute("SetText", new object[] { contents });
+        }
+
+        public void ClearEditor()
+        {
+            CefExecute("ClearText");
+        }
+
+        public string GetText()
+        {
+            var contents = (string)CefExecute("GetText", null, true);
+            return contents;
+        }
+
+        public void OpenScript()
+        {
+            var diag = Utils.Dialog.OpenFileDialog();
+            switch (diag.ShowDialog())
+            {
+                case true:
+                    string filename = Path.GetFileName(diag.FileName);
+                    if (ScriptMap.ContainsKey(filename))
+                        return;
+                    string contents = File.ReadAllText(diag.FileName);
+                    Dispatcher.BeginInvoke(new Action(delegate
+                    {
+                        ScriptMap.Add(filename, contents);
+                        ScriptsPanel.AddScript(filename, diag.FileName);
+                    }));
+                    break;
+
+                case false:
+                default:
+                    break;
+            }
+        }
+
+        private void ScriptTabChanged(object sender, CustomControls.ScriptsTabPanel.ScriptChangedEventArgs e)
+        {
+            if (ScriptsPanel.Items.Count != 1)
+            {
+                if (ScriptsPanel.LastItem != null)
+                {
+                    var item = ScriptsPanel.LastItem;
+                    ScriptMap[(string)item.Header] = GetText();
+                }
+            }
+
+            if (ScriptMap.TryGetValue(e.File, out string contents))
+            {
+                SetText(contents);
+            }
+        }
+
+        private void ScriptTabDeleted(object sender, CustomControls.ScriptsTabPanel.ScriptChangedEventArgs e)
+        {
+            ScriptMap.Remove(e.File);
+        }
+
+        private void ScriptTabAdded(object sender, CustomControls.ScriptsTabPanel.ScriptChangedEventArgs e)
+        {
+            if (!ScriptMap.ContainsKey(e.File))
+            {
+                ScriptMap.Add(e.File, "");
+                SetText("");
+            }
+        }
+
     }
 }
