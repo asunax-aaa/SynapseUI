@@ -24,6 +24,12 @@
     <body style="background-color: #25282c">
         <pre id="editor"></pre>
         <script>
+			async function BindServiceAsync() {
+				await CefSharp.BindObjectAsync("cefServiceAsync");
+			}
+			
+			BindServiceAsync().then()
+		
             var GetText;
             var SetText;
             var ClearText;
@@ -59,18 +65,21 @@
             }
 			
             document.addEventListener('keydown', async e => {
+				if (e.key === 'S' && e.ctrlKey && e.shiftKey) {
+					e.preventDefault();
+					
+					cefServiceAsync.saveAsRequest(editor.getValue());
+					
+				}
+				
                 if (e.ctrlKey) {
                     if (e.key === 's') {
                         e.preventDefault();
-						
-						await CefSharp.BindObjectAsync("cefServiceAsync");
 						
 						cefServiceAsync.saveFileRequest(editor.getValue());
 						
                     } else if (e.key === 'o') {
                         e.preventDefault();
-						
-                        await CefSharp.BindObjectAsync("cefServiceAsync");
 						
                         cefServiceAsync.openFileRequest();
                     }

@@ -396,104 +396,139 @@ namespace SynapseUI.CustomControls
         }
     }
 
+    public class ScriptTab : TabItem, INotifyPropertyChanged
+    {
+        public new ScriptsTabPanel Parent
+        {
+            get => (ScriptsTabPanel)base.Parent;
+        }
+
+        public bool IsMouseLeave
+        {
+            get { return (bool)GetValue(IsMouseLeaveTriggeredProperty); }
+            set
+            {
+                SetValue(IsMouseLeaveTriggeredProperty, value);
+                OnPropertyChanged("IsMouseLeave");
+            }
+        }
+
+        public static readonly DependencyProperty IsMouseLeaveTriggeredProperty =
+            DependencyProperty.Register("IsMouseLeave", typeof(bool), typeof(ScriptsTabPanel), new PropertyMetadata(null));
+
+        public ScriptTab() : base()
+        {
+            MouseLeave += (o, e) =>
+            {
+                if (Parent != null && this != Parent.SelectedTab)
+                    IsMouseLeave = true;
+            };
+
+            MouseEnter += (o, e) =>
+            {
+                if (!IsMouseLeave)
+                    IsMouseLeave = true;
+                IsMouseLeave = false;
+            };
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string name)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+        public override void OnApplyTemplate()
+        {
+            var child = (Border)VisualTreeHelper.GetChild(this, 0);
+            var closeButton = (Button)child.FindName("closeButton");
+            closeButton.Click += (o, e) => { Close(); };
+
+            base.OnApplyTemplate();
+        }
+        
+        public void Close()
+        {
+            var parent = Parent;
+            if (parent.Items.Count != 1)
+            {
+                parent.Items.Remove(this);
+                parent.ScriptTabDeleted?.Invoke(this, new ScriptChangedEventArgs((string)Header, (string)Tag));
+            }
+        }
+    }
+
     public class ScriptsTabPanel : TabControl
     {
-        public Storyboard OutAnimation { get; private set; }
-        public Storyboard InAnimation { get; private set; }
-
+        private int defaultIndex = 0;
         private int lastIndex = 0;
-        public TabItem LastItem
+
+        public ScriptTab LastItem
         {
-            get => lastIndex != -1 ? (TabItem)Items[lastIndex] : null;
+            get => lastIndex != -1 ? (ScriptTab)Items[lastIndex] : null;
+        }
+
+        public ScriptTab SelectedTab
+        {
+            get => (ScriptTab)SelectedItem;
         }
 
         public EventHandler<ScriptChangedEventArgs> SelectedScriptChanged;
         public EventHandler<ScriptChangedEventArgs> ScriptTabDeleted;
         public EventHandler<ScriptChangedEventArgs> ScriptTabAdded;
 
-        public override void OnApplyTemplate()
-        {
-            OutAnimation = (Storyboard)FindResource("outAnimation");
-            InAnimation = (Storyboard)FindResource("inAnimation");
-            base.OnApplyTemplate();
-        }
-
         protected override void OnSelectionChanged(SelectionChangedEventArgs e)
         {
-            if (e.RemovedItems.Count == 0 && e.AddedItems.Count == 0)
-            {
-                var _outAnim = OutAnimation.Clone();
-                Storyboard.SetTarget(_outAnim, (TabItem)Items[lastIndex]);
-                _outAnim.Begin();
-            }
-
-            var tab = (TabItem)SelectedItem;
+            var tab = SelectedTab;
             if (tab != null)
                 SelectedScriptChanged?.Invoke(this, new ScriptChangedEventArgs((string)tab.Header, (string)tab.Tag));
 
             lastIndex = SelectedIndex;
+            if (LastItem != null)
+                LastItem.IsMouseLeave = true;
+
             base.OnSelectionChanged(e);
         }
 
-        public void AddScript(string header, string dir)
+        public ScriptTab AddScript(string header, string dir, bool update = false)
         {
-            foreach (TabItem item in Items)
+            foreach (ScriptTab item in Items)
                 if ((string)item.Header == header && (string)item.Tag == dir)
-                    return;
+                    return null;
             
-            var tab = new TabItem
+            var tab = new ScriptTab
             {
                 Header = header,
                 Tag = dir,
                 Background = HexColorConverter.Convert("#FF121212")
             };
 
-            tab.MouseLeave += (o, e) => { PlayAnimation(OutAnimation, (TabItem)o); };
-            tab.MouseEnter += (o, e) => { PlayAnimation(InAnimation, (TabItem)o); };
-
             Items.Add(tab);
-
-            tab.ApplyTemplate();
-            var child = (Border)VisualTreeHelper.GetChild(tab, 0);
-            var closeButton = (Button)child.FindName("closeButton");
-
-            closeButton.Click += CloseButton_Click;
-
             SelectedItem = tab;
+
+            if (update)
+                tab.IsMouseLeave = false;
+
             ScriptTabAdded?.Invoke(this, new ScriptChangedEventArgs(header, dir));
+
+            return tab;
         }
 
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        public ScriptTab AddScript(bool update = false)
         {
-            var t = (TabItem)(sender as Button).TemplatedParent;
-            if (Items.Count != 1)
-            {
-                Items.Remove(t);
-                ScriptTabDeleted?.Invoke(this, new ScriptChangedEventArgs((string)t.Header, (string)t.Tag));
-            }
+            return AddScript($"Script {++defaultIndex}", "", update);
         }
+    }
 
-        private void PlayAnimation(Storyboard anim, TabItem tab)
+    public class ScriptChangedEventArgs : EventArgs
+    {
+        public string File { get; }
+        public string Dir { get; }
+        public ScriptChangedEventArgs(string name, string dir)
         {
-            var current = Items.Count <= SelectedIndex ? (TabItem)Items[SelectedIndex] : null;
-            if (current != tab)
-            {
-                var _anim = anim.Clone();
-                Storyboard.SetTarget(_anim, tab);
-                _anim.Begin();
-            }
+            File = name;
+            Dir = dir;
         }
-
-        public class ScriptChangedEventArgs : EventArgs
-        {
-            public string File { get; }
-            public string Dir { get; }
-            public ScriptChangedEventArgs(string name, string dir)
-            {
-                File = name;
-                Dir = dir;
-            }
-        }
-
     }
 }

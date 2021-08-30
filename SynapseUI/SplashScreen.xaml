@@ -41,10 +41,7 @@
                 Style="{StaticResource DefaultCenterVertText}" />
         </Grid>
 
-        <Image
-            Width="16"
-            Source="Resources/logo.png"
-            Stretch="Uniform" />
+        <Image Source="Resources/logo.png" Style="{StaticResource LogoImage}" />
 
         <Label
             Grid.Row="1"

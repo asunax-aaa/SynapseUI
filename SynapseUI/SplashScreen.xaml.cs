@@ -30,8 +30,7 @@ namespace SynapseUI
                 return;
             }
 
-            string dir = Directory.GetCurrentDirectory();
-            SxUI = SxLib.InitializeWPF(this, dir);
+            SxUI = SxLib.InitializeWPF(this, App.CURRENT_DIR);
 
             RegisterEvents();
 

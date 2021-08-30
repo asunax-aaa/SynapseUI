@@ -187,26 +187,10 @@
 
     <Style x:Key="{x:Type customControls:ScriptsTabPanel}" TargetType="{x:Type customControls:ScriptsTabPanel}">
         <Style.Resources>
-            <Storyboard x:Key="outAnimation">
-                <ColorAnimation
-                    EasingFunction="{StaticResource QuarticEaseOut}"
-                    Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                    To="#FF121212"
-                    Duration="0:0:0.15" />
-            </Storyboard>
-
-            <Storyboard x:Key="inAnimation">
-                <ColorAnimation
-                    EasingFunction="{StaticResource QuarticEaseOut}"
-                    Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                    To="#FF1F1F1F"
-                    Duration="0:0:0.15" />
-            </Storyboard>
-
-            <Style TargetType="TabItem">
+            <Style TargetType="{x:Type customControls:ScriptTab}">
                 <Setter Property="Template">
                     <Setter.Value>
-                        <ControlTemplate TargetType="TabItem">
+                        <ControlTemplate TargetType="{x:Type customControls:ScriptTab}">
                             <Border
                                 x:Name="border"
                                 Width="65"
@@ -260,6 +244,33 @@
                                 <Trigger Property="IsSelected" Value="False">
                                     <Setter TargetName="closeButton" Property="Background" Value="#FF121212" />
                                 </Trigger>
+
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseLeave}" Value="True">
+                                    <DataTrigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <ColorAnimation
+                                                    EasingFunction="{StaticResource QuarticEaseOut}"
+                                                    Storyboard.TargetName="border"
+                                                    Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                    To="#FF121212"
+                                                    Duration="0:0:0.15" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                    <DataTrigger.ExitActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <ColorAnimation
+                                                    EasingFunction="{StaticResource QuarticEaseOut}"
+                                                    Storyboard.TargetName="border"
+                                                    Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                    To="#FF1F1F1F"
+                                                    Duration="0:0:0.15" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.ExitActions>
+                                </DataTrigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </Setter.Value>

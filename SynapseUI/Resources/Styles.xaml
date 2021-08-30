@@ -324,6 +324,7 @@
             </Setter.Value>
         </Setter>
     </Style>
+
     <ControlTemplate x:Key="{x:Static MenuItem.TopLevelItemTemplateKey}" TargetType="{x:Type MenuItem}">
         <Border Name="Border">
             <Grid>
@@ -334,5 +335,13 @@
             </Grid>
         </Border>
     </ControlTemplate>
+
+    <Style x:Key="LogoImage" TargetType="{x:Type Image}">
+        <Setter Property="Width" Value="20" />
+        <Setter Property="Margin" Value="6,0,0,0" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
+        <Setter Property="Stretch" Value="Uniform" />
+    </Style>
 
 </ResourceDictionary>

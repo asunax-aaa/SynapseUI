@@ -44,9 +44,9 @@ namespace SynapseUI.Functions.Utils
         {
             var dialog = new OpenFileDialog
             {
-                Filter = "Lua script (*.lua, *.txt)|*lua;*.txt|All files (*.*)|*.*",
-                FilterIndex = 1,
+                Filter = "Lua scripts (*.lua, *.txt)|*lua;*.txt|All files (*.*)|*.*",
                 RestoreDirectory = true,
+                InitialDirectory = App.CURRENT_DIR + @"\scripts\",
                 Title = "Open Script File"
             };
 
@@ -57,9 +57,10 @@ namespace SynapseUI.Functions.Utils
         {
             var dialog = new SaveFileDialog
             {
-                Filter = "Lua script (*.lua, *.txt)|*lua;*.txt|All files (*.*)|*.*",
-                FilterIndex = 1,
+                Filter = "Lua scripts (*.lua)|*lua|Text files|*txt|All files (*.*)|*.*",
                 RestoreDirectory = true,
+                InitialDirectory = App.CURRENT_DIR + @"\scripts\",
+                DefaultExt = "lua",
                 Title = "Save Script File"
             };
 

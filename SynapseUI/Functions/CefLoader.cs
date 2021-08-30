@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
-using System.Windows.Controls;
 using CefSharp;
 using CefSharp.Wpf;
 
@@ -10,11 +9,12 @@ namespace SynapseUI.Functions
 {
     public class CefLoader
     {
-        private static string path = Path.Combine(Directory.GetCurrentDirectory(), @"bin\");
+        private static string path = Path.Combine(App.CURRENT_DIR, @"bin\");
 
         /// <summary>
         /// To maximise compatibility and reduce download times and files, this function loads the already downloaded CefSharp libraries that Synapse typically uses.
         /// </summary>
+        /// <returns>true is the provided CefSharp installation is invalid, otherwise false.</returns>
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static bool Init()
         {
@@ -43,11 +43,17 @@ namespace SynapseUI.Functions
     public class CefSharpService
     {
         public event EventHandler<SaveFileEventArgs> SaveFileRequest;
+        public event EventHandler<SaveFileEventArgs> SaveAsRequest;
         public event EventHandler OpenFileRequest;
 
         public void saveFileRequest(object contents)
         {
             SaveFileRequest?.Invoke(this, new SaveFileEventArgs((string)contents));
+        }
+
+        public void saveAsRequest(object contents)
+        {
+            SaveAsRequest?.Invoke(this, new SaveFileEventArgs((string)contents));
         }
 
         public void openFileRequest()
@@ -67,9 +73,9 @@ namespace SynapseUI.Functions
 
     public class AceEditor : ChromiumWebBrowser
     {
-        public CefSharpService Service = new CefSharpService();
         public CustomControls.ScriptsTabPanel ScriptsPanel;
 
+        public CefSharpService Service = new CefSharpService();
         public Dictionary<string, string> ScriptMap = new Dictionary<string, string>();
 
         public AceEditor(string url, CustomControls.ScriptsTabPanel scriptsTab) : base(url)
@@ -79,6 +85,8 @@ namespace SynapseUI.Functions
             ScriptsPanel.ScriptTabDeleted += ScriptTabDeleted;
             ScriptsPanel.ScriptTabAdded += ScriptTabAdded;
             Service.OpenFileRequest += (o, e) => { OpenScript(); };
+            Service.SaveFileRequest += (o, e) => { SaveScript(e.Value); };
+            Service.SaveAsRequest += (o, e) => { SaveScript(e.Value, true); };
 
             Loaded += (o, e) =>
             {
@@ -126,14 +134,13 @@ namespace SynapseUI.Functions
             switch (diag.ShowDialog())
             {
                 case true:
-                    string filename = Path.GetFileName(diag.FileName);
-                    if (ScriptMap.ContainsKey(filename))
+                    if (ScriptMap.ContainsKey(diag.SafeFileName))
                         return;
                     string contents = File.ReadAllText(diag.FileName);
                     Dispatcher.BeginInvoke(new Action(delegate
                     {
-                        ScriptMap.Add(filename, contents);
-                        ScriptsPanel.AddScript(filename, diag.FileName);
+                        ScriptMap.Add(diag.SafeFileName, contents);
+                        ScriptsPanel.AddScript(diag.SafeFileName, diag.FileName, true);
                     }));
                     break;
 
@@ -143,7 +150,37 @@ namespace SynapseUI.Functions
             }
         }
 
-        private void ScriptTabChanged(object sender, CustomControls.ScriptsTabPanel.ScriptChangedEventArgs e)
+        public void SaveScript(string contents = null, bool saveAs = false)
+        {
+            Dispatcher.BeginInvoke(new Action(delegate
+            {
+                var tab = ScriptsPanel.SelectedTab;
+                if (string.IsNullOrWhiteSpace((string)tab.Tag) || saveAs)
+                {
+                    // Not a script file.
+                    var diag = Utils.Dialog.SaveFileDialog();
+                    switch (diag.ShowDialog())
+                    {
+                        case true:
+                            tab.Header = diag.SafeFileName;
+                            tab.Tag = diag.FileName;
+                            File.WriteAllText(diag.FileName, contents ?? GetText());
+                            break;
+
+                        case false:
+                        default:
+                            break;
+                    }
+                }
+                else
+                {
+                    // Already a script file.
+                    File.WriteAllText((string)tab.Tag, contents ?? GetText());
+                }
+            }));
+        }
+
+        private void ScriptTabChanged(object sender, CustomControls.ScriptChangedEventArgs e)
         {
             if (ScriptsPanel.Items.Count != 1)
             {
@@ -160,12 +197,12 @@ namespace SynapseUI.Functions
             }
         }
 
-        private void ScriptTabDeleted(object sender, CustomControls.ScriptsTabPanel.ScriptChangedEventArgs e)
+        private void ScriptTabDeleted(object sender, CustomControls.ScriptChangedEventArgs e)
         {
             ScriptMap.Remove(e.File);
         }
 
-        private void ScriptTabAdded(object sender, CustomControls.ScriptsTabPanel.ScriptChangedEventArgs e)
+        private void ScriptTabAdded(object sender, CustomControls.ScriptChangedEventArgs e)
         {
             if (!ScriptMap.ContainsKey(e.File))
             {

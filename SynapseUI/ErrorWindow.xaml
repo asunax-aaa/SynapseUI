@@ -47,6 +47,8 @@
                 FontSize="13"
                 Foreground="#FFCF6679" />
 
+            <Image Source="Resources/logo.png" Style="{StaticResource LogoImage}" />
+
             <Button
                 x:Name="closeWindow"
                 HorizontalAlignment="Right"
