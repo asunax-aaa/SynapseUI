@@ -87,7 +87,7 @@ namespace SynapseUI
         // Window Events //
         private void SliderToggle_ToggledStatusChanged(object sender, CustomControls.ToggledStatusChangedEventArgs e)
         {
-            CustomControls.SliderToggle slider = (CustomControls.SliderToggle)sender;
+            var slider = sender as CustomControls.SliderToggle;
             OptionEntry entry = (OptionEntry)slider.DataContext;
 
             TempOptions.SetProperty(entry.Name, e.Value);

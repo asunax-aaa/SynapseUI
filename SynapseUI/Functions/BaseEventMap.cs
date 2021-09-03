@@ -15,7 +15,8 @@ namespace SynapseUI.Functions.EventMapNames
         {
             { BaseException.CEF_NOT_FOUND, "CefSharp libraries not found." },
             { BaseException.GENERIC_EXCEPTION, "Generic custom Synapse UI exception." },
-            { BaseException.INVALID_SYNAPSE_INSTALL, "Invalid Synapse installation." }
+            { BaseException.INVALID_SYNAPSE_INSTALL, "Invalid Synapse installation." },
+            { BaseException.ALREADY_RUNNING, "Instance already exists." }
         };
 
         /// <summary>
@@ -25,7 +26,8 @@ namespace SynapseUI.Functions.EventMapNames
         {
             { BaseException.CEF_NOT_FOUND, "CefSharp libraries used for the Monaco editor are not found, this custom UI reuses these." },
             { BaseException.GENERIC_EXCEPTION, "A generic custom Synapse UI exception was thrown, no information provided." },
-            { BaseException.INVALID_SYNAPSE_INSTALL, "The detected Synapse installation is incorrect, it does not have the required folders/files." }
+            { BaseException.INVALID_SYNAPSE_INSTALL, "The detected Synapse installation is incorrect, it does not have the required folders/files." },
+            { BaseException.ALREADY_RUNNING, "An instance of this UI is already running, close the other one before starting this one." }
         };
     }
 }

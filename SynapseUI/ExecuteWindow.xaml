@@ -170,6 +170,7 @@
             <ListBox.Resources>
                 <ContextMenu x:Key="contentMenu" Foreground="White">
                     <MenuItem Click="ExecuteMenuItem_Click" Header="Execute" />
+                    <MenuItem Click="LoadFileIntoEditor_Click" Header="Load file" />
                     <MenuItem Click="LoadEditorMenuItem_Click" Header="Load into editor" />
                 </ContextMenu>
 
@@ -218,12 +219,20 @@
             x:Name="attachButton"
             Grid.Row="3"
             Grid.ColumnSpan="2"
-            Margin="0,0,104,0"
+            Margin="0,0,7,0"
             HorizontalAlignment="Right"
             Click="AttachButton_Click"
             Content="Attach"
             Style="{StaticResource MarginHoverButton}" />
 
+        <customControls:DisappearingLabel
+            x:Name="attachInfoLabel"
+            Grid.Row="3"
+            HorizontalAlignment="Right"
+            FontSize="11.5" />
+
+        <!--  CURRENTLY NOT IMPLEMENTED  -->
+        <!--
         <Button
             x:Name="openScriptHubButton"
             Grid.Row="3"
@@ -233,5 +242,6 @@
             Click="OpenScriptHubButton_Click"
             Content="Script Hub"
             Style="{StaticResource MarginHoverButton}" />
+        -->
     </Grid>
 </Window>

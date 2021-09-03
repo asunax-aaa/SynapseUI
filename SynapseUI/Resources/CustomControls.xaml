@@ -120,26 +120,6 @@
         BasedOn="{StaticResource DefaultCenterVertText}"
         TargetType="{x:Type customControls:DisappearingLabel}">
 
-        <Style.Resources>
-            <Storyboard x:Key="animation">
-                <DoubleAnimation
-                    EasingFunction="{StaticResource QuarticEaseOut}"
-                    Storyboard.TargetProperty="Opacity"
-                    From="0"
-                    To="1"
-                    Duration="0:0:0.50" />
-            </Storyboard>
-
-            <Storyboard x:Key="outAnimation">
-                <DoubleAnimation
-                    EasingFunction="{StaticResource QuarticEaseOut}"
-                    Storyboard.TargetProperty="Opacity"
-                    From="1"
-                    To="0"
-                    Duration="0:0:0.50" />
-            </Storyboard>
-        </Style.Resources>
-
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="customControls:DisappearingLabel">
@@ -147,7 +127,7 @@
                         x:Name="presenter"
                         HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                         VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                        Opacity="0" />
+                        Opacity="{TemplateBinding Opacity}" />
 
                     <ControlTemplate.Triggers>
                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsActive}" Value="True">

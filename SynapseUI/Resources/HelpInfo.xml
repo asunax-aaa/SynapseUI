@@ -7,13 +7,11 @@
     <error name="FAILED_TO_DOWNLOAD">
 		<text text="Known fixes taken directly from the official FAQ: |NEWLINE||NEWLINE|1. Uninstall/disable any antivirus that you have installed, alternatively add Synapse (including the custom UI) to their exclusion list. |NEWLINE|2. Download, install and run ProtonVPN, and then run Synapse. |NEWLINE|3. Reinstall Synapse + custom UI completely, delete the entire Synapse Folder and reinstall it from "/>
 		<hyperlink link="https://x.synapse.to/" text="here."/>
-		<text text="|NEWLINE|4. Open the Task Manager and close any processes called 'Runtime Broker'. |NEWLINE|6. Make sure your OS is up-to-date with updates."/>
 	</error>
 
 	<error name="FAILED_TO_VERIFY">
 		<text text="Known fixes taken directly from the official FAQ: |NEWLINE||NEWLINE|1. Uninstall/disable any antivirus that you have installed, alternatively add Synapse (including the custom UI) to their exclusion list. |NEWLINE|2. Download, install and run ProtonVPN, and then run Synapse. |NEWLINE|3. Reinstall Synapse + custom UI completely, delete the entire Synapse Folder and reinstall it from "/>
 		<hyperlink link="https://x.synapse.to/" text="here."/>
-		<text text="|NEWLINE|4. Open the Task Manager and close any processes called 'Runtime Broker'. |NEWLINE|6. Make sure your OS is up-to-date with updates."/>
 	</error>
 
 	<error name="NOT_ENOUGH_TIME">
@@ -46,5 +44,9 @@
 
 	<error name="CEF_NOT_FOUND">
 		<text text="The detected CefSharp installation is invalid, make sure: |NEWLINE||NEWLINE|1. You have ran and logged into Synapse alteast once. |NEWLINE|2. You have placed this file in the same folder as your S^X.exe file. |NEWLINE|3. You are running the latest version of Synapse / this custom UI."/>
+	</error>
+
+	<error name="ALREADY_RUNNING">
+		<text text="An instance of this custom UI is already running |NEWLINE|Close the other one before starting this one.|NEWLINE||NEWLINE|If theres no other visible instance of this UI: |NEWLINE|1. Open up task manager and kill 'SynapseUI (32 bit).'"/>
 	</error>
 </error-information>

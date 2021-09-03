@@ -18,7 +18,7 @@ namespace SynapseUI
             InitializeComponent();
 
             dropDownButton.Window = this;
-            dropDownButton.TargetHeight = 550d;
+            dropDownButton.TargetHeight = 410d;
 
             Error.Copy(error);
             error.Parse(informationBox);

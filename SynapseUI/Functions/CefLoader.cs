@@ -128,19 +128,24 @@ namespace SynapseUI.Functions
             return contents;
         }
 
+        public void OpenScriptFile(string filename, string path)
+        {
+            if (ScriptMap.ContainsKey(filename))
+                return;
+            string contents = File.ReadAllText(path);
+            ScriptMap.Add(filename, contents);
+            ScriptsPanel.AddScript(filename, path, true);
+        }
+
         public void OpenScript()
         {
             var diag = Utils.Dialog.OpenFileDialog();
             switch (diag.ShowDialog())
             {
                 case true:
-                    if (ScriptMap.ContainsKey(diag.SafeFileName))
-                        return;
-                    string contents = File.ReadAllText(diag.FileName);
                     Dispatcher.BeginInvoke(new Action(delegate
                     {
-                        ScriptMap.Add(diag.SafeFileName, contents);
-                        ScriptsPanel.AddScript(diag.SafeFileName, diag.FileName, true);
+                        OpenScriptFile(diag.SafeFileName, diag.FileName);
                     }));
                     break;
 

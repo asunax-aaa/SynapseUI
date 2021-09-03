@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using SynapseUI.Functions;
 using SynapseUI.Exceptions;
 using SynapseUI.Functions.Web;
+using System.Diagnostics;
 
 namespace SynapseUI
 {
@@ -14,7 +15,7 @@ namespace SynapseUI
     /// </summary>
     public partial class App : Application
     {
-        public static readonly bool OVERRIDE_DEBUG = false;
+        public static readonly bool OVERRIDE_DEBUG = true;
         public static readonly bool SKIP_CEF = false;
 
         public static readonly string CURRENT_DIR = Directory.GetCurrentDirectory();
@@ -44,6 +45,11 @@ namespace SynapseUI
             AppDomain.CurrentDomain.AssemblyResolve += (o, e) =>
             {
                 return ResolveAssembly(e);
+            };
+
+            AppDomain.CurrentDomain.UnhandledException += (o, e) =>
+            {
+                ThrowError(BaseException.GENERIC_EXCEPTION);
             };
         }
 
@@ -83,8 +89,17 @@ namespace SynapseUI
         [STAThread]
         private void ApplicationStartup(object sender, StartupEventArgs e)
         {
-            if (ValidateSynapseInstall())
+            if (CheckProcesses())
+            {
+                ThrowError(BaseException.ALREADY_RUNNING);
                 return;
+            }
+
+            if (ValidateSynapseInstall())
+            {
+                ThrowError(BaseException.INVALID_SYNAPSE_INSTALL);
+                return;
+            }
 
             ValidateCustomInstall();
 
@@ -99,6 +114,17 @@ namespace SynapseUI
 
             SplashScreen splash = new SplashScreen();
             splash.Show();
+        }
+
+        /// <summary>
+        /// Checks whether there already is a custom UI instance already running.
+        /// </summary>
+        /// <returns>true if an instance is already running, else false.</return>
+        private bool CheckProcesses()
+        {
+            string name = AppDomain.CurrentDomain.FriendlyName.Replace(".exe", "");
+            var procs = Process.GetProcessesByName(name);
+            return procs.Length == 1 ? false : true;
         }
 
         /// <summary>
@@ -126,10 +152,7 @@ namespace SynapseUI
             foreach (string folder in folders)
             {
                 if (!Directory.Exists(folder))
-                {
-                    ThrowError(BaseException.INVALID_SYNAPSE_INSTALL);
                     return true;
-                }
             }
 
             return false;

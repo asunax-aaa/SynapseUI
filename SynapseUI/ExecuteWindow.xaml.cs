@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using sxlib.Specialized;
@@ -83,7 +84,18 @@ namespace SynapseUI
                         }));
                     }
                 };
+
+                Editor.Service.SaveFileRequest += async (s, args) =>
+                {
+                    await Dispatcher.InvokeAsync(AlertFileSave);
+                };
             }
+        }
+
+        private async Task AlertFileSave()
+        {
+            statusInfoLabel.Content = "Saved file.";
+            await statusInfoLabel.SetActive(false);
         }
 
         // SCRIPT WATCHER EVENTS
@@ -127,7 +139,7 @@ namespace SynapseUI
         // SX ATTACH EVENTS
         private async void SxUI_AttachEvent(SxLibBase.SynAttachEvents Event, object Param)
         {
-            statusInfoLabel.Content = AttachEventMap.TryGetValue(Event, out string name) ? name : "";
+            attachInfoLabel.Content = AttachEventMap.TryGetValue(Event, out string name) ? name : "";
 
             switch (Event)
             {
@@ -139,7 +151,7 @@ namespace SynapseUI
                 case SxLibBase.SynAttachEvents.FAILED_TO_FIND:
                 case SxLibBase.SynAttachEvents.FAILED_TO_UPDATE:
                 case SxLibBase.SynAttachEvents.ALREADY_INJECTED:
-                    await statusInfoLabel.SetActive(false);
+                    await attachInfoLabel.SetActive(false);
                     break;
             }
 
@@ -170,9 +182,10 @@ namespace SynapseUI
 
         }
 
-        private void SaveFileButton_Click(object sender, RoutedEventArgs e)
+        private async void SaveFileButton_Click(object sender, RoutedEventArgs e)
         {
             Editor?.SaveScript();
+            await AlertFileSave();
         }
 
         private void OpenFileButton_Click(object sender, RoutedEventArgs e)
@@ -231,6 +244,21 @@ namespace SynapseUI
                 Editor?.SetText(File.ReadAllText(path));
         }
 
+        private void LoadFileIntoEditor_Click(object sender, RoutedEventArgs e)
+        {
+            if (scriptsListBox.SelectedIndex == -1)
+                return;
+
+            string script = (string)scriptsListBox.SelectedItem;
+            string path = App.CURRENT_DIR + "\\scripts\\" + script;
+            Editor?.OpenScriptFile(script, path);
+        }
+
+        private void AddScript_Click(object sender, RoutedEventArgs e)
+        {
+            scriptsTabPanel.AddScript();
+        }
+
         // WINDOW EVENTS
         private void DraggableTop_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -248,11 +276,6 @@ namespace SynapseUI
         }
 
         private void ScriptsListBox_LostFocus(object sender, RoutedEventArgs e) => scriptsListBox.SelectedItem = null;
-
-        private void AddScript_Click(object sender, RoutedEventArgs e)
-        {
-            scriptsTabPanel.AddScript();
-        }
     }
 }
 
