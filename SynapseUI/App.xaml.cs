@@ -15,7 +15,7 @@ namespace SynapseUI
     /// </summary>
     public partial class App : Application
     {
-        public static readonly bool OVERRIDE_DEBUG = true;
+        public static readonly bool OVERRIDE_DEBUG = false;
         public static readonly bool SKIP_CEF = false;
 
         public static readonly string CURRENT_DIR = Directory.GetCurrentDirectory();
