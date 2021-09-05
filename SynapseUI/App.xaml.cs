@@ -103,6 +103,7 @@ namespace SynapseUI
 
             ValidateCustomInstall();
 
+            /*
             if (!SKIP_CEF)
             {
                 if (CefLoader.Init())
@@ -114,6 +115,7 @@ namespace SynapseUI
 
             SplashScreen splash = new SplashScreen();
             splash.Show();
+            */
         }
 
         /// <summary>
@@ -165,7 +167,6 @@ namespace SynapseUI
         {
             string[] folders = new string[]
             {
-                @".\bin",
                 @".\bin\custom\",
                 @".\bin\custom\ace\"
             };
@@ -176,12 +177,17 @@ namespace SynapseUI
 
             var downloader = new FileDownloader
             {
-                BaseDir = @".\bin\custom\",
+                BaseDir = CURRENT_DIR + @"\bin\custom\",
                 BaseUrl = @"https://raw.githubusercontent.com/asunax-aaa/SynapseUI/master/SynapseUI/Resources/"
             };
 
             downloader.Add(new FileEntry("Editor.html", "", "Monaco"));
             downloader.Add(new FileEntry("mode-lua.js", "ace", "Monaco/ace"));
+            downloader.Add(new FileEntry("Updater.exe"));
+
+            VersionChecker.Run(downloader);
+
+            downloader.Begin();
 
             // NO LONGER NEEDED.
             /*
@@ -189,8 +195,6 @@ namespace SynapseUI
             downloader.Add(new FileEntry("ace.js", "ace", "Monaco/ace"));
             downloader.Add(new FileEntry("theme-tomorrow_night_eighties.js", "ace", "Monaco/ace"));
             */
-
-            downloader.Begin();
         }
 
         private void ThrowError(BaseException error)
