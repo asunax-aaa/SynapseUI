@@ -177,11 +177,6 @@ namespace SynapseUI
             SxUI?.Attach();
         }
 
-        private void OpenScriptHubButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private async void SaveFileButton_Click(object sender, RoutedEventArgs e)
         {
             Editor?.SaveScript();

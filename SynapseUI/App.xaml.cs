@@ -186,6 +186,7 @@ namespace SynapseUI
             downloader.Add(new FileEntry("Updater.exe"));
 
             VersionChecker.Run(downloader);
+            App.Debug(downloader.ToString());
 
             downloader.Begin();
 

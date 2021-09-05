@@ -35,10 +35,7 @@ namespace SynapseUI.Functions.Web
         {
             var entries = new List<(string url, string path)>();
             foreach (var entry in FileEntries)
-            {
-                if (entry.Filename == "Updater.exe")
-                    continue;
-                    
+            {       
                 string url = BaseUrl + entry.Url + "/" + entry.Filename;
                 string path = Path.Combine(BaseDir, entry.Location, entry.Filename);
                 entries.Add((url, path));
@@ -51,7 +48,8 @@ namespace SynapseUI.Functions.Web
         {
             string s = "";
             foreach ((string url, string path) in BuildEntries())
-                s += url + "|" + path + "|";
+                if (!path.Contains("Updater.exe"))
+                    s += url + "|" + path + "|";
             return s.Substring(0, s.Length - 1);
         }
     }
