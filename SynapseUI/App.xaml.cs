@@ -103,7 +103,7 @@ namespace SynapseUI
 
             ValidateCustomInstall();
 
-            /*
+            
             if (!SKIP_CEF)
             {
                 if (CefLoader.Init())
@@ -115,7 +115,7 @@ namespace SynapseUI
 
             SplashScreen splash = new SplashScreen();
             splash.Show();
-            */
+            
         }
 
         /// <summary>
