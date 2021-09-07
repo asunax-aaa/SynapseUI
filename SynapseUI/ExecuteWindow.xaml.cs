@@ -102,17 +102,17 @@ namespace SynapseUI
 
         private void BeforeScriptTabDelete(object sender, EventArgs args)
         {
-            App.Debug(SynOptions.CloseConfirmation.ToString());
             var tab = sender as CustomControls.ScriptTab;
 
             if (SynOptions.CloseConfirmation && scriptsTabPanel.Items.Count != 1)
             {
                 if (tab == scriptsTabPanel.SelectedTab)
                 {
-                    if (Editor.IsEmpty()) return;
-
-                    bool res = new ConfirmationWindow("Are you sure you want to close this script? All changes will be lost!").ShowDialog();
-                    if (!res) return;
+                    if (!Editor.IsEmpty())
+                    {
+                        bool res = new ConfirmationWindow("Are you sure you want to close this script? All changes will be lost!").ShowDialog();
+                        if (!res) return;
+                    }
                 }
                 else
                 {
