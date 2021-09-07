@@ -32,22 +32,18 @@ namespace SynapseUI
 
             SxUI = SxLib.InitializeWPF(this, App.CURRENT_DIR);
 
-            RegisterEvents();
-
-            SxUI.Load(); // handle errors later
-        }
-
-        private void RegisterEvents()
-        {
             SxUI.LoadEvent += LoadEventTriggered;
+
+            SxUI.Load();
         }
 
+        // Sx Load Events //
         private async void LoadEventTriggered(SxLibBase.SynLoadEvents Event, object Param)
         {
             if (EventMap.LoadEventMap.TryGetValue(Event, out string text))
             {
                 if (EventMap.LoadErrorEvents.ContainsKey(Event))
-                    ThrowLoadError(Event); // critical errors should halt, no need to return.
+                    ThrowLoadError(Event);
 
                 statusLabel.Content = text;
 
@@ -69,18 +65,17 @@ namespace SynapseUI
 
         private void OpenMainWindow(SxLibWPF lib)
         {
-            var window = new ExecuteWindow(lib);
-            window.Show();
-
+            new ExecuteWindow(lib).Show();
             this.Close();
         }
 
         private void ThrowLoadError(SxLibBase.SynLoadEvents error)
         {
-            ErrorWindow errorWindow = new ErrorWindow(new Types.Error(error));
-            errorWindow.Show();
+            new ErrorWindow(new Types.Error(error)).Show();
         }
 
+
+        // Window Events //
         private void DraggableTop_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             this.DragMove();

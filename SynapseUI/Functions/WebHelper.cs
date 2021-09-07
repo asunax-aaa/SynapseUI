@@ -1,8 +1,8 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.IO;
-using System;
 using System.Diagnostics;
 
 namespace SynapseUI.Functions.Web
@@ -106,6 +106,7 @@ namespace SynapseUI.Functions.Web
             proc.StartInfo.FileName = "Updater.exe";
             proc.StartInfo.Arguments = arguments;
             proc.StartInfo.CreateNoWindow = true;
+            proc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
             proc.StartInfo.WorkingDirectory = Path.Combine(App.CURRENT_DIR, @"bin\custom\");
             proc.Start();
 

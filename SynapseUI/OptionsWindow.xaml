@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:customControls="clr-namespace:SynapseUI.CustomControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:SynapseUI"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="executeWindow"
     Title="OptionsWindow"
@@ -12,6 +11,7 @@
     Height="335"
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
     ResizeMode="NoResize"
+    Topmost="True"
     WindowStartupLocation="Manual"
     WindowStyle="None"
     mc:Ignorable="d">

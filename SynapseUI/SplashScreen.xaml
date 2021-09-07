@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:customControls="clr-namespace:SynapseUI.CustomControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:SynapseUI"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Synapse"
     Width="330"
@@ -70,6 +69,5 @@
             Margin="0,0,0,20"
             VerticalAlignment="Bottom"
             Progress="0" />
-
     </Grid>
 </Window>

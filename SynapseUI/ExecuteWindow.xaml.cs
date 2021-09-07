@@ -15,7 +15,7 @@ namespace SynapseUI
     /// </summary>
     public partial class ExecuteWindow : Window
     {
-        public Options SynOptions;
+        public Options SynOptions { get; set; } = new Options();
 
         private SxLibWPF SxUI;
         private AceEditor Editor;
@@ -32,7 +32,7 @@ namespace SynapseUI
                 SxUI = lib;
                 lib.SetWindow(this);
 
-                SynOptions = new Options(lib.GetOptions());
+                SynOptions.CopyFrom(lib.GetOptions());
 
                 SxUI.AttachEvent += SxUI_AttachEvent;
             }
@@ -89,6 +89,8 @@ namespace SynapseUI
                 {
                     await Dispatcher.InvokeAsync(AlertFileSave);
                 };
+
+                scriptsTabPanel.RequestedTabClose += BeforeScriptTabDelete;
             }
         }
 
@@ -98,7 +100,21 @@ namespace SynapseUI
             await statusInfoLabel.SetActive(false);
         }
 
-        // SCRIPT WATCHER EVENTS
+        private void BeforeScriptTabDelete(object sender, EventArgs args)
+        {
+            if (SynOptions.CloseConfirmation && scriptsTabPanel.Items.Count != 1)
+            {
+                if (!Editor.IsEmpty())
+                {
+                    bool res = new ConfirmationWindow("Are you sure you want to close this script? All changes will be lost!").ShowDialog();
+                    if (!res) return;
+                }
+            }
+
+            (sender as CustomControls.ScriptTab).Close();
+        }
+
+        // Script watcher events //
         private void ScriptWatcher_Deleted(object sender, FileSystemEventArgs e)
         {
             if (!(e.Name.EndsWith(".txt") || e.Name.EndsWith(".lua")))
@@ -136,7 +152,7 @@ namespace SynapseUI
             }));
         }
 
-        // SX ATTACH EVENTS
+        // Sx Attach Events //
         private async void SxUI_AttachEvent(SxLibBase.SynAttachEvents Event, object Param)
         {
             attachInfoLabel.Content = AttachEventMap.TryGetValue(Event, out string name) ? name : "";
@@ -154,20 +170,19 @@ namespace SynapseUI
                     await attachInfoLabel.SetActive(false);
                     break;
             }
-
         }
 
-        // BUTTON EVENTS
+        // Button Events //
         private void OpenOptions_Click(object sender, RoutedEventArgs e)
         {
             if (_optionWindowOpened)
                 return;
 
             var p = new OptionsWindow(SxUI, this);
+            p.Closed += (s, ev) => { _optionWindowOpened = false; };
+            p.OptionChanged += (s, ev) => { SynOptions.SetProperty(ev.Entry.Name, ev.Value); };
 
             p.Show();
-            p.Closed += (s, ev) => { _optionWindowOpened = false; };
-            p.OptionChanged += (s, ev) => { SynOptions = ev.Option; };
 
             _optionWindowOpened = true;
         }
@@ -204,17 +219,22 @@ namespace SynapseUI
                 default:
                     break;
             }
-
         }
 
         private void ClearEditorButton_Click(object sender, RoutedEventArgs e)
         {
+            if (SynOptions.ClearConfirmation)
+            {
+                bool res = new ConfirmationWindow("Are you sure you want to clear the editor? All changes will be lost!").ShowDialog();
+                if (!res) return;
+            }
+
             Editor?.ClearEditor();
         }
 
         private void ExecuteEditorButton_Click(object sender, RoutedEventArgs e)
         {
-            var contents = Editor?.GetText() ?? null;
+            string contents = Editor?.GetText() ?? null;
             if (contents != null && SxUI != null)
                 SxUI.Execute(contents);
         }
@@ -245,7 +265,7 @@ namespace SynapseUI
                 return;
 
             string script = (string)scriptsListBox.SelectedItem;
-            string path = App.CURRENT_DIR + "\\scripts\\" + script;
+            string path = Path.Combine(App.CURRENT_DIR, "scripts", script);
             Editor?.OpenScriptFile(script, path);
         }
 
@@ -254,7 +274,12 @@ namespace SynapseUI
             scriptsTabPanel.AddScript();
         }
 
-        // WINDOW EVENTS
+        // Window Events //
+        private void ScriptsListBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            scriptsListBox.SelectedItem = null;
+        }
+
         private void DraggableTop_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             this.DragMove();
@@ -267,28 +292,7 @@ namespace SynapseUI
 
         private void CloseWindow_Click(object sender, RoutedEventArgs e)
         {
-            Environment.Exit(0); // Closes all Windows, unlike this.Close();
+            Environment.Exit(0);
         }
-
-        private void ScriptsListBox_LostFocus(object sender, RoutedEventArgs e) => scriptsListBox.SelectedItem = null;
     }
 }
-
-
-// Currently do not have a great method of maximising the window as the 'intended' method doesn't produce desired results.
-// Most likely due to how the window is set up, a hack that makes the window resizable without a border.
-/*
-private void MaximiseWindow_Click(object sender, RoutedEventArgs e)
-{
-    if (WindowState == WindowState.Normal)
-    {
-        maximiseWindow.Content = char.ConvertFromUtf32(59683).ToString();
-        WindowState = WindowState.Maximized;
-    }
-    else
-    {
-        WindowState = WindowState.Normal;
-        maximiseWindow.Content = char.ConvertFromUtf32(59193).ToString();
-    }
-}
-*/

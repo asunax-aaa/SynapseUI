@@ -68,7 +68,7 @@ namespace SynapseUI.Types
             ErrorName = error.ToString();
         }
 
-        public void Copy(BaseError error)
+        public void CopyFrom(BaseError error)
         {
             ErrorWelcome = error.ErrorWelcome;
             ErrorType = error.ErrorType;

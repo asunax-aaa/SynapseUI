@@ -14,7 +14,7 @@ namespace SynapseUI.Functions
         /// <summary>
         /// To maximise compatibility and reduce download times and files, this function loads the already downloaded CefSharp libraries that Synapse typically uses.
         /// </summary>
-        /// <returns>true is the provided CefSharp installation is invalid, otherwise false.</returns>
+        /// <returns>True is the provided CefSharp installation is invalid, otherwise False.</returns>
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static bool Init()
         {
@@ -82,7 +82,7 @@ namespace SynapseUI.Functions
         {
             ScriptsPanel = scriptsTab;
             ScriptsPanel.SelectedScriptChanged += ScriptTabChanged;
-            ScriptsPanel.ScriptTabDeleted += ScriptTabDeleted;
+            ScriptsPanel.ScriptTabClosed += ScriptTabClosed;
             ScriptsPanel.ScriptTabAdded += ScriptTabAdded;
             Service.OpenFileRequest += (o, e) => { OpenScript(); };
             Service.SaveFileRequest += (o, e) => { SaveScript(e.Value); };
@@ -126,6 +126,11 @@ namespace SynapseUI.Functions
         {
             var contents = (string)CefExecute("GetText", null, true);
             return contents;
+        }
+
+        public bool IsEmpty()
+        {
+            return GetText().Length == 0;
         }
 
         public void OpenScriptFile(string filename, string path)
@@ -202,7 +207,7 @@ namespace SynapseUI.Functions
             }
         }
 
-        private void ScriptTabDeleted(object sender, CustomControls.ScriptChangedEventArgs e)
+        private void ScriptTabClosed(object sender, CustomControls.ScriptChangedEventArgs e)
         {
             ScriptMap.Remove(e.File);
         }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using sxlib.Static;
 
 namespace SynapseUI.Types
@@ -7,7 +8,7 @@ namespace SynapseUI.Types
     /// A custom implementaion of how Synapse stores and handles options, it's practically the same apart from it includes { get; set; } accessors,
     /// which allow the property to be detected by object.GetProperty().
     /// </summary>
-    public class Options : Data.Options
+    public class Options : Data.Options, INotifyPropertyChanged
     {
         public new bool AutoAttach
         {
@@ -48,7 +49,11 @@ namespace SynapseUI.Types
         public new bool TopMost
         {
             get => base.TopMost;
-            set => base.TopMost = value;
+            set
+            {
+                base.TopMost = value;
+                OnPropertyChanged("TopMost");
+            }
         }
 
         public new bool UnlockFPS
@@ -61,6 +66,11 @@ namespace SynapseUI.Types
 
         public Options(Data.Options options)
         {
+            CopyFrom(options);
+        }
+
+        public void CopyFrom(Data.Options options)
+        {
             AutoAttach = options.AutoAttach;
             AutoJoin = options.AutoJoin;
             AutoLaunch = options.AutoLaunch;
@@ -69,6 +79,13 @@ namespace SynapseUI.Types
             InternalUI = options.InternalUI;
             TopMost = options.TopMost;
             UnlockFPS = options.UnlockFPS;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string name)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
         public void SetProperty(string name, bool value)

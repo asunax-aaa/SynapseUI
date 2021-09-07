@@ -2,11 +2,11 @@
 using System.IO;
 using System.Windows;
 using System.Reflection;
+using System.Diagnostics;
 using System.Collections.Generic;
 using SynapseUI.Functions;
 using SynapseUI.Exceptions;
 using SynapseUI.Functions.Web;
-using System.Diagnostics;
 
 namespace SynapseUI
 {
@@ -103,7 +103,6 @@ namespace SynapseUI
 
             ValidateCustomInstall();
 
-            
             if (!SKIP_CEF)
             {
                 if (CefLoader.Init())
@@ -113,15 +112,13 @@ namespace SynapseUI
                 }
             }
 
-            SplashScreen splash = new SplashScreen();
-            splash.Show();
-            
+            new SplashScreen().Show();
         }
 
         /// <summary>
         /// Checks whether there already is a custom UI instance already running.
         /// </summary>
-        /// <returns>true if an instance is already running, else false.</return>
+        /// <returns>True if an instance is already running, else False.</return>
         private bool CheckProcesses()
         {
             string name = AppDomain.CurrentDomain.FriendlyName.Replace(".exe", "");
@@ -132,14 +129,11 @@ namespace SynapseUI
         /// <summary>
         /// Validates Synapse X install by looking at the required folders, throws error when not found.
         /// </summary>
-        /// <returns>true if an error occured, false otherwise.</returns>
+        /// <returns>True if an error occured, False otherwise.</returns>
         private bool ValidateSynapseInstall()
         {
             if (!File.Exists(@".\S^X.exe"))
-            {
-                ThrowError(BaseException.INVALID_SYNAPSE_INSTALL);
                 return true;
-            }
 
             string[] folders = new string[]
             {
@@ -185,22 +179,15 @@ namespace SynapseUI
             downloader.Add(new FileEntry("mode-lua.js", "ace", "Monaco/ace"));
             downloader.Add(new FileEntry("Updater.exe"));
 
-            VersionChecker.Run(downloader);
+            if (!DEBUG)
+                VersionChecker.Run(downloader);
 
             downloader.Begin();
-
-            // NO LONGER NEEDED.
-            /*
-            downloader.Add(new FileEntry("HelpInfo.xml"));
-            downloader.Add(new FileEntry("ace.js", "ace", "Monaco/ace"));
-            downloader.Add(new FileEntry("theme-tomorrow_night_eighties.js", "ace", "Monaco/ace"));
-            */
         }
 
         private void ThrowError(BaseException error)
         {
-            var err = new ErrorWindow(new Types.BaseError(error));
-            err.Show();
+            new ErrorWindow(new Types.BaseError(error)).Show();
         }
 
         public static void Debug(string text)

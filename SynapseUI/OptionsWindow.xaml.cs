@@ -16,10 +16,11 @@ namespace SynapseUI
     public partial class OptionsWindow : Window
     {
         public OptionsEntryList OptionsList { get; } = new OptionsEntryList();
-        public Options TempOptions = new Options();
 
         private SxLibWPF SxUI;
         private bool _firstLoad = true;
+
+        private Options _tempOptions = new Options();
 
         public OptionsWindow(SxLibWPF lib, ExecuteWindow main)
         {
@@ -90,11 +91,11 @@ namespace SynapseUI
             var slider = sender as CustomControls.SliderToggle;
             OptionEntry entry = (OptionEntry)slider.DataContext;
 
-            TempOptions.SetProperty(entry.Name, e.Value);
+            _tempOptions.SetProperty(entry.Name, e.Value);
             if (!_firstLoad && SxUI != null)
             {
-                SxUI.SetOptions(TempOptions);
-                OnOptionChanged(new OptionChangedEventArgs(TempOptions));
+                SxUI.SetOptions(_tempOptions);
+                OnOptionChanged(new OptionChangedEventArgs(entry, e.Value));
             }
         }
 
@@ -113,10 +114,12 @@ namespace SynapseUI
 
     public class OptionChangedEventArgs : EventArgs
     {
-        public Options Option { get; private set; }
-        public OptionChangedEventArgs(Options opt)
+        public OptionEntry Entry { get; }
+        public bool Value { get; }
+        public OptionChangedEventArgs(OptionEntry entry, bool value)
         {
-            Option = opt;
+            Entry = entry;
+            Value = value;
         }
     }
 }

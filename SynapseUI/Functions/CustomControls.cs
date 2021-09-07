@@ -2,7 +2,6 @@
 using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Media.Animation;
-using System.Collections.Generic;
 using System.Windows.Data;
 using System.Globalization;
 using System.Windows.Shapes;
@@ -443,18 +442,26 @@ namespace SynapseUI.CustomControls
         {
             var child = (Border)VisualTreeHelper.GetChild(this, 0);
             var closeButton = (Button)child.FindName("closeButton");
-            closeButton.Click += (o, e) => { Close(); };
+            closeButton.Click += (o, e) => { BeforeClose(); };
 
             base.OnApplyTemplate();
         }
-        
+
+        private void BeforeClose()
+        {
+            if (Parent.RequestedTabClose is null)
+                Close();
+            else
+                Parent.RequestedTabClose?.Invoke(this, EventArgs.Empty);
+        }
+
         public void Close()
         {
             var parent = Parent;
             if (parent.Items.Count != 1)
             {
                 parent.Items.Remove(this);
-                parent.ScriptTabDeleted?.Invoke(this, new ScriptChangedEventArgs((string)Header, (string)Tag));
+                parent.ScriptTabClosed?.Invoke(this, new ScriptChangedEventArgs((string)Header, (string)Tag));
             }
         }
     }
@@ -475,8 +482,10 @@ namespace SynapseUI.CustomControls
         }
 
         public EventHandler<ScriptChangedEventArgs> SelectedScriptChanged;
-        public EventHandler<ScriptChangedEventArgs> ScriptTabDeleted;
+        public EventHandler<ScriptChangedEventArgs> ScriptTabClosed;
         public EventHandler<ScriptChangedEventArgs> ScriptTabAdded;
+
+        public EventHandler RequestedTabClose;
 
         protected override void OnSelectionChanged(SelectionChangedEventArgs e)
         {
@@ -496,7 +505,7 @@ namespace SynapseUI.CustomControls
             foreach (ScriptTab item in Items)
                 if ((string)item.Header == header && (string)item.Tag == dir)
                     return null;
-            
+
             var tab = new ScriptTab
             {
                 Header = header,

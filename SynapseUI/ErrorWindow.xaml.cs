@@ -11,7 +11,7 @@ namespace SynapseUI
     /// </summary>
     public partial class ErrorWindow : Window
     {
-        public BaseError Error { set; get; } = new BaseError();
+        public BaseError Error { get; } = new BaseError();
 
         public ErrorWindow(BaseError error)
         {
@@ -20,10 +20,11 @@ namespace SynapseUI
             dropDownButton.Window = this;
             dropDownButton.TargetHeight = 410d;
 
-            Error.Copy(error);
+            Error.CopyFrom(error);
             error.Parse(informationBox);
         }
 
+        // Window Events //
         public override void BeginInit()
         {
             SystemSounds.Exclamation.Play();
@@ -37,7 +38,7 @@ namespace SynapseUI
 
         private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
         {
-            Environment.Exit(0); // closes both the error and splash window, unlike this.Close()
+            Environment.Exit(0);
         }
     }
 }
