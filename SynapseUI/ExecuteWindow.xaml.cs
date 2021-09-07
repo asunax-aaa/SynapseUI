@@ -56,10 +56,8 @@ namespace SynapseUI
             // Adds scripts to scripts listbox.
             foreach (var file in new DirectoryInfo(@".\scripts\").GetFiles())
             {
-                if (!(file.Extension != ".txt" || file.Extension != ".lua"))
-                    return;
-
-                scriptsListBox.Items.Add(file.Name);
+                if (file.Extension == ".txt" || file.Extension == ".lua")
+                    scriptsListBox.Items.Add(file.Name);
             }
 
             // Add the CefSharp browser
@@ -130,7 +128,7 @@ namespace SynapseUI
         // Script watcher events //
         private void ScriptWatcher_Deleted(object sender, FileSystemEventArgs e)
         {
-            if (!(e.Name.EndsWith(".txt") || e.Name.EndsWith(".lua")))
+            if (!e.Name.EndsWith(".lua") && !e.Name.EndsWith(".txt"))
                 return;
 
             Dispatcher.BeginInvoke(new Action(delegate
@@ -143,7 +141,7 @@ namespace SynapseUI
 
         private void ScriptWatcher_Created(object sender, FileSystemEventArgs e)
         {
-            if (!(e.Name.EndsWith(".txt") || e.Name.EndsWith(".lua")))
+            if (!e.Name.EndsWith(".lua") && !e.Name.EndsWith(".txt"))
                 return;
 
             Dispatcher.BeginInvoke(new Action(() => scriptsListBox.Items.Add(e.Name)));
@@ -151,7 +149,7 @@ namespace SynapseUI
 
         private void ScriptWatcher_Renamed(object sender, RenamedEventArgs e)
         {
-            if (!(e.Name.EndsWith(".txt") || e.Name.EndsWith(".lua")))
+            if (!e.Name.EndsWith(".lua") && !e.Name.EndsWith(".txt"))
                 return;
 
             Dispatcher.BeginInvoke(new Action(delegate
@@ -260,6 +258,8 @@ namespace SynapseUI
             string path = @".\scripts\" + (string)scriptsListBox.SelectedItem;
             if (File.Exists(path))
                 SxUI.Execute(File.ReadAllText(path));
+            else
+                scriptsListBox.Items.RemoveAt(scriptsListBox.SelectedIndex);
         }
 
         private void LoadEditorMenuItem_Click(object sender, RoutedEventArgs e)
@@ -270,6 +270,8 @@ namespace SynapseUI
             string path = @".\scripts\" + (string)scriptsListBox.SelectedItem;
             if (File.Exists(path))
                 Editor?.SetText(File.ReadAllText(path));
+            else
+                scriptsListBox.Items.RemoveAt(scriptsListBox.SelectedIndex);
         }
 
         private void LoadFileIntoEditor_Click(object sender, RoutedEventArgs e)
@@ -279,7 +281,10 @@ namespace SynapseUI
 
             string script = (string)scriptsListBox.SelectedItem;
             string path = Path.Combine(App.CURRENT_DIR, "scripts", script);
-            Editor?.OpenScriptFile(script, path);
+            if (File.Exists(path))
+                Editor?.OpenScriptFile(script, path);
+            else
+                scriptsListBox.Items.RemoveAt(scriptsListBox.SelectedIndex);
         }
 
         private void AddScript_Click(object sender, RoutedEventArgs e)
