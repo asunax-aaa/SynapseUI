@@ -15,7 +15,7 @@ A custom Synapse X user interface with the following changes:
 
 <p align="center">
   <img src="http://asunax.000webhostapp.com/u/22.30.47-07.09.21-n-B8pViNjgwIfiH4uoYh34uby7UKFcV0b5Q8kLtzzdlXqt1L6wMaSZ9h7mS2mvqHMKcUPWe1WGDDXAE6nRgTkrsCfoQvTsZOPaNjx9.gif">
-  <img src="http://asunax.000webhostapp.com/u/22.35.23-07.09.21-n-eZjPXGdcHEIPARDSk1UclfO0pYNNeWE4oqyFdVgUmC3TlRgryAM0G7q4o1itVsnKzka8MZ7DubhbnS52mipQXB6wruJs83xv6taI.gif">
+  <img src="http://asunax.000webhostapp.com/u/17.52.11-08.09.21-n-aTqLV5gpcfjOFbN1GXwi5DHzXiuBoFlJM7Vxm278rpZzKW9veq6hIILQtyPD1eEnlE3c4YPQvbOBurCkJRxNHhZA8SysCsgm0Awf.gif">
 </p>
 
 # Installation
@@ -30,12 +30,18 @@ First run may take longer as the UI will auto-download all the required files.
 
 This Synapse UI can auto-update both itself and the additional files. Meaning you will automatically get the latest version of this UI.
 
+# Key shortcuts
+- Ctrl+S : Save opened script file.
+- Ctrl+Shift+S : Save script files as.
+- Ctrl+O : Open script file into editor.
+
 # Todo
 There's still one or two things that the original Synapse UI has that this custom one does not.
 
 Such as:
 1. Opening scripts that were previously opened, `CURRENTLY WHEN YOU CLOSE THIS CUSTOM UI, SCRIPTS DO NOT SAVE! USE CTRL+S TO SAVE SCRIPTS`
 2. Script hub - I can not find the original script hub scripts, if you have them please DM me.
+3. Add AceEdtior theems, easily to implement - will appear in next update.
 
 # Other
 I will be updating this UI at some point in the future with new features and bug fixes, DM me with any known bug fixes / any features you might want added.
