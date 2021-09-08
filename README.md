@@ -41,7 +41,7 @@ There's still one or two things that the original Synapse UI has that this custo
 Such as:
 1. Opening scripts that were previously opened, `CURRENTLY WHEN YOU CLOSE THIS CUSTOM UI, SCRIPTS DO NOT SAVE! USE CTRL+S TO SAVE SCRIPTS`
 2. Script hub - I can not find the original script hub scripts, if you have them please DM me.
-3. Add AceEdtior theems, easily to implement - will appear in next update.
+3. Add AceEdtior themes, easily to implement - will appear in next update.
 
 # Other
 I will be updating this UI at some point in the future with new features and bug fixes, DM me with any known bug fixes / any features you might want added.
