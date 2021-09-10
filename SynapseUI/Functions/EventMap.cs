@@ -38,7 +38,7 @@ namespace SynapseUI.Functions.EventMapNames
             { SynLoadEvents.NOT_LOGGED_IN, "You are not logged into Synapse."},
             { SynLoadEvents.NOT_UPDATED, "Synapse is currently not updated, please wait for an update." },
             { SynLoadEvents.UNAUTHORIZED_HWID, "Your whitelist is not authorised!"},
-            { SynLoadEvents.UNKNOWN, "Unknown - most likely an error caused by Synapse itself, try re-installing Synapse / running it once via the actual exe."}
+            { SynLoadEvents.UNKNOWN, "Unknown - Unknown error caused by Synapse X, not this custom UI."}
         };
 
         /// <summary>
@@ -64,14 +64,6 @@ namespace SynapseUI.Functions.EventMapNames
             // Currently do not have a use.
             //{ SynAttachEvents.PROC_CREATION, "Process creation." },
             //{ SynAttachEvents.PROC_DELETION, "Process deletion." },
-        };
-
-        /// <summary>
-        /// Critical Synapse attach errors that will halt the program and open up a new 'Error Window', most errors get displayed, rather than thrown.
-        /// </summary>
-        public static List<SynAttachEvents> AttachErrorEvents = new List<SynAttachEvents>()
-        {
-
         };
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Xml.Linq;
@@ -15,22 +15,8 @@ namespace SynapseUI.Functions.InfoParser
         
         public HelpInfoParser()
         {
-            try
-            {
-                var file = Assembly.GetExecutingAssembly().GetManifestResourceStream("SynapseUI.Resources.HelpInfo.xml");
-                helpInfo = XElement.Load(file);
-                return;
-            } catch { }
-
-            string debugPath = @".\Resources\HelpInfo.xml";
-            string finalPath = @".\bin\custom\HelpInfo.xml";
-
-            bool debug = File.Exists(debugPath);
-            if (debug || File.Exists(finalPath))
-                helpInfo = XElement.Load(debug ? debugPath : finalPath);
-            else
-				// previously an error was thrown, now the error window simply doesn't provide error help information.
-                return;
+            var file = Assembly.GetExecutingAssembly().GetManifestResourceStream("SynapseUI.Resources.HelpInfo.xml");
+            helpInfo = XElement.Load(file);
         }
 
         /// <summary>
@@ -55,13 +41,14 @@ namespace SynapseUI.Functions.InfoParser
             foreach (var node in error.Elements())
             {
                 string name = node.Name.ToString();
+                string text = node.Attribute("text").Value;
 
                 switch (name)
                 {
                     case "text":
-                        string text = node.Attribute("text").Value.Replace("|NEWLINE|", "\n");
-                        textBlock.Inlines.Add(new Run { Text = text });
+                        textBlock.Inlines.Add(new Run { Text = text.Replace("|NEWLINE|", "\n") });
                         break;
+
                     case "hyperlink":
                         var link = new Hyperlink
                         {
@@ -70,8 +57,15 @@ namespace SynapseUI.Functions.InfoParser
 
                         link.RequestNavigate += Hyperlink_RequestNavigate;
 
-                        link.Inlines.Add(new Run { Text = node.Attribute("text").Value });
+                        link.Inlines.Add(new Run { Text = text });
                         textBlock.Inlines.Add(link);
+                        break;
+
+                    case "bold":
+                        textBlock.Inlines.Add(new Run { Text = text, FontWeight = FontWeights.Bold });
+                        break;
+
+                    default:
                         break;
                 }
             }

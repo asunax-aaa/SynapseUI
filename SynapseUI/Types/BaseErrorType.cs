@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using SynapseUI.Exceptions;
 using SynapseUI.Functions.InfoParser;
 using static SynapseUI.Functions.EventMapNames.BaseEventMap;
@@ -80,14 +81,23 @@ namespace SynapseUI.Types
         /// Retrieves the stored help information for errors, error help information is provided witnin the HelpInfo.xml document. 
         /// </summary>
         /// <param name="block">The TextBlock to append the help information to.</param>
-        /// <exception cref="System.ArgumentNullException">The stored error name is not set.</exception>
         public void Parse(TextBlock block)
         {
             if (string.IsNullOrWhiteSpace(ErrorName))
-                throw new ArgumentNullException("Error has not been initialised.");
+                return;
 
             var infoParser = new HelpInfoParser();
             infoParser.Parse(block, ErrorName);
+        }
+
+        /// <summary>
+        /// Overwrites the help information stored in HelpInfo.xml to whatever is provided.
+        /// </summary>
+        /// <param name="block">The TextBlock to append the help information to.</param>
+        /// <param name="text">The overwritten help information.</param>
+        public void SetHelpInformation(TextBlock block, string text)
+        {
+            block.Inlines.Add(new Run { Text = text });
         }
 
         protected void OnPropertyChanged(string name)

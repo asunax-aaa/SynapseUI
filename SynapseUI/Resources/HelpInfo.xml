@@ -31,7 +31,11 @@
 	</error>
 
 	<error name="UNKNOWN">
-		<text text="This error was most likely caused by Synapse itself, try-reinstalling Synapse / running it once via the actual, official exe."/>
+		<text text="This error is ONLY caused by Synapse, not the custom UI. Try to: |NEWLINE||NEWLINE|"/>
+		<bold text="1. Add this custom UI and Synapse X to your AV's exclusions list."/>
+		<text text="|NEWLINE|2. Reinstall Synapse X, download "/>
+		<hyperlink link="https://x.synapse.to/" text="here."/>
+		<text text="|NEWLINE||NEWLINE|If all else fails, wait for an update. 'Unknown' errors are caused by Synapses sxlib.dll, not this custom UI."/>
 	</error>
 
 	<error name="GENERIC_EXCEPTION">

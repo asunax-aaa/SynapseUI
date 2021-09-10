@@ -15,13 +15,26 @@ namespace SynapseUI
 
         public ErrorWindow(BaseError error)
         {
+            Init();
+
+            Error.CopyFrom(error);
+            Error.Parse(informationBox);
+        }
+
+        public ErrorWindow(BaseError error, string helpInformation)
+        {
+            Init();
+
+            Error.CopyFrom(error);
+            Error.SetHelpInformation(informationBox, helpInformation);
+        }
+
+        private void Init()
+        {
             InitializeComponent();
 
             dropDownButton.Window = this;
             dropDownButton.TargetHeight = 410d;
-
-            Error.CopyFrom(error);
-            error.Parse(informationBox);
         }
 
         // Window Events //

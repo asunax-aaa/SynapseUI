@@ -193,6 +193,9 @@
   <ItemGroup>
     <Resource Include="Resources\logo_icon.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\UnknownPatch\SLInjector.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>DEL "$(TargetDir)sxlib.dll" 2&gt;NUL
