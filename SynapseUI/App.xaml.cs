@@ -16,7 +16,7 @@ namespace SynapseUI
     /// </summary>
     public partial class App : Application
     {
-        public static readonly bool OVERRIDE_DEBUG = true;
+        public static readonly bool OVERRIDE_DEBUG = false;
         public static readonly bool SKIP_CEF = false;
 
         public static readonly string CURRENT_DIR = Directory.GetCurrentDirectory();
@@ -199,7 +199,9 @@ namespace SynapseUI
             {
                 using (var web = new WebClient())
                 {
-                    //web.DownloadFile();
+                    // TEMPORARY FIX
+                    web.DownloadFile("https://github.com/asunax-aaa/SynapseUI/raw/master/SynapseUI/Resources/UnknownPatch/SLInjector.dll",
+                        Path.Combine(CURRENT_DIR, @"bin\SLInjector.dll"));
                 }
             }
         }
