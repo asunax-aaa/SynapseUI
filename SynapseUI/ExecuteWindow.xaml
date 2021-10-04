@@ -9,8 +9,8 @@
     Title="ExecuteWindow"
     Width="800"
     Height="355"
-    MinWidth="800"
-    MinHeight="355"
+    MinWidth="740"
+    MinHeight="340"
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
     FontFamily="Segoe UI"
     ResizeMode="CanResize"
@@ -231,19 +231,7 @@
             x:Name="attachInfoLabel"
             Grid.Row="3"
             HorizontalAlignment="Right"
+            Content=""
             FontSize="11.5" />
-
-        <!--  CURRENTLY NOT IMPLEMENTED  -->
-        <!--
-        <Button
-            x:Name="openScriptHubButton"
-            Grid.Row="3"
-            Grid.ColumnSpan="2"
-            Margin="0,0,7,0"
-            HorizontalAlignment="Right"
-            Click="OpenScriptHubButton_Click"
-            Content="Script Hub"
-            Style="{StaticResource MarginHoverButton}" />
-        -->
     </Grid>
 </Window>

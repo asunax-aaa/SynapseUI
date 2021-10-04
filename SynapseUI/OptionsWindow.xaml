@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="executeWindow"
     Title="OptionsWindow"
-    Width="270"
+    Width="330"
     Height="335"
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
     ResizeMode="NoResize"
@@ -56,15 +56,15 @@
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="10" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="105" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="10" />
         </Grid.ColumnDefinitions>
 
 
         <Grid
             x:Name="draggableTop"
-            Grid.ColumnSpan="3"
+            Grid.ColumnSpan="4"
             Background="{StaticResource DraggableBarBackground}"
             MouseLeftButtonDown="DraggableTop_MouseLeftButtonDown">
             <Label
@@ -72,7 +72,7 @@
                 Content="Synapse X - Options"
                 Style="{StaticResource DefaultCenterVertText}" />
 
-            <Image Source="Resources/logo.png" Style="{StaticResource LogoImage}" />
+            <Image Style="{DynamicResource LogoImage}" />
 
             <Button
                 x:Name="closeWindow"
@@ -82,39 +82,142 @@
                 Style="{StaticResource WindowStateButton}" />
         </Grid>
 
-        <ItemsControl
-            x:Name="OptionsPresenter"
+        <TabControl
+            x:Name="optionsTabs"
             Grid.Row="1"
             Grid.Column="1"
-            Margin="0,10,0,0"
-            ItemsSource="{Binding OptionsList}">
+            Grid.ColumnSpan="2"
+            Background="Transparent"
+            BorderThickness="0"
+            TabStripPlacement="Left">
 
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Grid x:Name="gridContainer">
-                        <Label
-                            Margin="0,5,0,0"
-                            HorizontalAlignment="Left"
-                            Content="{Binding FriendlyName}"
-                            Style="{StaticResource DefaultText}" />
+            <customControls:OptionTab Header="Options">
+                <ItemsControl x:Name="OptionsPresenter" ItemsSource="{Binding OptionsList}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid x:Name="gridContainer">
+                                <Label
+                                    Margin="0,5,0,0"
+                                    HorizontalAlignment="Left"
+                                    Content="{Binding FriendlyName}"
+                                    Style="{StaticResource DefaultText}" />
 
-                        <customControls:SliderToggle
-                            x:Name="toggle"
-                            Margin="0,5,10,0"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Center"
-                            ToggledStatusChanged="SliderToggle_ToggledStatusChanged" />
+                                <customControls:SliderToggle
+                                    x:Name="toggle"
+                                    Margin="0,5,10,0"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    ToggledStatusChanged="SliderToggle_ToggledStatusChanged" />
 
-                    </Grid>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
 
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-        </ItemsControl>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </customControls:OptionTab>
+
+            <customControls:OptionTab Header="Script Hub">
+                <ScrollViewer>
+                    <ItemsControl x:Name="ScriptHubPresenter" ItemsSource="{Binding ScriptEntries}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border
+                                    MaxWidth="170"
+                                    Margin="0,10,0,30"
+                                    Background="#FF1F1F1F"
+                                    CornerRadius="15, 15, 0, 0"
+                                    RenderTransformOrigin="0.5, 0.5">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="20" />
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+
+                                        <Label
+                                            Padding="2"
+                                            Content="{Binding Name}"
+                                            FontSize="10"
+                                            Style="{StaticResource DefaultText}" />
+                                        <Image
+                                            Grid.Row="1"
+                                            Margin="0,0,0,-18"
+                                            Cursor="Hand"
+                                            MouseLeftButtonDown="Execute_ScriptButton"
+                                            RenderOptions.BitmapScalingMode="HighQuality"
+                                            Source="{Binding ImageSource}" />
+                                    </Grid>
+
+                                    <Border.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform />
+                                        </TransformGroup>
+                                    </Border.RenderTransform>
+
+                                    <Border.Style>
+                                        <Style>
+                                            <Style.Resources>
+                                                <Storyboard x:Key="scriptEntryAnimEnlarge">
+                                                    <DoubleAnimation
+                                                        EasingFunction="{StaticResource QuarticEaseOut}"
+                                                        Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"
+                                                        To="1.05"
+                                                        Duration="0:0:0.5" />
+
+                                                    <DoubleAnimation
+                                                        EasingFunction="{StaticResource QuarticEaseOut}"
+                                                        Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                                                        To="1.05"
+                                                        Duration="0:0:0.5" />
+                                                </Storyboard>
+
+                                                <Storyboard x:Key="scriptEntryAnimShrink">
+                                                    <DoubleAnimation
+                                                        EasingFunction="{StaticResource QuarticEaseOut}"
+                                                        Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"
+                                                        To="1"
+                                                        Duration="0:0:0.5" />
+                                                    <DoubleAnimation
+                                                        EasingFunction="{StaticResource QuarticEaseOut}"
+                                                        Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                                                        To="1"
+                                                        Duration="0:0:0.5" />
+                                                </Storyboard>
+                                            </Style.Resources>
+
+                                            <Style.Triggers>
+                                                <Trigger Property="UIElement.IsMouseOver" Value="True">
+                                                    <Trigger.EnterActions>
+                                                        <BeginStoryboard Storyboard="{StaticResource scriptEntryAnimEnlarge}" />
+                                                    </Trigger.EnterActions>
+                                                    <Trigger.ExitActions>
+                                                        <BeginStoryboard Storyboard="{StaticResource scriptEntryAnimShrink}" />
+                                                    </Trigger.ExitActions>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </ScrollViewer>
+            </customControls:OptionTab>
+
+            <!-- <customControls:OptionTab Header="Appearance" /> -->
+
+        </TabControl>
+
 
     </Grid>
 </Window>

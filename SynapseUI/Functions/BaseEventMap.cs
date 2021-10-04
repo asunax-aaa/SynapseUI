@@ -25,7 +25,7 @@ namespace SynapseUI.Functions.EventMapNames
         public static Dictionary<BaseException, string> GenericErrorEvents = new Dictionary<BaseException, string>
         {
             { BaseException.CEF_NOT_FOUND, "CefSharp libraries used for the Monaco editor are not found, this custom UI reuses these." },
-            { BaseException.GENERIC_EXCEPTION, "A generic custom Synapse UI exception was thrown, no information provided." },
+            { BaseException.GENERIC_EXCEPTION, "A generic exception was thrown, expand the help information section." },
             { BaseException.INVALID_SYNAPSE_INSTALL, "The detected Synapse installation is incorrect, it does not have the required folders/files." },
             { BaseException.ALREADY_RUNNING, "An instance of this UI is already running, close the other one before starting this one." }
         };

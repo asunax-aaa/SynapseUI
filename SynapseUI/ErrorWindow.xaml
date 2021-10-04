@@ -48,7 +48,7 @@
                 FontSize="13"
                 Foreground="#FFCF6679" />
 
-            <Image Source="Resources/logo.png" Style="{StaticResource LogoImage}" />
+            <Image Style="{DynamicResource LogoImage}" />
 
             <Button
                 x:Name="closeWindow"

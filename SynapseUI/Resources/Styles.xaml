@@ -240,7 +240,7 @@
                 <ControlTemplate TargetType="{x:Type ScrollBar}">
                     <Grid
                         x:Name="GridRoot"
-                        Width="9"
+                        Width="5"
                         Background="{x:Null}">
                         <Track
                             x:Name="PART_Track"
@@ -339,6 +339,7 @@
     <Style x:Key="LogoImage" TargetType="{x:Type Image}">
         <Setter Property="Width" Value="20" />
         <Setter Property="Margin" Value="6,0,0,0" />
+        <Setter Property="Source" Value="pack://application:,,,/SynapseUI;component/Resources/logo.png" />
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
         <Setter Property="Stretch" Value="Uniform" />

@@ -16,6 +16,7 @@ namespace SynapseUI
     public partial class OptionsWindow : Window
     {
         public OptionsEntryList OptionsList { get; } = new OptionsEntryList();
+        public ScriptHubEntries ScriptEntries { get; } = new ScriptHubEntries();
 
         private SxLibWPF SxUI;
         private bool _firstLoad = true;
@@ -30,22 +31,21 @@ namespace SynapseUI
             Left = main.Left + (main.ActualWidth - Width) / 2;
             Top = main.Top + 10;
 
-            Loaded += (s, e) =>
+            Loaded += OptionsWindow_Loaded;
+            Closing += (s, e) =>
             {
-                AnimateShow();
-                LoadOptions();
-                _firstLoad = false;
+                SxUI.ScriptHubMarkAsClosed();
             };
         }
 
-        public event OptionChangedEventHandler OptionChanged;
-
-        protected virtual void OnOptionChanged(OptionChangedEventArgs e)
+        private void OptionsWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            if (SxUI is null)
-                return;
+            AnimateShow();
 
-            OptionChanged?.Invoke(this, e);
+            LoadOptions();
+            LoadScripts();
+
+            _firstLoad = false;
         }
 
         /// <summary>
@@ -77,13 +77,37 @@ namespace SynapseUI
 
             foreach (ContentPresenter child in panel.Children)
             {
-                var grid = child.ContentTemplate.FindName("gridContainer", child) as Grid;
-                var slider = grid.Children[1] as CustomControls.SliderToggle;
-
+                var slider = child.ContentTemplate.FindName("toggle", child) as CustomControls.SliderToggle;
                 var entry = (OptionEntry)child.DataContext;
+
                 slider.IsToggled = options.GetProperty(entry.Name);
             }
         }
+
+        /// <summary>
+        /// Loads Synapse X script hub entries.
+        /// </summary>
+        public void LoadScripts()
+        {
+            SxUI.ScriptHubEvent += (entries) =>
+            {
+                foreach (var entry in entries)
+                    ScriptEntries.Add(new ScriptHubEntry(entry));
+            };
+
+            SxUI.ScriptHub();
+        }
+
+        public event OptionChangedEventHandler OptionChanged;
+
+        protected virtual void OnOptionChanged(OptionChangedEventArgs e)
+        {
+            if (SxUI is null)
+                return;
+
+            OptionChanged?.Invoke(this, e);
+        }
+
 
         // Window Events //
         private void SliderToggle_ToggledStatusChanged(object sender, CustomControls.ToggledStatusChangedEventArgs e)
@@ -97,6 +121,12 @@ namespace SynapseUI
                 SxUI.SetOptions(_tempOptions);
                 OnOptionChanged(new OptionChangedEventArgs(entry, e.Value));
             }
+        }
+
+        private void Execute_ScriptButton(object sender, MouseButtonEventArgs e)
+        {
+            var image = sender as Image;
+            (image.DataContext as ScriptHubEntry).Execute();
         }
 
         private void CloseWindow_Click(object sender, RoutedEventArgs e)

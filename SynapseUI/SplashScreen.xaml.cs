@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using sxlib;
@@ -55,11 +53,9 @@ namespace SynapseUI
                     OpenMainWindow(SxUI);
                 }
                 else
+                {
                     loadingBar.AnimateProgress(loadingBar.Progress + 20);
-            }
-            else
-            {
-                throw new KeyNotFoundException($"Event '{Event}' does not exist in the LoadEvent mapping.");
+                }
             }
         }
 

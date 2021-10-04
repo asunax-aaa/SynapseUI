@@ -16,7 +16,7 @@ namespace SynapseUI
     /// </summary>
     public partial class App : Application
     {
-        public static readonly bool OVERRIDE_DEBUG = false;
+        public static readonly bool OVERRIDE_DEBUG = true;
         public static readonly bool SKIP_CEF = false;
 
         public static readonly string CURRENT_DIR = Directory.GetCurrentDirectory();
@@ -41,17 +41,27 @@ namespace SynapseUI
         }
 #endif
 
-        public App()
+        protected override void OnStartup(StartupEventArgs e)
         {
-            AppDomain.CurrentDomain.AssemblyResolve += (o, e) =>
+            AppDomain.CurrentDomain.AssemblyResolve += (o, ev) =>
             {
-                return ResolveAssembly(e);
+                return ResolveAssembly(ev);
             };
 
-            AppDomain.CurrentDomain.UnhandledException += (o, e) =>
+            DispatcherUnhandledException += App_DispatcherUnhandledException;
+
+            base.OnStartup(e);
+        }
+
+        private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            string message = $"Screenshot this and send it to asunax#5833. \n\nException: {e.Exception.GetType()}\nMessage: {e.Exception.Message}";
+            Current.Dispatcher.BeginInvoke(new Action(() =>
             {
-                ThrowError(BaseException.GENERIC_EXCEPTION);
-            };
+                ThrowError(BaseException.GENERIC_EXCEPTION, message);
+            }));
+
+            e.Handled = true;
         }
 
         /// <summary>
@@ -206,9 +216,14 @@ namespace SynapseUI
             }
         }
 
+        private void ThrowError(BaseException error, string helpInfo)
+        {
+            new ErrorWindow(new Types.BaseError(error), helpInfo).ShowDialog();
+        }
+
         private void ThrowError(BaseException error)
         {
-            new ErrorWindow(new Types.BaseError(error)).Show();
+            new ErrorWindow(new Types.BaseError(error)).ShowDialog();
         }
 
         public static void Debug(string text)

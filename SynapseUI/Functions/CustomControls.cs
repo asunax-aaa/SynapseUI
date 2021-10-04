@@ -5,10 +5,10 @@ using System.Windows.Media.Animation;
 using System.Windows.Data;
 using System.Globalization;
 using System.Windows.Shapes;
-using SynapseUI.Functions.Utils;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using SynapseUI.Functions.Utils;
 
 namespace SynapseUI.CustomControls
 {
@@ -540,4 +540,49 @@ namespace SynapseUI.CustomControls
             Dir = dir;
         }
     }
+
+    public class OptionTab : TabItem, INotifyPropertyChanged
+    {
+        public new TabControl Parent
+        {
+            get => (TabControl)base.Parent;
+        }
+
+        public bool IsMouseLeave
+        {
+            get { return (bool)GetValue(IsMouseLeaveTriggeredProperty); }
+            set
+            {
+                SetValue(IsMouseLeaveTriggeredProperty, value);
+                OnPropertyChanged("IsMouseLeave");
+            }
+        }
+
+        public static readonly DependencyProperty IsMouseLeaveTriggeredProperty =
+            DependencyProperty.Register("IsMouseLeave", typeof(bool), typeof(TabControl), new PropertyMetadata(null));
+
+        public OptionTab() : base()
+        {
+            MouseLeave += (o, e) =>
+            {
+                if (Parent != null && this != (OptionTab)Parent.SelectedItem)
+                    IsMouseLeave = true;
+            };
+
+            MouseEnter += (o, e) =>
+            {
+                if (!IsMouseLeave)
+                    IsMouseLeave = true;
+                IsMouseLeave = false;
+            };
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string name)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+    }
+
 }

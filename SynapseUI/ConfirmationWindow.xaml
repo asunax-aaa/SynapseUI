@@ -34,7 +34,7 @@
                 Content="Synapse X"
                 Style="{StaticResource DefaultCenterVertText}" />
 
-            <Image Source="Resources/logo.png" Style="{StaticResource LogoImage}" />
+            <Image Style="{DynamicResource LogoImage}" />
 
             <Button
                 x:Name="closeWindow"

@@ -259,5 +259,61 @@
         </Style.Resources>
     </Style>
 
+    <Style x:Key="{x:Type customControls:OptionTab}" TargetType="{x:Type customControls:OptionTab}">
+        <Setter Property="Height" Value="30" />
+        <Setter Property="Width" Value="100" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type customControls:OptionTab}">
+                    <Border
+                        x:Name="border"
+                        Margin="0,0,0,2"
+                        Background="#FF121212"
+                        BorderThickness="0"
+                        CornerRadius="7">
+                        <Label
+                            Padding="10,0,0,0"
+                            HorizontalAlignment="Left"
+                            Content="{TemplateBinding Header}"
+                            Style="{StaticResource DefaultCenterVertText}" />
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#FF1F1F1F" />
+                        </Trigger>
+
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseLeave}" Value="True">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation
+                                            EasingFunction="{StaticResource QuarticEaseOut}"
+                                            Storyboard.TargetName="border"
+                                            Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                            To="#FF121212"
+                                            Duration="0:0:0.15" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation
+                                            EasingFunction="{StaticResource QuarticEaseOut}"
+                                            Storyboard.TargetName="border"
+                                            Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                            To="#FF1F1F1F"
+                                            Duration="0:0:0.15" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>
 

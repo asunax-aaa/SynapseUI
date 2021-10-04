@@ -89,6 +89,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Types\ScriptHubEntriesType.cs" />
     <Page Include="ConfirmationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -194,6 +195,10 @@
     <Resource Include="Resources\logo_icon.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\ScriptHub\dark_dex.png" />
+    <Resource Include="Resources\ScriptHub\esp.png" />
+    <Resource Include="Resources\ScriptHub\remote_spy.png" />
+    <Resource Include="Resources\ScriptHub\script_dumper.png" />
     <Content Include="Resources\UnknownPatch\SLInjector.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
