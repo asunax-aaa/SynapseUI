@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Net;
-using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.IO;
 using System.Diagnostics;
+using System.Text;
 
 namespace SynapseUI.Functions.Web
 {
     public class FileDownloader
     {
         public string BaseUrl { get; set; }
-        public string BaseDir { get; set; }
+        public string BasePath { get; set; }
 
         public List<FileEntry> FileEntries = new List<FileEntry>();
+
+        private List<(string Url, string Path)> _entries;
 
         public void Add(FileEntry entry)
         {
@@ -33,55 +35,67 @@ namespace SynapseUI.Functions.Web
 
         public List<(string url, string path)> BuildEntries()
         {
+            if (_entries != null)
+                return _entries;
+
             var entries = new List<(string url, string path)>();
             foreach (var entry in FileEntries)
             {       
                 string url = BaseUrl + entry.Url + "/" + entry.Filename;
-                string path = Path.Combine(BaseDir, entry.Location, entry.Filename);
+                string path = entry.RelativePath ? Path.Combine(BasePath, entry.Path, entry.Filename) :
+                    Path.Combine(entry.Path, entry.Filename);
+
                 entries.Add((url, path));
             }
 
-            return entries;
+            _entries = entries;
+            return _entries;
         }
 
-        public override string ToString()
+        public string Build()
         {
-            string s = "";
+            var s = new StringBuilder();
+
             foreach ((string url, string path) in BuildEntries())
+            {
                 if (!path.Contains("Updater.exe"))
-                    s += url + "|" + path + "|";
-            return s.Substring(0, s.Length - 1);
+                    s.Append($"{url}|{path}|");
+            }
+
+            s.Length--;
+            return s.ToString();
         }
     }
 
     public class FileEntry
     {
-        public string Filename { get; set; }
-        public string Location { get; set; }
-        public string Url { get; set; }
+        public string Filename { get; }
+        public string Path { get; }
+        public bool RelativePath { get; }
+        public string Url { get; }
 
-        public FileEntry(string filename, string location = "", string url = "")
+        public FileEntry(string filename, string path = "", string url = "", bool relativePath = true)
         {
             Filename = filename;
-            Location = location;
+            Path = path;
             Url = url;
+            RelativePath = relativePath;
         }
     }
 
     public static class VersionChecker
     {
-        public static (string version, string url) GetLatestVersion()
+        public static (string Version, string Url) GetLatestVersion()
         {
             using (WebClient client = new WebClient())
             {
                 client.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36");
-                string contents = client.DownloadString("https://api.github.com/repos/asunax-aaa/SynapseUI/releases/latest");
+                var contents = client.DownloadString("https://asunax.000webhostapp.com/latest-version.php").Split('|');
 
-                string version = Regex.Match(contents, "(?<=\"tag_name\": \"v).+(?=\")").Value;
-                if (version.Contains(GetCurrentVersion()))
+                if (contents.Length != 2)
                     return ("", "");
 
-                return (version, Regex.Match(contents, "(?<=\"browser_download_url\": \").+(?=\")").Value);
+                return (contents[0], contents[1]);
             }
         }
 
@@ -94,13 +108,15 @@ namespace SynapseUI.Functions.Web
         public static void Run(FileDownloader fileDownloader)
         {
             string appName = AppDomain.CurrentDomain.FriendlyName;
-            var data = GetLatestVersion();
 
-            if (string.IsNullOrWhiteSpace(data.version))
+            var latest = GetLatestVersion();
+            string current = GetCurrentVersion();
+
+            if (string.IsNullOrWhiteSpace(latest.Version) || latest.Version == current)
                 return;
 
-            string entries = fileDownloader.ToString();
-            string arguments = $"\"{App.CURRENT_DIR}\" \"{appName}\" \"{data.url}\" \"{entries}\"";
+            string entries = fileDownloader.Build();
+            string arguments = $"\"{App.CURRENT_DIR}\" \"{appName}\" \"{latest.Url}\" \"{entries}\"";
 
             var proc = new Process();
             proc.StartInfo.FileName = "Updater.exe";
@@ -111,8 +127,6 @@ namespace SynapseUI.Functions.Web
             proc.Start();
 
             Environment.Exit(0);
-            
         }
     }
-
 }

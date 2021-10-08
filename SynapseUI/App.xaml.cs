@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using SynapseUI.Functions;
 using SynapseUI.Exceptions;
 using SynapseUI.Functions.Web;
-using System.Net;
 
 namespace SynapseUI
 {
@@ -16,7 +15,7 @@ namespace SynapseUI
     /// </summary>
     public partial class App : Application
     {
-        public static readonly bool OVERRIDE_DEBUG = true;
+        public static readonly bool OVERRIDE_DEBUG = false;
         public static readonly bool SKIP_CEF = false;
 
         public static readonly string CURRENT_DIR = Directory.GetCurrentDirectory();
@@ -113,7 +112,6 @@ namespace SynapseUI
             }
 
             ValidateCustomInstall();
-            PatchUnknownError();
 
             if (!SKIP_CEF)
             {
@@ -135,7 +133,8 @@ namespace SynapseUI
         {
             string name = AppDomain.CurrentDomain.FriendlyName.Replace(".exe", "");
             var procs = Process.GetProcessesByName(name);
-            return procs.Length == 1 ? false : true;
+
+            return procs.Length != 1;
         }
 
         /// <summary>
@@ -183,37 +182,19 @@ namespace SynapseUI
 
             var downloader = new FileDownloader
             {
-                BaseDir = CURRENT_DIR + @"\bin\custom\",
+                BasePath = CURRENT_DIR + @"\bin\custom\",
                 BaseUrl = @"https://raw.githubusercontent.com/asunax-aaa/SynapseUI/master/SynapseUI/Resources/"
             };
 
             downloader.Add(new FileEntry("Editor.html", "", "Monaco"));
             downloader.Add(new FileEntry("mode-lua.js", "ace", "Monaco/ace"));
             downloader.Add(new FileEntry("Updater.exe"));
+            downloader.Add(new FileEntry("SLInjector.dll", Path.Combine(CURRENT_DIR, "bin"), "UnknownPatch", false));
 
             if (!DEBUG)
                 VersionChecker.Run(downloader);
 
             downloader.Begin();
-        }
-
-        /// <summary>
-        /// As of the update pushed out 09/09/2021, Synapse no longer downloads/uses a .DLL called "SLInjector.dll"
-        /// Most likely as it was replaced by "SynapseInjector.dll", however, sxlib still uses the old
-        /// SLInjector.dll file, causing the "Unknown" error when loading this UI.
-        /// This quick but easy patch simply redownloads that file if not found.
-        /// </summary>
-        private void PatchUnknownError()
-        {
-            if (!File.Exists(@".\bin\SLInjector.dll"))
-            {
-                using (var web = new WebClient())
-                {
-                    // TEMPORARY FIX
-                    web.DownloadFile("https://github.com/asunax-aaa/SynapseUI/raw/master/SynapseUI/Resources/UnknownPatch/SLInjector.dll",
-                        Path.Combine(CURRENT_DIR, @"bin\SLInjector.dll"));
-                }
-            }
         }
 
         private void ThrowError(BaseException error, string helpInfo)
