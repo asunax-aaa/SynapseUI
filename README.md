@@ -47,9 +47,6 @@ You are free to use, copy, modify, merge, publish and distribute this open sourc
 Under one condition, that you reference any used "code" or assets back to it's original source (https://github.com/asunax-aaa/SynapseUI).
 You do not need to provide a copy of this project, but only a reference back to the source and the owner (asunax/asunax#5833).
 
-`Note:` This dude "P-DennyGamingYT" stole this project word for word, bit by bit, claiming it for his own. (https://github.com/P-DennyGamingYT/Synapse-Remastered)
-With no reference both to the original source nor me, I wouldn't use his version since nothing new is added and this is the only legitimate source.
-
 # Other
 I will be updating this UI at some point in the future with new features and bug fixes, DM me with any known bug fixes / any features you might want added.
 
