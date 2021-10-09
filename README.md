@@ -44,7 +44,9 @@ Such as:
 
 # License
 You are free to use, copy, modify, merge, publish and distribute this open source project.
+
 Under one condition, that you reference any used "code" or assets back to it's original source (https://github.com/asunax-aaa/SynapseUI).
+
 You do not need to provide a copy of this project, but only a reference back to the source and the owner (asunax/asunax#5833).
 
 # Other
