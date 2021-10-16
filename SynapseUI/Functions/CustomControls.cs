@@ -473,7 +473,7 @@ namespace SynapseUI.CustomControls
 
         public ScriptTab LastItem
         {
-            get => lastIndex != -1 ? (ScriptTab)Items[lastIndex] : null;
+            get => lastIndex >= 0 && lastIndex < Items.Count ? (ScriptTab)Items[lastIndex] : null;
         }
 
         public ScriptTab SelectedTab
@@ -584,5 +584,4 @@ namespace SynapseUI.CustomControls
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
     }
-
 }

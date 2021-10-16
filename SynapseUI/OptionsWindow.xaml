@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:customControls="clr-namespace:SynapseUI.CustomControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:functions="clr-namespace:SynapseUI.Functions"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="executeWindow"
     Title="OptionsWindow"
@@ -52,11 +53,9 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="40" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="5" />
             <ColumnDefinition Width="105" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
@@ -64,7 +63,7 @@
 
         <Grid
             x:Name="draggableTop"
-            Grid.ColumnSpan="4"
+            Grid.ColumnSpan="2"
             Background="{StaticResource DraggableBarBackground}"
             MouseLeftButtonDown="DraggableTop_MouseLeftButtonDown">
             <Label
@@ -85,40 +84,52 @@
         <TabControl
             x:Name="optionsTabs"
             Grid.Row="1"
-            Grid.Column="1"
+            Grid.Column="0"
             Grid.ColumnSpan="2"
             Background="Transparent"
             BorderThickness="0"
             TabStripPlacement="Left">
 
             <customControls:OptionTab Header="Options">
-                <ItemsControl x:Name="OptionsPresenter" ItemsSource="{Binding OptionsList}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Grid x:Name="gridContainer">
-                                <Label
-                                    Margin="0,5,0,0"
-                                    HorizontalAlignment="Left"
-                                    Content="{Binding FriendlyName}"
-                                    Style="{StaticResource DefaultText}" />
+                <Grid>
+                    <ItemsControl x:Name="OptionsPresenter" ItemsSource="{Binding OptionsList}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid x:Name="gridContainer">
+                                    <Label
+                                        Margin="0,5,0,0"
+                                        HorizontalAlignment="Left"
+                                        Content="{Binding FriendlyName}"
+                                        Style="{StaticResource DefaultText}" />
 
-                                <customControls:SliderToggle
-                                    x:Name="toggle"
-                                    Margin="0,5,10,0"
-                                    HorizontalAlignment="Right"
-                                    VerticalAlignment="Center"
-                                    ToggledStatusChanged="SliderToggle_ToggledStatusChanged" />
+                                    <customControls:SliderToggle
+                                        x:Name="toggle"
+                                        Margin="0,5,10,0"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        ToggledStatusChanged="SliderToggle_ToggledStatusChanged" />
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
 
-                            </Grid>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
 
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
+                    <ComboBox
+                        x:Name="aceThemesComboBox"
+                        Height="25"
+                        Margin="5,10,10,30"
+                        VerticalAlignment="Bottom"
+                        ItemsSource="{Binding ., Source={x:Static functions:AceEditorTheme.AceThemes}}"
+                        MaxDropDownHeight="200"
+                        SelectionChanged="AceThemesComboBox_SelectionChanged"
+                        Style="{StaticResource AceThemeComboBox}" />
+                </Grid>
+
             </customControls:OptionTab>
 
             <customControls:OptionTab Header="Script Hub">
@@ -214,8 +225,46 @@
                 </ScrollViewer>
             </customControls:OptionTab>
 
-            <!-- <customControls:OptionTab Header="Appearance" /> -->
+            <customControls:OptionTab Header="Utilities">
+                <StackPanel>
+                    <Grid Margin="0,5,0,0">
+                        <Label
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Content="Roblox Multi-Instance"
+                            Style="{StaticResource DefaultText}" />
 
+                        <customControls:SliderToggle
+                            x:Name="mutexToggle"
+                            Margin="0,0,10,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            ToggledStatusChanged="MultiRBLX_ToggledStatusChanged" />
+                    </Grid>
+
+                    <Label Style="{StaticResource DefaultText}">
+                        <Label.Content>
+                            <AccessText
+                                FontSize="9"
+                                Foreground="#FFB9BBBE"
+                                Text="*Turning Multi-RBLX OFF closes all Roblox instances but one."
+                                TextAlignment="Left"
+                                TextWrapping="Wrap" />
+                        </Label.Content>
+                    </Label>
+
+                    <Button
+                        x:Name="killRobloxButton"
+                        Width="200"
+                        Height="30"
+                        Margin="0,10,0,0"
+                        Click="KillRobloxButton_Click"
+                        Content="Kill Roblox"
+                        Style="{StaticResource HoverButton}" />
+                </StackPanel>
+            </customControls:OptionTab>
+
+            <!-- <customControls:OptionTab Header="Appearance" /> -->
         </TabControl>
 
 

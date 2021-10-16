@@ -1,5 +1,5 @@
 ﻿using static sxlib.Specialized.SxLibBase;
-using static SynapseUI.Functions.EventMapNames.EventMap;
+using static SynapseUI.EventMapping.EventMap;
 
 namespace SynapseUI.Types
 {

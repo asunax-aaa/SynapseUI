@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using SynapseUI.Exceptions;
 
-namespace SynapseUI.Functions.EventMapNames
+namespace SynapseUI.EventMapping
 {
     /// <summary>
     /// Generic base errors that do not involve CefSharp or sxlib.

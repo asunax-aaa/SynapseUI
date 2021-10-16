@@ -78,6 +78,9 @@ namespace SynapseUI.Functions
         public CefSharpService Service = new CefSharpService();
         public Dictionary<string, string> ScriptMap = new Dictionary<string, string>();
 
+        private bool _loadFromXMLPremature = true; //false; TODO
+        private bool _loadFromXMLFinished = true; //false; TODO
+
         public AceEditor(string url, CustomControls.ScriptsTabPanel scriptsTab) : base(url)
         {
             ScriptsPanel = scriptsTab;
@@ -128,6 +131,11 @@ namespace SynapseUI.Functions
             return contents;
         }
 
+        public void SetTheme(string theme)
+        {
+            CefExecute("SetTheme", new object[] { theme });
+        }
+
         public bool IsEmpty()
         {
             return GetText().Length == 0;
@@ -137,9 +145,33 @@ namespace SynapseUI.Functions
         {
             if (ScriptMap.ContainsKey(filename))
                 return;
+
             string contents = File.ReadAllText(path);
             ScriptMap.Add(filename, contents);
             ScriptsPanel.AddScript(filename, path, true);
+        }
+        
+        public bool OpenScriptsFromXML()
+        {
+            var scripts = TabSaver.LoadFromXML();
+
+            for (int i = 0; i < scripts.Count; i++)
+            {
+                if (i == scripts.Count - 1)
+                    _loadFromXMLPremature = true;
+
+                var script = scripts[i];
+
+                if (!ScriptMap.ContainsKey(script.Filename))
+                {
+                    ScriptMap.Add(script.Filename, script.Contents);
+                    ScriptsPanel.AddScript(script.Filename, script.Path, _loadFromXMLPremature);
+                }
+            }
+
+            _loadFromXMLFinished = true;
+
+            return scripts.Count == 0;
         }
 
         public void OpenScript()
@@ -192,7 +224,10 @@ namespace SynapseUI.Functions
 
         private void ScriptTabChanged(object sender, CustomControls.ScriptChangedEventArgs e)
         {
-            if (ScriptsPanel.Items.Count != 1)
+            if (!_loadFromXMLPremature)
+                return;
+
+            if (ScriptsPanel.Items.Count != 1 && _loadFromXMLFinished)
             {
                 if (ScriptsPanel.LastItem != null)
                 {
@@ -214,12 +249,59 @@ namespace SynapseUI.Functions
 
         private void ScriptTabAdded(object sender, CustomControls.ScriptChangedEventArgs e)
         {
+            if (!_loadFromXMLFinished)
+                return;
+
             if (!ScriptMap.ContainsKey(e.File))
             {
                 ScriptMap.Add(e.File, "");
                 SetText("");
             }
         }
+    }
 
+    public static class AceEditorTheme
+    {
+        public static string[] AceThemes = new string[]
+        {
+                "Ambiance",
+                "Chaos",
+                "Chrome",
+                "Clouds",
+                "Clouds-midnight",
+                "Cobalt",
+                "Crimson_editor",
+                "Dawn",
+                "Dracula",
+                "Dreamweaver",
+                "Eclipse",
+                "Github",
+                "Gob",
+                "Gruvbox",
+                "Idle-fingers",
+                "Iplastic",
+                "Katzenmilch",
+                "Kr-theme",
+                "Kuroir",
+                "Merbivore",
+                "Merbivore-soft",
+                "Monokai",
+                "Mono-industrial",
+                "Nord-dark",
+                "Pastel-on-dark",
+                "Solarized-dark",
+                "Solarized-light",
+                "Sqlserver",
+                "Terminal",
+                "Textmate",
+                "Tomorrow",
+                "Tomorrow-night",
+                "Tomorrow-night-blue",
+                "Tomorrow-night-bright",
+                "Tomorrow-night-eighties",
+                "Twilight",
+                "Vibrant-ink",
+                "Xcode"
+        };
     }
 }

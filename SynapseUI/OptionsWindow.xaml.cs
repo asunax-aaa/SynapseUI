@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Diagnostics;
+using System.Threading;
 using sxlib.Specialized;
 using SynapseUI.Types;
 using SynapseUI.Functions.Utils;
@@ -15,18 +18,26 @@ namespace SynapseUI
     /// </summary>
     public partial class OptionsWindow : Window
     {
+        public static Mutex RobloxMutex;
+
+        private static bool _mutexActive = false;
+        private static string _theme = "Tomorrow-night-eighties";
+
         public OptionsEntryList OptionsList { get; } = new OptionsEntryList();
         public ScriptHubEntries ScriptEntries { get; } = new ScriptHubEntries();
 
         private SxLibWPF SxUI;
         private bool _firstLoad = true;
+        private Functions.AceEditor _aceEditor;
 
         private Options _tempOptions = new Options();
 
-        public OptionsWindow(SxLibWPF lib, ExecuteWindow main)
+        public OptionsWindow(SxLibWPF lib, ExecuteWindow main, Functions.AceEditor editor)
         {
             InitializeComponent();
             SxUI = lib;
+
+            _aceEditor = editor;
 
             Left = main.Left + (main.ActualWidth - Width) / 2;
             Top = main.Top + 10;
@@ -34,7 +45,7 @@ namespace SynapseUI
             Loaded += OptionsWindow_Loaded;
             Closing += (s, e) =>
             {
-                SxUI.ScriptHubMarkAsClosed();
+                SxUI?.ScriptHubMarkAsClosed();
             };
         }
 
@@ -44,6 +55,9 @@ namespace SynapseUI
 
             LoadOptions();
             LoadScripts();
+
+            mutexToggle.IsToggled = _mutexActive;
+            aceThemesComboBox.SelectedItem = _theme;
 
             _firstLoad = false;
         }
@@ -89,6 +103,9 @@ namespace SynapseUI
         /// </summary>
         public void LoadScripts()
         {
+            if (SxUI is null)
+                return;
+
             SxUI.ScriptHubEvent += (entries) =>
             {
                 foreach (var entry in entries)
@@ -127,6 +144,63 @@ namespace SynapseUI
         {
             var image = sender as Image;
             (image.DataContext as ScriptHubEntry).Execute();
+        }
+
+        private void KillRobloxButton_Click(object sender, RoutedEventArgs e)
+        {
+            var processes = Process.GetProcessesByName("RobloxPlayerBeta");
+            foreach (var process in processes)
+            {
+                process.Kill();
+            }
+        }
+
+        private void MultiRBLX_ToggledStatusChanged(object sender, CustomControls.ToggledStatusChangedEventArgs e)
+        {
+            if (e.Value)
+            {
+                if (RobloxMutex is null)
+                {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        RobloxMutex = new Mutex(true, "ROBLOX_singletonMutex");
+                    });
+                }
+            }
+            else
+            {
+                if (RobloxMutex != null)
+                {
+                    RobloxMutex.ReleaseMutex();
+                    RobloxMutex.Close();
+                    RobloxMutex.Dispose();
+
+                    RobloxMutex = null;
+                }
+            }
+
+            _mutexActive = e.Value;
+        }
+
+        private void AceThemesComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (_aceEditor is null)
+                return;
+
+            if (e.AddedItems.Count > 0)
+            {
+                string theme = (string)e.AddedItems[0];
+                if (theme == _theme)
+                    return;
+
+                var builder = new StringBuilder(theme);
+                builder.Replace('-', '_');
+                builder.Remove(0, 1);
+                builder.Insert(0, char.ToLower(theme[0]));
+
+                _theme = theme;
+                _aceEditor.SetTheme(builder.ToString());
+            }
         }
 
         private void CloseWindow_Click(object sender, RoutedEventArgs e)

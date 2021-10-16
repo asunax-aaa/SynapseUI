@@ -54,7 +54,8 @@ namespace SynapseUI
 
         private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
-            string message = $"Screenshot this and send it to asunax#5833. \n\nException: {e.Exception.GetType()}\nMessage: {e.Exception.Message}";
+            var winVer = Environment.OSVersion.Version;
+            string message = $"Screenshot this and send it to asunax#5833. \n\nException: {e.Exception.GetType()}\nMessage: {e.Exception.Message}\nWindows: {winVer.Major}.{winVer.Minor}";
             Current.Dispatcher.BeginInvoke(new Action(() =>
             {
                 ThrowError(BaseException.GENERIC_EXCEPTION, message);

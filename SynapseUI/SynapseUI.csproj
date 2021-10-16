@@ -89,6 +89,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Functions\TabSaver.cs" />
     <Compile Include="Types\ScriptHubEntriesType.cs" />
     <Page Include="ConfirmationWindow.xaml">
       <SubType>Designer</SubType>
@@ -132,7 +133,7 @@
     <Compile Include="ExecuteWindow.xaml.cs">
       <DependentUpon>ExecuteWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Functions\BaseEventMap.cs" />
+    <Compile Include="Functions\EventMapping\BaseEventMap.cs" />
     <Compile Include="Functions\CefLoader.cs" />
     <Compile Include="Functions\CustomControls.cs" />
     <Compile Include="ErrorWindow.xaml.cs">
@@ -140,7 +141,7 @@
     </Compile>
     <Compile Include="Functions\WebHelper.cs" />
     <Compile Include="Types\ErrorType.cs" />
-    <Compile Include="Functions\EventMap.cs" />
+    <Compile Include="Functions\EventMapping\EventMap.cs" />
     <Compile Include="Functions\HelpInfoParser.cs" />
     <Compile Include="Functions\Exceptions.cs" />
     <Compile Include="Types\BaseErrorType.cs" />

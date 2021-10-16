@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
@@ -6,7 +8,7 @@ using System.Windows.Input;
 using sxlib.Specialized;
 using SynapseUI.Functions;
 using SynapseUI.Types;
-using static SynapseUI.Functions.EventMapNames.EventMap;
+using static SynapseUI.EventMapping.EventMap;
 
 namespace SynapseUI
 {
@@ -47,7 +49,7 @@ namespace SynapseUI
 
                 ScriptWatcher.EnableRaisingEvents = true;
             }
-
+            //Closing += ExecuteWindow_Closing; // TODO
             Loaded += ExecutorWindow_Loaded;
         }
 
@@ -62,35 +64,79 @@ namespace SynapseUI
 
             // Add the CefSharp browser
             if (!App.SKIP_CEF)
+                LoadCefBrowser();
+        }
+
+        // TODO
+        /*
+        private void ExecuteWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            SaveCefScriptTabs();
+            e.Cancel = true;
+        }
+        */
+
+        private void LoadCefBrowser()
+        {
+            if (!File.Exists(@".\bin\custom\Editor.html"))
+                return;
+
+            var editor = new AceEditor(App.CURRENT_DIR + @"\bin\custom\Editor.html", scriptsTabPanel);
+            cefSharpGrid.Children.Add(editor);
+
+            Editor = editor;
+
+            Editor.FrameLoadEnd += (s, args) =>
             {
-                if (!File.Exists(@".\bin\custom\Editor.html"))
-                    return;
-
-                var editor = new AceEditor(App.CURRENT_DIR + @"\bin\custom\Editor.html", scriptsTabPanel);
-                cefSharpGrid.Children.Add(editor);
-
-                Editor = editor;
-
-                Editor.FrameLoadEnd += (s, args) =>
+                if (args.Frame.IsMain)
                 {
-                    if (args.Frame.IsMain)
-                    {
-                        Dispatcher.BeginInvoke(new Action(delegate
-                        {
-                            var tab = scriptsTabPanel.AddScript(true);
-                            scriptsPanel.Visibility = Visibility.Visible;
-                        }));
-                    }
-                };
+                    LoadCefScriptTabs();
+                }
+            };
 
-                Editor.Service.SaveFileRequest += async (s, args) =>
-                {
-                    await Dispatcher.InvokeAsync(AlertFileSave);
-                };
+            Editor.Service.SaveFileRequest += async (s, args) =>
+            {
+                await Dispatcher.InvokeAsync(AlertFileSave);
+            };
 
-                scriptsTabPanel.RequestedTabClose += BeforeScriptTabDelete;
+            scriptsTabPanel.RequestedTabClose += BeforeScriptTabDelete;
+        }
+
+        
+        private void LoadCefScriptTabs()
+        {
+            Dispatcher.BeginInvoke(new Action(delegate
+            {
+                // TODO
+                /*
+                bool empty = Editor.OpenScriptsFromXML();
+                if (empty)
+                    scriptsTabPanel.AddScript(true);
+                */
+
+                scriptsTabPanel.AddScript(true);
+                scriptsPanel.Visibility = Visibility.Visible;
+            }));
+        }
+        
+
+        // TODO: Rework TAB system to be more compatible with this.
+        /*
+        private void SaveCefScriptTabs()
+        {
+            var scripts = new List<Script>();
+
+            foreach (var entry in Editor.ScriptMap)
+            {
+                var paths = from CustomControls.ScriptTab tab in scriptsTabPanel.Items
+                           where (string)tab.Header == entry.Key
+                           select (string)tab.Tag;
+                string path = paths.First();
+
+                App.Debug($"{entry.Key} {entry.Value.Length} {path ?? "null"}");
             }
         }
+        */
 
         private async Task AlertFileSave()
         {
@@ -189,7 +235,7 @@ namespace SynapseUI
             if (_optionWindowOpened)
                 return;
 
-            var p = new OptionsWindow(SxUI, this);
+            var p = new OptionsWindow(SxUI, this, Editor);
             p.Closed += (s, ev) => { _optionWindowOpened = false; };
             p.OptionChanged += (s, ev) => { SynOptions.SetProperty(ev.Entry.Name, ev.Value); };
 
@@ -310,7 +356,7 @@ namespace SynapseUI
 
         private void CloseWindow_Click(object sender, RoutedEventArgs e)
         {
-            Environment.Exit(0);
+            this.Close();
         }
     }
 }

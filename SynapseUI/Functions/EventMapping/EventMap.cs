@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using static sxlib.Specialized.SxLibBase;
 
-namespace SynapseUI.Functions.EventMapNames
+namespace SynapseUI.EventMapping
 {
     public static class EventMap
     {

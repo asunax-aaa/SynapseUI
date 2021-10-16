@@ -1,10 +1,9 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using SynapseUI.Exceptions;
 using SynapseUI.Functions.InfoParser;
-using static SynapseUI.Functions.EventMapNames.BaseEventMap;
+using static SynapseUI.EventMapping.BaseEventMap;
 
 namespace SynapseUI.Types
 {

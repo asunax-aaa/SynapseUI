@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Input;
 using sxlib;
 using sxlib.Specialized;
-using SynapseUI.Functions.EventMapNames;
+using static SynapseUI.EventMapping.EventMap;
 
 namespace SynapseUI
 {
@@ -38,9 +38,9 @@ namespace SynapseUI
         // Sx Load Events //
         private async void LoadEventTriggered(SxLibBase.SynLoadEvents Event, object Param)
         {
-            if (EventMap.LoadEventMap.TryGetValue(Event, out string text))
+            if (LoadEventMap.TryGetValue(Event, out string text))
             {
-                if (EventMap.LoadErrorEvents.ContainsKey(Event))
+                if (LoadErrorEvents.ContainsKey(Event))
                     ThrowLoadError(Event);
 
                 statusLabel.Content = text;
@@ -69,7 +69,6 @@ namespace SynapseUI
         {
             new ErrorWindow(new Types.Error(error)).Show();
         }
-
 
         // Window Events //
         private void DraggableTop_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

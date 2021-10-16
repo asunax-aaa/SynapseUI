@@ -7,6 +7,25 @@ using System.Text;
 
 namespace SynapseUI.Functions.Web
 {
+    internal class SecurityProtocolPatch
+    {
+        internal static bool initialised = false;
+
+        public static void Init()
+        {
+            if (!initialised)
+            {
+                var winVer = Environment.OSVersion.Version;
+                if (winVer.Major == 6 && winVer.Minor == 1)
+                {
+                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                }
+
+                initialised = true;
+            }
+        }
+    }
+
     public class FileDownloader
     {
         public string BaseUrl { get; set; }
@@ -19,6 +38,11 @@ namespace SynapseUI.Functions.Web
         public void Add(FileEntry entry)
         {
             FileEntries.Add(entry);
+        }
+
+        public FileDownloader()
+        {
+            SecurityProtocolPatch.Init();
         }
 
         public void Begin()
