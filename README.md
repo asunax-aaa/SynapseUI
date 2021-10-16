@@ -40,8 +40,14 @@ There's still one or two things that the original Synapse UI has that this custo
 
 Such as:
 1. Opening scripts that were previously opened, `CURRENTLY WHEN YOU CLOSE THIS CUSTOM UI, SCRIPTS DO NOT SAVE! USE CTRL+S TO SAVE SCRIPTS`
-2. Script hub - I can not find the original script hub scripts, if you have them please DM me.
-3. Add AceEdtior themes, easily to implement - will appear in next update.
+2. Add AceEdtior themes, easily to implement - will appear in next update.
+
+# License
+You are free to use, copy, modify, merge, publish and distribute this open source project.
+
+Under one condition, that you reference any used "code" or assets back to it's original source (https://github.com/asunax-aaa/SynapseUI).
+
+You do not need to provide a copy of this project, but only a reference back to the source and the owner (asunax/asunax#5833).
 
 # Other
 I will be updating this UI at some point in the future with new features and bug fixes, DM me with any known bug fixes / any features you might want added.
