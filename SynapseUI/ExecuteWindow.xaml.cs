@@ -49,7 +49,7 @@ namespace SynapseUI
 
                 ScriptWatcher.EnableRaisingEvents = true;
             }
-            //Closing += ExecuteWindow_Closing; // TODO
+            Closing += ExecuteWindow_Closing;
             Loaded += ExecutorWindow_Loaded;
         }
 
@@ -67,14 +67,15 @@ namespace SynapseUI
                 LoadCefBrowser();
         }
 
-        // TODO
-        /*
         private void ExecuteWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            SaveCefScriptTabs();
-            e.Cancel = true;
+            OptionsWindow.DisposeMutex();
+            Environment.Exit(0);
+
+            //SaveCefScriptTabs();
+            //e.Cancel = true;
         }
-        */
+        
 
         private void LoadCefBrowser()
         {

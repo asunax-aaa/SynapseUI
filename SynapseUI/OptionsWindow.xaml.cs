@@ -115,6 +115,18 @@ namespace SynapseUI
             SxUI.ScriptHub();
         }
 
+        public static void DisposeMutex()
+        {
+            if (RobloxMutex != null)
+            {
+                RobloxMutex.ReleaseMutex();
+                RobloxMutex.Close();
+                RobloxMutex.Dispose();
+
+                RobloxMutex = null;
+            }
+        }
+
         public event OptionChangedEventHandler OptionChanged;
 
         protected virtual void OnOptionChanged(OptionChangedEventArgs e)
@@ -169,14 +181,7 @@ namespace SynapseUI
             }
             else
             {
-                if (RobloxMutex != null)
-                {
-                    RobloxMutex.ReleaseMutex();
-                    RobloxMutex.Close();
-                    RobloxMutex.Dispose();
-
-                    RobloxMutex = null;
-                }
+                DisposeMutex();
             }
 
             _mutexActive = e.Value;
