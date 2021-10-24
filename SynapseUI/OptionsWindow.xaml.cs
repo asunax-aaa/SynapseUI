@@ -62,9 +62,6 @@ namespace SynapseUI
             _firstLoad = false;
         }
 
-        /// <summary>
-        /// Animates the startup visuals of the Options window, opacity and position animation.
-        /// </summary>
         private void AnimateShow()
         {
             var stry = (Storyboard)FindResource("moveWindowAnimation");
@@ -76,9 +73,6 @@ namespace SynapseUI
             stry.Begin();
         }
 
-        /// <summary>
-        /// Loads the current saved option and toggles the visual switches.
-        /// </summary>
         public void LoadOptions()
         {
             if (SxUI is null)
@@ -91,16 +85,13 @@ namespace SynapseUI
 
             foreach (ContentPresenter child in panel.Children)
             {
-                var slider = child.ContentTemplate.FindName("toggle", child) as CustomControls.SliderToggle;
+                var slider = child.ContentTemplate.FindName("toggle", child) as Controls.SliderToggle;
                 var entry = (OptionEntry)child.DataContext;
 
                 slider.IsToggled = options.GetProperty(entry.Name);
             }
         }
 
-        /// <summary>
-        /// Loads Synapse X script hub entries.
-        /// </summary>
         public void LoadScripts()
         {
             if (SxUI is null)
@@ -139,9 +130,9 @@ namespace SynapseUI
 
 
         // Window Events //
-        private void SliderToggle_ToggledStatusChanged(object sender, CustomControls.ToggledStatusChangedEventArgs e)
+        private void SliderToggle_ToggledStatusChanged(object sender, Controls.ToggledStatusChangedEventArgs e)
         {
-            var slider = sender as CustomControls.SliderToggle;
+            var slider = sender as Controls.SliderToggle;
             OptionEntry entry = (OptionEntry)slider.DataContext;
 
             _tempOptions.SetProperty(entry.Name, e.Value);
@@ -167,7 +158,7 @@ namespace SynapseUI
             }
         }
 
-        private void MultiRBLX_ToggledStatusChanged(object sender, CustomControls.ToggledStatusChangedEventArgs e)
+        private void MultiRBLX_ToggledStatusChanged(object sender, Controls.ToggledStatusChangedEventArgs e)
         {
             if (e.Value)
             {

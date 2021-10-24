@@ -89,6 +89,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\ScriptTab.cs" />
+    <Compile Include="Controls\DisappearingLabel.cs" />
+    <Compile Include="Controls\DropDownButton.cs" />
+    <Compile Include="Controls\LoadingBar.cs" />
+    <Compile Include="Controls\OptionTab.cs" />
+    <Compile Include="Controls\SliderToggle.cs" />
     <Compile Include="Functions\TabSaver.cs" />
     <Compile Include="Types\ScriptHubEntriesType.cs" />
     <Page Include="ConfirmationWindow.xaml">
@@ -107,7 +113,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Resources\CustomControls.xaml">
+    <Page Include="Resources\Controls.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -135,7 +141,6 @@
     </Compile>
     <Compile Include="Functions\EventMapping\BaseEventMap.cs" />
     <Compile Include="Functions\CefLoader.cs" />
-    <Compile Include="Functions\CustomControls.cs" />
     <Compile Include="ErrorWindow.xaml.cs">
       <DependentUpon>ErrorWindow.xaml</DependentUpon>
     </Compile>

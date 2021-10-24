@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using Microsoft.Win32;
 
 namespace SynapseUI.Functions.Utils
@@ -66,5 +67,10 @@ namespace SynapseUI.Functions.Utils
 
             return dialog;
         }
+    }
+
+    public static class Animation
+    {
+        public static IEasingFunction QuarticEase = new QuarticEase() { EasingMode = EasingMode.EaseOut };
     }
 }

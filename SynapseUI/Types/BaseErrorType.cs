@@ -76,10 +76,6 @@ namespace SynapseUI.Types
             ErrorName = error.ErrorName;
         }
 
-        /// <summary>
-        /// Retrieves the stored help information for errors, error help information is provided witnin the HelpInfo.xml document. 
-        /// </summary>
-        /// <param name="block">The TextBlock to append the help information to.</param>
         public void Parse(TextBlock block)
         {
             if (string.IsNullOrWhiteSpace(ErrorName))
@@ -89,11 +85,6 @@ namespace SynapseUI.Types
             infoParser.Parse(block, ErrorName);
         }
 
-        /// <summary>
-        /// Overwrites the help information stored in HelpInfo.xml to whatever is provided.
-        /// </summary>
-        /// <param name="block">The TextBlock to append the help information to.</param>
-        /// <param name="text">The overwritten help information.</param>
         public void SetHelpInformation(TextBlock block, string text)
         {
             block.Inlines.Add(new Run { Text = text });

@@ -64,11 +64,6 @@ namespace SynapseUI
             e.Handled = true;
         }
 
-        /// <summary>
-        /// Loads the already pre-existing Synapse X libraries.
-        /// </summary>
-        /// <param name="args">The ResolveEventArgs arguments, carried on from the AssemblyResolve event.</param>
-        /// <returns>The loaded assembly if found, otherwise null.</returns>
         [STAThread]
         private Assembly ResolveAssembly(ResolveEventArgs args)
         {
@@ -92,11 +87,6 @@ namespace SynapseUI
             return null;
         }
 
-        /// <summary>
-        /// Firstly, validates Synapses installation then the custom UIs installation.
-        /// Secondly, initializes CefSharp libraries.
-        /// Lastly, starts up the SplashScreen window if no errors occur.
-        /// </summary>
         [STAThread]
         private void ApplicationStartup(object sender, StartupEventArgs e)
         {
@@ -126,10 +116,6 @@ namespace SynapseUI
             new SplashScreen().Show();
         }
 
-        /// <summary>
-        /// Checks whether there already is a custom UI instance already running.
-        /// </summary>
-        /// <returns>True if an instance is already running, else False.</return>
         private bool CheckProcesses()
         {
             string name = AppDomain.CurrentDomain.FriendlyName.Replace(".exe", "");
@@ -138,10 +124,6 @@ namespace SynapseUI
             return procs.Length != 1;
         }
 
-        /// <summary>
-        /// Validates Synapse X install by looking at the required folders, throws error when not found.
-        /// </summary>
-        /// <returns>True if an error occured, False otherwise.</returns>
         private bool ValidateSynapseInstall()
         {
             if (!File.Exists(@".\S^X.exe"))
@@ -166,9 +148,6 @@ namespace SynapseUI
             return false;
         }
 
-        /// <summary>
-        /// Validaes the custom installation of this UI, downloads required files.
-        /// </summary>
         private void ValidateCustomInstall()
         {
             string[] folders = new string[]

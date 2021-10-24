@@ -147,7 +147,7 @@ namespace SynapseUI
 
         private void BeforeScriptTabDelete(object sender, EventArgs args)
         {
-            var tab = sender as CustomControls.ScriptTab;
+            var tab = sender as Controls.ScriptTab;
 
             if (SynOptions.CloseConfirmation && scriptsTabPanel.Items.Count != 1)
             {

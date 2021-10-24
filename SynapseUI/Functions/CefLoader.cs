@@ -73,7 +73,7 @@ namespace SynapseUI.Functions
 
     public class AceEditor : ChromiumWebBrowser
     {
-        public CustomControls.ScriptsTabPanel ScriptsPanel;
+        public Controls.ScriptsTabPanel ScriptsPanel;
 
         public CefSharpService Service = new CefSharpService();
         public Dictionary<string, string> ScriptMap = new Dictionary<string, string>();
@@ -81,7 +81,7 @@ namespace SynapseUI.Functions
         private bool _loadFromXMLPremature = true; //false; TODO
         private bool _loadFromXMLFinished = true; //false; TODO
 
-        public AceEditor(string url, CustomControls.ScriptsTabPanel scriptsTab) : base(url)
+        public AceEditor(string url, Controls.ScriptsTabPanel scriptsTab) : base(url)
         {
             ScriptsPanel = scriptsTab;
             ScriptsPanel.SelectedScriptChanged += ScriptTabChanged;
@@ -222,7 +222,7 @@ namespace SynapseUI.Functions
             }));
         }
 
-        private void ScriptTabChanged(object sender, CustomControls.ScriptChangedEventArgs e)
+        private void ScriptTabChanged(object sender, Controls.ScriptChangedEventArgs e)
         {
             if (!_loadFromXMLPremature)
                 return;
@@ -242,12 +242,12 @@ namespace SynapseUI.Functions
             }
         }
 
-        private void ScriptTabClosed(object sender, CustomControls.ScriptChangedEventArgs e)
+        private void ScriptTabClosed(object sender, Controls.ScriptChangedEventArgs e)
         {
             ScriptMap.Remove(e.File);
         }
 
-        private void ScriptTabAdded(object sender, CustomControls.ScriptChangedEventArgs e)
+        private void ScriptTabAdded(object sender, Controls.ScriptChangedEventArgs e)
         {
             if (!_loadFromXMLFinished)
                 return;
