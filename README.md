@@ -11,11 +11,12 @@ A custom Synapse X user interface with the following changes:
 9. And much more!
 
 # Screenshots
-![Main screenshot](http://asunax.000webhostapp.com/u/22.28.56-07.09.21-n-sBAdm7MTOJuCFNNh1s1odR48hxc3lLzGiYUnEVk2Ezg4WCyGpvw5RM37Qb09pOuZP06XDSe5eIJHQmTLWt9qgfnUfYajSktDK8Hw.png)
+![Main screenshot](http://asunax.000webhostapp.com/u/19.22.08-25.10.21-n-syEeXn37Y7oRWZTV2Jm4P4NHydvcvtMPVLp9KkU1urD625A8Eh5bBmGhj6Fxo1FrXza3WtQf0LlzeTgS9iQfCBRdjAu8bJMSClgN.png)
 
 <p align="center">
   <img src="http://asunax.000webhostapp.com/u/22.30.47-07.09.21-n-B8pViNjgwIfiH4uoYh34uby7UKFcV0b5Q8kLtzzdlXqt1L6wMaSZ9h7mS2mvqHMKcUPWe1WGDDXAE6nRgTkrsCfoQvTsZOPaNjx9.gif">
   <img src="http://asunax.000webhostapp.com/u/17.52.11-08.09.21-n-aTqLV5gpcfjOFbN1GXwi5DHzXiuBoFlJM7Vxm278rpZzKW9veq6hIILQtyPD1eEnlE3c4YPQvbOBurCkJRxNHhZA8SysCsgm0Awf.gif">
+  <img src="http://asunax.000webhostapp.com/u/19.32.20-25.10.21-n-w3jenQ9kHVp8qgFXIaCyWbPGcS6sgd2v5kAXyiUxlmvKdaLB8VBuR7AeuYJoR1DJT5t0ZlIMrHDZMbNjLCQshOOY06hWitzpNxnS.gif">
 </p>
 
 # Installation
@@ -35,12 +36,14 @@ This Synapse UI can auto-update both itself and the additional files. Meaning yo
 - Ctrl+Shift+S : Save script files as.
 - Ctrl+O : Open script file into editor.
 
-# Todo
-There's still one or two things that the original Synapse UI has that this custom one does not.
+# Notes
+1. Make sure to add this custom UI to your antivirus exclusions list, this is obviously not a virus, it's an open-source project.
+2. Multi-RBLX is buggy, always has been - its the nature of the method. To get best results: 
+    - Make sure you turn Multi-RBLX `ON` first THEN open up your roblox clients. \*Turning Multi-RBLX `OFF` closes all clients but one.
 
-Such as:
-1. Opening scripts that were previously opened, `CURRENTLY WHEN YOU CLOSE THIS CUSTOM UI, SCRIPTS DO NOT SAVE! USE CTRL+S TO SAVE SCRIPTS`
-2. Add AceEdtior themes, easily to implement - will appear in next update.
+I will be updating this UI at some point in the future with new features and bug fixes, DM me with any known bug fixes / any features you might want added.
+
+Virus total: https://www.virustotal.com/gui/file/76914f1203914c07d0f985bb0d45c0f5668155725a29b5f9f424f06ee8684e4d/
 
 # License
 You are free to use, copy, modify, merge, publish and distribute this open source project.
@@ -49,12 +52,6 @@ Under one condition, that you reference any used "code" or assets back to it's o
 
 You do not need to provide a copy of this project, but only a reference back to the source and the owner (asunax/asunax#5833).
 
-# Other
-I will be updating this UI at some point in the future with new features and bug fixes, DM me with any known bug fixes / any features you might want added.
-
-Virus total: https://www.virustotal.com/gui/file/76914f1203914c07d0f985bb0d45c0f5668155725a29b5f9f424f06ee8684e4d/
-
-`Note:` Make sure to add this custom UI to your antivirus exclusions list, this is obviously not a virus, it's an open-source project.
 
 # Credits
 asunax#5833 (616599336410808320) 
