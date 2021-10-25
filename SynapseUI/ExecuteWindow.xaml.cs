@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using sxlib.Specialized;
-using SynapseUI.Functions;
 using SynapseUI.Types;
-using static SynapseUI.EventMapping.EventMap;
 using SynapseUI.Controls.AceEditor;
+using static SynapseUI.EventMapping.EventMap;
 
 namespace SynapseUI
 {
