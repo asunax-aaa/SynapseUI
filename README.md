@@ -43,7 +43,7 @@ This Synapse UI can auto-update both itself and the additional files. Meaning yo
 
 I will be updating this UI at some point in the future with new features and bug fixes, DM me with any known bug fixes / any features you might want added.
 
-Virus total: https://www.virustotal.com/gui/file/76914f1203914c07d0f985bb0d45c0f5668155725a29b5f9f424f06ee8684e4d/
+Virus total: https://www.virustotal.com/gui/file/5882ce5dd7c4d0dc1a1b52dfd1ec576065cd2be309fb869859d0889478994f7e/
 
 # License
 You are free to use, copy, modify, merge, publish and distribute this open source project.
