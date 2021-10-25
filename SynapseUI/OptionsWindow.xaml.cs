@@ -10,6 +10,7 @@ using System.Threading;
 using sxlib.Specialized;
 using SynapseUI.Types;
 using SynapseUI.Functions.Utils;
+using SynapseUI.Controls.AceEditor;
 
 namespace SynapseUI
 {
@@ -28,11 +29,11 @@ namespace SynapseUI
 
         private SxLibWPF SxUI;
         private bool _firstLoad = true;
-        private Functions.AceEditor _aceEditor;
+        private AceEditor _aceEditor;
 
         private Options _tempOptions = new Options();
 
-        public OptionsWindow(SxLibWPF lib, ExecuteWindow main, Functions.AceEditor editor)
+        public OptionsWindow(SxLibWPF lib, ExecuteWindow main, AceEditor editor)
         {
             InitializeComponent();
             SxUI = lib;
@@ -42,7 +43,6 @@ namespace SynapseUI
             Left = main.Left + (main.ActualWidth - Width) / 2;
             Top = main.Top + 10;
 
-            Loaded += OptionsWindow_Loaded;
             Closing += (s, e) =>
             {
                 SxUI?.ScriptHubMarkAsClosed();
@@ -189,10 +189,10 @@ namespace SynapseUI
                 if (theme == _theme)
                     return;
 
-                var builder = new StringBuilder(theme);
-                builder.Replace('-', '_');
-                builder.Remove(0, 1);
-                builder.Insert(0, char.ToLower(theme[0]));
+                var builder = new StringBuilder(theme)
+                    .Replace('-', '_')
+                    .Remove(0, 1)
+                    .Insert(0, char.ToLower(theme[0]));
 
                 _theme = theme;
                 _aceEditor.SetTheme(builder.ToString());

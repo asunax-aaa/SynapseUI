@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -14,6 +13,14 @@ namespace SynapseUI.Controls
         {
             get => (ScriptsTabPanel)base.Parent;
         }
+
+        public new string Header
+        {
+            get => (string)base.Header;
+            set => base.Header = value;
+        }
+
+        public string FilePath { get; set; }
 
         public bool IsMouseLeave
         {
@@ -67,7 +74,7 @@ namespace SynapseUI.Controls
             if (parent.Items.Count != 1)
             {
                 parent.Items.Remove(this);
-                parent.ScriptTabClosed?.Invoke(this, new ScriptChangedEventArgs((string)Header, (string)Tag));
+                parent.ScriptTabClosed?.Invoke(this, new ScriptChangedEventArgs(Header, FilePath));
             }
         }
 
@@ -104,7 +111,7 @@ namespace SynapseUI.Controls
         {
             var tab = SelectedTab;
             if (tab != null)
-                SelectedScriptChanged?.Invoke(this, new ScriptChangedEventArgs((string)tab.Header, (string)tab.Tag));
+                SelectedScriptChanged?.Invoke(this, new ScriptChangedEventArgs(tab.Header, tab.FilePath));
 
             lastIndex = SelectedIndex;
             if (LastItem != null)
@@ -116,13 +123,13 @@ namespace SynapseUI.Controls
         public ScriptTab AddScript(string header, string dir, bool update = false)
         {
             foreach (ScriptTab item in Items)
-                if ((string)item.Header == header && (string)item.Tag == dir)
+                if (item.Header == header && item.FilePath == dir)
                     return null;
 
             var tab = new ScriptTab
             {
                 Header = header,
-                Tag = dir,
+                FilePath = dir,
                 Background = HexColorConverter.Convert("#FF121212")
             };
 

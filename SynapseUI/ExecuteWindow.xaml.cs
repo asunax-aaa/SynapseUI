@@ -9,6 +9,7 @@ using sxlib.Specialized;
 using SynapseUI.Functions;
 using SynapseUI.Types;
 using static SynapseUI.EventMapping.EventMap;
+using SynapseUI.Controls.AceEditor;
 
 namespace SynapseUI
 {
@@ -49,20 +50,16 @@ namespace SynapseUI
 
                 ScriptWatcher.EnableRaisingEvents = true;
             }
-            Closing += ExecuteWindow_Closing;
-            Loaded += ExecutorWindow_Loaded;
         }
 
         private void ExecutorWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            // Adds scripts to scripts listbox.
             foreach (var file in new DirectoryInfo(@".\scripts\").GetFiles())
             {
                 if (file.Extension == ".txt" || file.Extension == ".lua")
                     scriptsListBox.Items.Add(file.Name);
             }
 
-            // Add the CefSharp browser
             if (!App.SKIP_CEF)
                 LoadCefBrowser();
         }
@@ -161,7 +158,7 @@ namespace SynapseUI
                 }
                 else
                 {
-                    if (Editor.ScriptMap[(string)tab.Header].Length != 0)
+                    if (Editor.ScriptMap[tab.Header].Length != 0)
                     {
                         bool res = new ConfirmationWindow("Are you sure you want to close this script? All changes will be lost!").ShowDialog();
                         if (!res) return;

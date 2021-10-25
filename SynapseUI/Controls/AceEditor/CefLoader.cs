@@ -5,16 +5,12 @@ using System.Runtime.CompilerServices;
 using CefSharp;
 using CefSharp.Wpf;
 
-namespace SynapseUI.Functions
+namespace SynapseUI.Controls.AceEditor
 {
     public class CefLoader
     {
         private static string path = Path.Combine(App.CURRENT_DIR, @"bin\");
 
-        /// <summary>
-        /// To maximise compatibility and reduce download times and files, this function loads the already downloaded CefSharp libraries that Synapse typically uses.
-        /// </summary>
-        /// <returns>True is the provided CefSharp installation is invalid, otherwise False.</returns>
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static bool Init()
         {
@@ -176,7 +172,7 @@ namespace SynapseUI.Functions
 
         public void OpenScript()
         {
-            var diag = Utils.Dialog.OpenFileDialog();
+            var diag = Functions.Utils.Dialog.OpenFileDialog();
             switch (diag.ShowDialog())
             {
                 case true:
@@ -197,15 +193,15 @@ namespace SynapseUI.Functions
             Dispatcher.BeginInvoke(new Action(delegate
             {
                 var tab = ScriptsPanel.SelectedTab;
-                if (string.IsNullOrWhiteSpace((string)tab.Tag) || saveAs)
+                if (string.IsNullOrWhiteSpace(tab.FilePath) || saveAs)
                 {
                     // Not a script file.
-                    var diag = Utils.Dialog.SaveFileDialog();
+                    var diag = Functions.Utils.Dialog.SaveFileDialog();
                     switch (diag.ShowDialog())
                     {
                         case true:
                             tab.Header = diag.SafeFileName;
-                            tab.Tag = diag.FileName;
+                            tab.FilePath = diag.FileName;
                             File.WriteAllText(diag.FileName, contents ?? GetText());
                             break;
 
@@ -217,7 +213,7 @@ namespace SynapseUI.Functions
                 else
                 {
                     // Already a script file.
-                    File.WriteAllText((string)tab.Tag, contents ?? GetText());
+                    File.WriteAllText(tab.FilePath, contents ?? GetText());
                 }
             }));
         }
@@ -232,7 +228,7 @@ namespace SynapseUI.Functions
                 if (ScriptsPanel.LastItem != null)
                 {
                     var item = ScriptsPanel.LastItem;
-                    ScriptMap[(string)item.Header] = GetText();
+                    ScriptMap[item.Header] = GetText();
                 }
             }
 

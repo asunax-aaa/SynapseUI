@@ -34,7 +34,7 @@ namespace SynapseUI
             InitializeComponent();
 
             dropDownButton.Window = this;
-            dropDownButton.TargetHeight = 410d;
+            dropDownButton.TargetHeight = 430d;
         }
 
         // Window Events //

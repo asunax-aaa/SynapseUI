@@ -4,9 +4,10 @@ using System.Windows;
 using System.Reflection;
 using System.Diagnostics;
 using System.Collections.Generic;
-using SynapseUI.Functions;
 using SynapseUI.Exceptions;
+using SynapseUI.Functions.Utils;
 using SynapseUI.Functions.Web;
+using SynapseUI.Controls.AceEditor;
 
 namespace SynapseUI
 {
@@ -54,8 +55,8 @@ namespace SynapseUI
 
         private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
-            var winVer = Environment.OSVersion.Version;
-            string message = $"Screenshot this and send it to asunax#5833. \n\nException: {e.Exception.GetType()}\nMessage: {e.Exception.Message}\nWindows: {winVer.Major}.{winVer.Minor}";
+            string message = ErrorGen.ErrorToMessage(e);
+
             Current.Dispatcher.BeginInvoke(new Action(() =>
             {
                 ThrowError(BaseException.GENERIC_EXCEPTION, message);

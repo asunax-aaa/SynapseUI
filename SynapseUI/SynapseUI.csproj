@@ -95,7 +95,7 @@
     <Compile Include="Controls\LoadingBar.cs" />
     <Compile Include="Controls\OptionTab.cs" />
     <Compile Include="Controls\SliderToggle.cs" />
-    <Compile Include="Functions\TabSaver.cs" />
+    <Compile Include="Controls\AceEditor\TabSaver.cs" />
     <Compile Include="Types\ScriptHubEntriesType.cs" />
     <Page Include="ConfirmationWindow.xaml">
       <SubType>Designer</SubType>
@@ -140,7 +140,7 @@
       <DependentUpon>ExecuteWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Functions\EventMapping\BaseEventMap.cs" />
-    <Compile Include="Functions\CefLoader.cs" />
+    <Compile Include="Controls\AceEditor\CefLoader.cs" />
     <Compile Include="ErrorWindow.xaml.cs">
       <DependentUpon>ErrorWindow.xaml</DependentUpon>
     </Compile>

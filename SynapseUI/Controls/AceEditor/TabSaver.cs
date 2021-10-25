@@ -4,7 +4,7 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace SynapseUI.Functions
+namespace SynapseUI.Controls.AceEditor
 {
     public static class TabSaver
     {
@@ -25,6 +25,9 @@ namespace SynapseUI.Functions
         
         public static List<Script> LoadFromXML()
         {
+            if (!File.Exists(DefaultPath))
+                return null;
+
             var serializer = new XmlSerializer(typeof(StoredScripts));
 
             StoredScripts storedScripts;

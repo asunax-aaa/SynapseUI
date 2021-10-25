@@ -1,7 +1,11 @@
-﻿using System.Windows;
+﻿using System;
+using System.Text;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Net;
 using Microsoft.Win32;
+using System.IO;
 
 namespace SynapseUI.Functions.Utils
 {
@@ -72,5 +76,40 @@ namespace SynapseUI.Functions.Utils
     public static class Animation
     {
         public static IEasingFunction QuarticEase = new QuarticEase() { EasingMode = EasingMode.EaseOut };
+    }
+
+    public static class ErrorGen
+    {
+        public static string ErrorToMessage(System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            var winVer = Environment.OSVersion.Version;
+            string uiVer = Web.VersionChecker.GetCurrentVersion();
+
+            var builder = new StringBuilder("Screenshot this and send it to asunax#5833. \n\n")
+                .Append($"Exception: {e.Exception.GetType()}\n")
+                .Append($"Message: {e.Exception.Message}\n")
+                .Append($"UI Version: {uiVer}\n")
+                .Append($"Windows: {winVer.Major}.{winVer.Minor}\n\n");
+
+            switch (e.Exception)
+            {
+                case WebException _:
+                    builder.Append("*Your ISP is most likely blocking 000webhost.com, ISPs from countries like Turkey are known to cause this.\nTry using a VPN.");
+                    break;
+
+                case FileNotFoundException exception:
+                    builder.Append($"*Was not able to find the file '{exception.FileName}'.");
+                    break;
+
+                case System.ComponentModel.Win32Exception _:
+                    builder.Append($"*Make sure you have the latest version of this UI running, https://github.com/asunax-aaa/SynapseUI.");
+                    break;
+
+            }
+
+
+
+            return builder.ToString();
+        }
     }
 }
