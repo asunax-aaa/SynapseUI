@@ -66,11 +66,10 @@ namespace SynapseUI
 
         private void ExecuteWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            SaveScriptTabs();
             OptionsWindow.DisposeMutex();
-            Environment.Exit(0);
 
-            //SaveCefScriptTabs();
-            //e.Cancel = true;
+            Environment.Exit(0);
         }
         
 
@@ -88,7 +87,7 @@ namespace SynapseUI
             {
                 if (args.Frame.IsMain)
                 {
-                    LoadCefScriptTabs();
+                    LoadScriptTabs();
                 }
             };
 
@@ -99,42 +98,34 @@ namespace SynapseUI
 
             scriptsTabPanel.RequestedTabClose += BeforeScriptTabDelete;
         }
-
         
-        private void LoadCefScriptTabs()
+        private void LoadScriptTabs()
         {
             Dispatcher.BeginInvoke(new Action(delegate
             {
-                // TODO
-                /*
                 bool empty = Editor.OpenScriptsFromXML();
                 if (empty)
                     scriptsTabPanel.AddScript(true);
-                */
 
-                scriptsTabPanel.AddScript(true);
                 scriptsPanel.Visibility = Visibility.Visible;
             }));
         }
-        
 
-        // TODO: Rework TAB system to be more compatible with this.
-        /*
-        private void SaveCefScriptTabs()
+        private void SaveScriptTabs()
         {
             var scripts = new List<Script>();
 
+            var selectedTab = (Controls.ScriptTab)scriptsTabPanel.SelectedItem;
+            Editor.ScriptMap[selectedTab.Header] = Editor.GetText();
+
             foreach (var entry in Editor.ScriptMap)
             {
-                var paths = from CustomControls.ScriptTab tab in scriptsTabPanel.Items
-                           where (string)tab.Header == entry.Key
-                           select (string)tab.Tag;
-                string path = paths.First();
-
-                App.Debug($"{entry.Key} {entry.Value.Length} {path ?? "null"}");
+                string scriptPath = Editor.ScriptPathMap.TryGetValue(entry.Key, out string path) ? path : "";
+                scripts.Add(new Script(entry.Key, scriptPath, entry.Value));
             }
+
+            TabSaver.SaveToXML(scripts, scriptsTabPanel.DefaultIndex);
         }
-        */
 
         private async Task AlertFileSave()
         {

@@ -88,7 +88,8 @@ namespace SynapseUI.Controls
 
     public class ScriptsTabPanel : TabControl
     {
-        private int defaultIndex = 0;
+        public int DefaultIndex { get; set; } = 0;
+
         private int lastIndex = 0;
 
         public ScriptTab LastItem
@@ -146,7 +147,7 @@ namespace SynapseUI.Controls
 
         public ScriptTab AddScript(bool update = false)
         {
-            return AddScript($"Script {++defaultIndex}", "", update);
+            return AddScript($"Script {++DefaultIndex}", "", update);
         }
     }
 

@@ -11,19 +11,20 @@ namespace SynapseUI.Controls.AceEditor
         public static string DefaultFilename = "script_cache.xml";
         public static string DefaultPath = Path.Combine(App.CURRENT_DIR, @"bin\custom", DefaultFilename);
 
-        public static void SaveToXML(List<Script> scripts)
+        public static void SaveToXML(List<Script> scripts, int defaultIndex = 0)
         {
             var serializer = new XmlSerializer(typeof(StoredScripts));
 
             var storedScripts = new StoredScripts();
             storedScripts.Scripts = scripts;
+            storedScripts.DefaultIndex = defaultIndex;
             using (TextWriter writer = new StreamWriter(DefaultPath))
             {
                 serializer.Serialize(writer, storedScripts);
             }
         }
         
-        public static List<Script> LoadFromXML()
+        public static StoredScripts LoadFromXML()
         {
             if (!File.Exists(DefaultPath))
                 return null;
@@ -36,7 +37,7 @@ namespace SynapseUI.Controls.AceEditor
                 storedScripts = (StoredScripts)serializer.Deserialize(fs);
             }
 
-            return storedScripts.Scripts;
+            return storedScripts;
         }
     }
 
@@ -45,6 +46,9 @@ namespace SynapseUI.Controls.AceEditor
     {
         [XmlArray("ScriptCache")]
         public List<Script> Scripts;
+
+        [XmlAttribute("DefaultIndex")]
+        public int DefaultIndex = 0;
     }
 
     [Serializable]

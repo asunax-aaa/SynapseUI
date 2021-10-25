@@ -69,15 +69,16 @@ namespace SynapseUI.Controls.AceEditor
 
     public class AceEditor : ChromiumWebBrowser
     {
-        public Controls.ScriptsTabPanel ScriptsPanel;
+        public ScriptsTabPanel ScriptsPanel;
 
         public CefSharpService Service = new CefSharpService();
         public Dictionary<string, string> ScriptMap = new Dictionary<string, string>();
+        public Dictionary<string, string> ScriptPathMap = new Dictionary<string, string>();
 
-        private bool _loadFromXMLPremature = true; //false; TODO
-        private bool _loadFromXMLFinished = true; //false; TODO
+        private bool _loadFromXMLPremature = false;
+        private bool _loadFromXMLFinished = false;
 
-        public AceEditor(string url, Controls.ScriptsTabPanel scriptsTab) : base(url)
+        public AceEditor(string url, ScriptsTabPanel scriptsTab) : base(url)
         {
             ScriptsPanel = scriptsTab;
             ScriptsPanel.SelectedScriptChanged += ScriptTabChanged;
@@ -139,17 +140,30 @@ namespace SynapseUI.Controls.AceEditor
 
         public void OpenScriptFile(string filename, string path)
         {
-            if (ScriptMap.ContainsKey(filename))
+            if (ScriptMap.ContainsKey(filename) || ScriptPathMap.ContainsKey(path))
                 return;
 
             string contents = File.ReadAllText(path);
+
             ScriptMap.Add(filename, contents);
+            ScriptPathMap.Add(filename, path);
             ScriptsPanel.AddScript(filename, path, true);
         }
-        
+
         public bool OpenScriptsFromXML()
         {
-            var scripts = TabSaver.LoadFromXML();
+            var storedScripts = TabSaver.LoadFromXML();
+            if (storedScripts is null)
+            {
+                _loadFromXMLPremature = true;
+                _loadFromXMLFinished = true;
+
+                return true;
+            }
+
+            var scripts = storedScripts.Scripts;
+
+            ScriptsPanel.DefaultIndex = storedScripts.DefaultIndex;
 
             for (int i = 0; i < scripts.Count; i++)
             {
@@ -158,9 +172,10 @@ namespace SynapseUI.Controls.AceEditor
 
                 var script = scripts[i];
 
-                if (!ScriptMap.ContainsKey(script.Filename))
+                if (!ScriptMap.ContainsKey(script.Filename) && !ScriptPathMap.ContainsKey(script.Path))
                 {
                     ScriptMap.Add(script.Filename, script.Contents);
+                    ScriptPathMap.Add(script.Filename, script.Path);
                     ScriptsPanel.AddScript(script.Filename, script.Path, _loadFromXMLPremature);
                 }
             }
@@ -200,8 +215,13 @@ namespace SynapseUI.Controls.AceEditor
                     switch (diag.ShowDialog())
                     {
                         case true:
+                            ScriptMap.Remove(tab.Header);
+                            ScriptMap.Add(diag.SafeFileName, GetText());
+                            ScriptPathMap.Add(diag.SafeFileName, diag.FileName);
+
                             tab.Header = diag.SafeFileName;
                             tab.FilePath = diag.FileName;
+
                             File.WriteAllText(diag.FileName, contents ?? GetText());
                             break;
 
@@ -218,7 +238,7 @@ namespace SynapseUI.Controls.AceEditor
             }));
         }
 
-        private void ScriptTabChanged(object sender, Controls.ScriptChangedEventArgs e)
+        private void ScriptTabChanged(object sender, ScriptChangedEventArgs e)
         {
             if (!_loadFromXMLPremature)
                 return;
@@ -238,12 +258,14 @@ namespace SynapseUI.Controls.AceEditor
             }
         }
 
-        private void ScriptTabClosed(object sender, Controls.ScriptChangedEventArgs e)
+        private void ScriptTabClosed(object sender, ScriptChangedEventArgs e)
         {
             ScriptMap.Remove(e.File);
+            if (ScriptPathMap.ContainsKey(e.File))
+                ScriptPathMap.Remove(e.File);
         }
 
-        private void ScriptTabAdded(object sender, Controls.ScriptChangedEventArgs e)
+        private void ScriptTabAdded(object sender, ScriptChangedEventArgs e)
         {
             if (!_loadFromXMLFinished)
                 return;
