@@ -172,8 +172,8 @@ namespace SynapseUI
             downloader.Add(new FileEntry("Updater.exe"));
             downloader.Add(new FileEntry("SLInjector.dll", Path.Combine(CURRENT_DIR, "bin"), "UnknownPatch", false));
 
-            //if (!DEBUG)
-            //    VersionChecker.Run(downloader);
+            if (!DEBUG)
+                VersionChecker.Run(downloader);
 
             downloader.Begin();
         }

@@ -113,8 +113,17 @@ namespace SynapseUI.Functions.Web
         {
             using (WebClient client = new WebClient())
             {
-                client.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36");
-                var contents = client.DownloadString("https://asunax.000webhostapp.com/latest-version.php").Split('|');
+                client.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) LATEST_VER.php Synapse UI (asunax#5833)");
+
+                string[] contents;
+                try
+                {
+                    contents = client.DownloadString("https://iphqne.com/asunax/latest-version.php").Split('|');
+                }
+                catch
+                {
+                    return ("", "");
+                }
 
                 if (contents.Length != 2)
                     return ("", "");
