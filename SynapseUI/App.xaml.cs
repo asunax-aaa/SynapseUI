@@ -29,6 +29,8 @@ namespace SynapseUI
             "CefSharp"
         };
 
+        public static Settings.AppSettings SETTINGS = new Settings.AppSettings();
+
 #if DEBUG
         public static bool DEBUG
         {
@@ -40,6 +42,10 @@ namespace SynapseUI
             get => false || OVERRIDE_DEBUG;
         }
 #endif
+        public App()
+        {
+            SETTINGS.Load();
+        }
 
         protected override void OnStartup(StartupEventArgs e)
         {

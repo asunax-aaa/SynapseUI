@@ -147,6 +147,12 @@ namespace SynapseUI.Controls
 
         public ScriptTab AddScript(bool update = false)
         {
+            string name = $"Script {DefaultIndex + 1}";
+
+            foreach (ScriptTab item in Items)
+                if (item.Header == name)
+                    DefaultIndex++;
+
             return AddScript($"Script {++DefaultIndex}", "", update);
         }
     }

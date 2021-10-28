@@ -96,6 +96,7 @@
     <Compile Include="Controls\OptionTab.cs" />
     <Compile Include="Controls\SliderToggle.cs" />
     <Compile Include="Controls\AceEditor\TabSaver.cs" />
+    <Compile Include="Functions\AppSettings.cs" />
     <Compile Include="Types\ScriptHubEntriesType.cs" />
     <Page Include="ConfirmationWindow.xaml">
       <SubType>Designer</SubType>

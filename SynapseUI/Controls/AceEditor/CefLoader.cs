@@ -219,6 +219,8 @@ namespace SynapseUI.Controls.AceEditor
                             ScriptMap.Add(diag.SafeFileName, GetText());
                             ScriptPathMap.Add(diag.SafeFileName, diag.FileName);
 
+                            ScriptsPanel.DefaultIndex--;
+
                             tab.Header = diag.SafeFileName;
                             tab.FilePath = diag.FileName;
 
@@ -260,6 +262,9 @@ namespace SynapseUI.Controls.AceEditor
 
         private void ScriptTabClosed(object sender, ScriptChangedEventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(e.Dir))
+                ScriptsPanel.DefaultIndex--;
+
             ScriptMap.Remove(e.File);
             if (ScriptPathMap.ContainsKey(e.File))
                 ScriptPathMap.Remove(e.File);

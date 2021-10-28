@@ -5,6 +5,7 @@
     xmlns:customControls="clr-namespace:SynapseUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:functions="clr-namespace:SynapseUI.Controls.AceEditor"
+    xmlns:local="clr-namespace:SynapseUI"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="executeWindow"
     Title="OptionsWindow"
@@ -17,6 +18,15 @@
     WindowStartupLocation="Manual"
     WindowStyle="None"
     mc:Ignorable="d">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome
+            CaptionHeight="0"
+            CornerRadius="{Binding RoundedValue, Source={x:Static local:App.SETTINGS}}"
+            GlassFrameThickness="0"
+            ResizeBorderThickness="0"
+            UseAeroCaptionButtons="False" />
+    </WindowChrome.WindowChrome>
 
     <Window.Style>
         <Style>
@@ -262,6 +272,21 @@
                         Click="KillRobloxButton_Click"
                         Content="Kill Roblox"
                         Style="{StaticResource HoverButton}" />
+
+                    <Grid Margin="0,5,0,0">
+                        <Label
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Content="Rounded Window Corners"
+                            Style="{StaticResource DefaultText}" />
+
+                        <customControls:SliderToggle
+                            x:Name="roundedCornerToggle"
+                            Margin="0,0,10,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            ToggledStatusChanged="RoundedCorner_ToggledStatusChanged" />
+                    </Grid>
                 </StackPanel>
             </customControls:OptionTab>
 

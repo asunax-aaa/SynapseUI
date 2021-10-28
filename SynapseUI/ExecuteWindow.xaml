@@ -18,15 +18,13 @@
     ResizeMode="CanResize"
     Topmost="{Binding SynOptions.TopMost}"
     WindowStartupLocation="CenterScreen"
-    WindowStyle="SingleBorderWindow"
+    WindowStyle="None"
     mc:Ignorable="d">
-
-    <Window.Resources />
 
     <WindowChrome.WindowChrome>
         <WindowChrome
             CaptionHeight="0"
-            CornerRadius="0"
+            CornerRadius="{Binding RoundedValue, Source={x:Static local:App.SETTINGS}}"
             GlassFrameThickness="0"
             ResizeBorderThickness="7"
             UseAeroCaptionButtons="False" />

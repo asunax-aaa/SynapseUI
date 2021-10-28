@@ -94,7 +94,7 @@ namespace SynapseUI.Functions.Utils
             switch (e.Exception)
             {
                 case WebException _:
-                    builder.Append("*Your ISP is most likely blocking 000webhost.com, ISPs from countries like Turkey are known to cause this.\nTry using a VPN.");
+                    builder.Append("*Make sure you have the latest version of this UI running, https://github.com/asunax-aaa/SynapseUI. \nTry using a VPN.");
                     break;
 
                 case FileNotFoundException exception:
@@ -106,8 +106,6 @@ namespace SynapseUI.Functions.Utils
                     break;
 
             }
-
-
 
             return builder.ToString();
         }

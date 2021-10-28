@@ -46,6 +46,7 @@ namespace SynapseUI
             Closing += (s, e) =>
             {
                 SxUI?.ScriptHubMarkAsClosed();
+                App.SETTINGS.Save();
             };
         }
 
@@ -58,6 +59,8 @@ namespace SynapseUI
 
             mutexToggle.IsToggled = _mutexActive;
             aceThemesComboBox.SelectedItem = _theme;
+
+            roundedCornerToggle.IsToggled = App.SETTINGS.RoundedCorners;
 
             _firstLoad = false;
         }
@@ -176,6 +179,11 @@ namespace SynapseUI
             }
 
             _mutexActive = e.Value;
+        }
+
+        private void RoundedCorner_ToggledStatusChanged(object sender, Controls.ToggledStatusChangedEventArgs e)
+        {
+            App.SETTINGS.RoundedCorners = e.Value;
         }
 
         private void AceThemesComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
