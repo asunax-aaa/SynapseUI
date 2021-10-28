@@ -42,10 +42,6 @@ namespace SynapseUI
             get => false || OVERRIDE_DEBUG;
         }
 #endif
-        public App()
-        {
-            SETTINGS.Load();
-        }
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -119,6 +115,8 @@ namespace SynapseUI
                     return;
                 }
             }
+
+            SETTINGS.Load();
 
             new SplashScreen().Show();
         }

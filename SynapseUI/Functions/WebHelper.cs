@@ -109,6 +109,18 @@ namespace SynapseUI.Functions.Web
 
     public static class VersionChecker
     {
+        public static void DownloadUpdater()
+        {
+            string path = Path.Combine(App.CURRENT_DIR, @"bin\custom\Updater.exe");
+            if (!File.Exists(path))
+            {
+                using (WebClient client = new WebClient())
+                {
+                    client.DownloadFile("https://raw.githubusercontent.com/asunax-aaa/SynapseUI/master/SynapseUI/Resources/Updater.exe", path);
+                }
+            }
+        }
+
         public static (string Version, string Url) GetLatestVersion()
         {
             using (WebClient client = new WebClient())
@@ -140,6 +152,8 @@ namespace SynapseUI.Functions.Web
 
         public static void Run(FileDownloader fileDownloader)
         {
+            DownloadUpdater();
+
             string appName = AppDomain.CurrentDomain.FriendlyName;
 
             var latest = GetLatestVersion();
