@@ -131,8 +131,8 @@ namespace SynapseUI
 
         private bool ValidateSynapseInstall()
         {
-            if (!File.Exists(@".\S^X.exe"))
-                return true;
+            //if (!File.Exists(@".\S^X.exe"))
+            //    return true;
 
             string[] folders = new string[]
             {
