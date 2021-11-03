@@ -11,7 +11,6 @@ A custom Synapse X user interface with the following changes:
 9. And much more!
 
 # Screenshots
-![Main screenshot](http://asunax.000webhostapp.com/u/19.22.08-25.10.21-n-syEeXn37Y7oRWZTV2Jm4P4NHydvcvtMPVLp9KkU1urD625A8Eh5bBmGhj6Fxo1FrXza3WtQf0LlzeTgS9iQfCBRdjAu8bJMSClgN.png)
 
 <p align="center">
   <img src="https://i.imgur.com/3KMX5Am.png">
@@ -41,7 +40,7 @@ This Synapse UI can auto-update both itself and the additional files. Meaning yo
 
 I will be updating this UI at some point in the future with new features and bug fixes, DM me with any known bug fixes / any features you might want added.
 
-Virus total: https://www.virustotal.com/gui/file/5882ce5dd7c4d0dc1a1b52dfd1ec576065cd2be309fb869859d0889478994f7e/
+Virus total: https://www.virustotal.com/gui/file/504700c53fd06a0c56b870553138435449a9cf99005f19184e13a47840e213dd/summary
 
 # License
 You are free to use, copy, modify, merge, publish and distribute this open source project.
