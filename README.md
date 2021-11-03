@@ -14,9 +14,7 @@ A custom Synapse X user interface with the following changes:
 ![Main screenshot](http://asunax.000webhostapp.com/u/19.22.08-25.10.21-n-syEeXn37Y7oRWZTV2Jm4P4NHydvcvtMPVLp9KkU1urD625A8Eh5bBmGhj6Fxo1FrXza3WtQf0LlzeTgS9iQfCBRdjAu8bJMSClgN.png)
 
 <p align="center">
-  <img src="http://asunax.000webhostapp.com/u/22.30.47-07.09.21-n-B8pViNjgwIfiH4uoYh34uby7UKFcV0b5Q8kLtzzdlXqt1L6wMaSZ9h7mS2mvqHMKcUPWe1WGDDXAE6nRgTkrsCfoQvTsZOPaNjx9.gif">
-  <img src="http://asunax.000webhostapp.com/u/17.52.11-08.09.21-n-aTqLV5gpcfjOFbN1GXwi5DHzXiuBoFlJM7Vxm278rpZzKW9veq6hIILQtyPD1eEnlE3c4YPQvbOBurCkJRxNHhZA8SysCsgm0Awf.gif">
-  <img src="http://asunax.000webhostapp.com/u/19.32.20-25.10.21-n-w3jenQ9kHVp8qgFXIaCyWbPGcS6sgd2v5kAXyiUxlmvKdaLB8VBuR7AeuYJoR1DJT5t0ZlIMrHDZMbNjLCQshOOY06hWitzpNxnS.gif">
+  <img src="https://i.imgur.com/3KMX5Am.png">
 </p>
 
 # Installation
