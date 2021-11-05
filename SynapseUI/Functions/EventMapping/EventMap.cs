@@ -15,7 +15,7 @@ namespace SynapseUI.EventMapping
             { SynLoadEvents.CHECKING_DATA, "Checking data..." },
             { SynLoadEvents.CHECKING_WL, "Checking whitelist..." },
             { SynLoadEvents.DOWNLOADING_DATA, "Downloading data..." },
-            { SynLoadEvents.DOWNLOADING_DLLS, "Downloading DDLs..." },
+            { SynLoadEvents.DOWNLOADING_DLLS, "Downloading DLLs..." },
             { SynLoadEvents.FAILED_TO_DOWNLOAD, "Failed to download files." },
             { SynLoadEvents.FAILED_TO_VERIFY, "Failed to verify files." },
             { SynLoadEvents.NOT_ENOUGH_TIME, "24 Hour Error." },
@@ -59,7 +59,7 @@ namespace SynapseUI.EventMapping
             { SynAttachEvents.READY, "Ready!" },
             { SynAttachEvents.REINJECTING, "Reinjecting..." },
             { SynAttachEvents.SCANNING, "Scanning..." },
-            { SynAttachEvents.UPDATING_DLLS, "Updating DDLs..." },
+            { SynAttachEvents.UPDATING_DLLS, "Updating DLLs..." },
 
             // Currently do not have a use.
             //{ SynAttachEvents.PROC_CREATION, "Process creation." },
