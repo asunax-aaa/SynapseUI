@@ -11,6 +11,8 @@ using sxlib.Specialized;
 using SynapseUI.Types;
 using SynapseUI.Functions.Utils;
 using SynapseUI.Controls.AceEditor;
+using System.IO;
+using System.Linq;
 
 namespace SynapseUI
 {
@@ -121,6 +123,22 @@ namespace SynapseUI
             }
         }
 
+        public static string[] GetSynapseProcesses()
+        {
+            string[] excluded = new string[]
+            {
+                "CefSharp.BrowserSubprocess.exe",
+                "lua-decomp.exe"
+            };
+
+            var files = new DirectoryInfo(@".\bin\").GetFiles("*.exe")
+                .Where(f => !excluded.Contains(f.Name))
+                .Select(f => f.Name.Substring(0, f.Name.Length - 4))
+                .ToArray();
+
+            return files;
+        }
+
         public event OptionChangedEventHandler OptionChanged;
 
         protected virtual void OnOptionChanged(OptionChangedEventArgs e)
@@ -158,6 +176,18 @@ namespace SynapseUI
             foreach (var process in processes)
             {
                 process.Kill();
+            }
+        }
+
+        private void KillSynapseButton_Click(object sender, RoutedEventArgs e)
+        {
+            var procs = GetSynapseProcesses();
+            foreach (var proc in procs)
+            {
+                foreach (var process in Process.GetProcessesByName(proc))
+                {
+                    process.Kill();
+                }
             }
         }
 
