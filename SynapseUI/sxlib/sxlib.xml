@@ -64,6 +64,11 @@
             Unused by sxlib. Do not modify.
             </summary>
         </member>
+        <member name="F:sxlib.Static.Data.Options.SilentLaunch">
+            <summary>
+            If AutoAttach/AutoLaunch show our launcher UI.
+            </summary>
+        </member>
         <member name="F:sxlib.Static.Data.Options.EditorThemeName">
             <summary>
             Unused by sxlib. Do not modify.
@@ -325,6 +330,11 @@
             </summary>
             <returns>If initial loading fails, this will return false.</returns>
         </member>
+        <member name="M:sxlib.Specialized.SxLibOffscreen.Close">
+            <summary>
+            Call this when your application exits.
+            </summary>
+        </member>
         <member name="M:sxlib.Specialized.SxLibOffscreen.Attach">
             <summary>
             This will start the initial attaching process of Synapse X. You must attach a handler to 'AttachEvent' to get callback events from this function.
@@ -413,6 +423,11 @@
             This will start the initial loading process of Synapse X. You must attach a handler to 'LoadEvent' to get callback events from this function.
             </summary>
             <returns>If initial loading fails, this will return false.</returns>
+        </member>
+        <member name="M:sxlib.Specialized.SxLibWinForms.Close">
+            <summary>
+            Call this when your application exits.
+            </summary>
         </member>
         <member name="M:sxlib.Specialized.SxLibWinForms.Attach">
             <summary>
@@ -513,6 +528,11 @@
             This will start the initial loading process of Synapse X. You must attach a handler to 'LoadEvent' to get callback events from this function.
             </summary>
             <returns>If initial loading fails, this will return false.</returns>
+        </member>
+        <member name="M:sxlib.Specialized.SxLibWPF.Close">
+            <summary>
+            Call this when your application exits.
+            </summary>
         </member>
         <member name="M:sxlib.Specialized.SxLibWPF.Attach">
             <summary>
