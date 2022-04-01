@@ -58,6 +58,7 @@ namespace SynapseUI.Settings
         }
 
         private int roundedValue = 0;
+
         [XmlIgnore]
         public int RoundedValue
         {

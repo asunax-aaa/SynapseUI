@@ -62,6 +62,12 @@ namespace SynapseUI.Types
             set => base.UnlockFPS = value;
         }
 
+        public new bool SilentLaunch
+        {
+            get => base.SilentLaunch;
+            set => base.SilentLaunch = value;
+        }
+
         public Options() : base() { }
 
         public Options(Data.Options options)
@@ -79,6 +85,7 @@ namespace SynapseUI.Types
             InternalUI = options.InternalUI;
             TopMost = options.TopMost;
             UnlockFPS = options.UnlockFPS;
+            SilentLaunch = options.SilentLaunch;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -120,6 +127,7 @@ namespace SynapseUI.Types
             Add(new OptionEntry("Unlock FPS", "UnlockFPS"));
             Add(new OptionEntry("Auto-Launch", "AutoLaunch"));
             Add(new OptionEntry("Auto-Attach", "AutoAttach"));
+            Add(new OptionEntry("Silent Launch", "SilentLaunch"));
             Add(new OptionEntry("Clear Editor Prompt", "ClearConfirmation"));
             Add(new OptionEntry("File Closing Prompt", "CloseConfirmation"));
             Add(new OptionEntry("Internal UI", "InternalUI"));

@@ -67,10 +67,12 @@ namespace SynapseUI
             SaveScriptTabs();
             OptionsWindow.DisposeMutex();
 
+            if (!App.DEBUG)
+                SxUI.Close();
+
             Environment.Exit(0);
         }
         
-
         private void LoadCefBrowser()
         {
             if (!File.Exists(@".\bin\custom\Editor.html"))

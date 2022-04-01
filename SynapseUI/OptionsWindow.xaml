@@ -10,7 +10,7 @@
     x:Name="executeWindow"
     Title="OptionsWindow"
     Width="330"
-    Height="335"
+    Height="370"
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
     Loaded="OptionsWindow_Loaded"
     ResizeMode="NoResize"

@@ -16,7 +16,7 @@ namespace SynapseUI
     /// </summary>
     public partial class App : Application
     {
-        public static readonly bool OVERRIDE_DEBUG = false;
+        public static readonly bool OVERRIDE_DEBUG = true;
         public static readonly bool SKIP_CEF = false;
 
         public static readonly string CURRENT_DIR = Directory.GetCurrentDirectory();
@@ -32,15 +32,9 @@ namespace SynapseUI
         public static Settings.AppSettings SETTINGS = new Settings.AppSettings();
 
 #if DEBUG
-        public static bool DEBUG
-        {
-            get => true && !OVERRIDE_DEBUG;
-        }
+        public static bool DEBUG => true && !OVERRIDE_DEBUG;
 #else
-        public static bool DEBUG
-        {
-            get => false || OVERRIDE_DEBUG;
-        }
+        public static bool DEBUG => false || OVERRIDE_DEBUG;
 #endif
 
         protected override void OnStartup(StartupEventArgs e)
