@@ -50,7 +50,7 @@
             <Label
                 Height="30"
                 Content="Synapse X"
-                Style="{StaticResource DefaultCenterVertText}" />
+                Style="{StaticResource DefaultCenterVertText}" FontWeight="Bold" />
 
             <Image Source="Resources/logo.png" Style="{StaticResource LogoImage}" />
 
@@ -220,12 +220,11 @@
         <Button
             x:Name="attachButton"
             Grid.Row="3"
-            Grid.ColumnSpan="2"
-            Margin="0,0,7,0"
-            HorizontalAlignment="Right"
+            Margin="0,8,0,7"
+            HorizontalAlignment="Left"
             Click="AttachButton_Click"
             Content="Attach"
-            Style="{StaticResource MarginHoverButton}" />
+            Style="{StaticResource MarginHoverButton}" Grid.Column="1" Width="118" />
 
         <customControls:DisappearingLabel
             x:Name="attachInfoLabel"

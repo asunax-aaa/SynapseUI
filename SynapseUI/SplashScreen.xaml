@@ -45,7 +45,7 @@
             <Label
                 Height="30"
                 Content="Synapse X"
-                Style="{StaticResource DefaultCenterVertText}" />
+                Style="{StaticResource DefaultCenterVertText}" FontWeight="Bold" />
         </Grid>
 
         <Image Style="{DynamicResource LogoImage}" />

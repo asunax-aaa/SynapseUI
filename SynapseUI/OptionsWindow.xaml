@@ -79,7 +79,7 @@
             <Label
                 Height="30"
                 Content="Synapse X - Options"
-                Style="{StaticResource DefaultCenterVertText}" />
+                Style="{StaticResource DefaultCenterVertText}" FontWeight="Bold" />
 
             <Image Style="{DynamicResource LogoImage}" />
 
@@ -295,6 +295,13 @@
                         Click="KillSynapseButton_Click"
                         Content="Kill Synapse X"
                         Style="{StaticResource HoverButton}" />
+                    <Button
+                        x:Name="reinstallRobloxButton"
+                        Width="200"
+                        Height="30"
+                        Click="ReinstallRobloxButton_Click"
+                        Content="Reinstall Roblox"
+                        Style="{StaticResource HoverButton}" Margin="0,10,0,0" />
                 </StackPanel>
             </customControls:OptionTab>
 
