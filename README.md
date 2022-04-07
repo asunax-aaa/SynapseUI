@@ -1,5 +1,5 @@
 # MAJOR ISSUE
-Execution will not work AT ALL. This is unfixable on my part until Synapse actually fixes sxlib. You won't need to reinstall the UI when sxlib is fixed as long as you have version 1.0.15 or higher installed.
+Execution will not work AT ALL. This is being fixed.
 
 # Fork Changes
 1. Bolded title text. I always liked that more.
