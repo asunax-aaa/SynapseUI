@@ -34,11 +34,6 @@
             If the Internal UI should be visible.
             </summary>
         </member>
-        <member name="F:sxlib.Static.Data.Options.ObsHide">
-            <summary>
-            If the Drawing Library/Internal UI should be visible via recording software.
-            </summary>
-        </member>
         <member name="F:sxlib.Static.Data.Options.IngameChat">
             <summary>
             Currently unused.

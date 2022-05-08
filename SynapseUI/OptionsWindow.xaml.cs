@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -190,23 +189,6 @@ namespace SynapseUI
                     process.Kill();
                 }
             }
-        }
-
-        private async void ReinstallRobloxButton_Click(object sender, RoutedEventArgs e)
-        {
-            WebClient wec = new WebClient();
-            if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\bin\RobloxPlayerLauncher.exe"))
-            {
-                try
-                {
-                    await wec.DownloadFileTaskAsync(new Uri("https://setup.rbxcdn.com/Roblox.exe"), AppDomain.CurrentDomain.BaseDirectory + @"\bin\RobloxPlayerLauncher.exe");
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Failed to download Roblox installer.");
-                }
-            }
-            Process.Start(AppDomain.CurrentDomain.BaseDirectory + @"\bin\RobloxPlayerLauncher.exe");
         }
 
         private void MultiRBLX_ToggledStatusChanged(object sender, Controls.ToggledStatusChangedEventArgs e)
