@@ -1,15 +1,3 @@
-# MAJOR ISSUE
-Execution will not work AT ALL. This is being fixed.
-
-# Fork Changes
-1. Bolded title text. I always liked that more.
-2. Built in script hub changed images.
-3. Aligned the attatch button to the script tree.
-4. Reinstall Roblox button.
-5. README modifications.
-
-Everything else in is the same, except for some minor tweaks with the credits and links.
-
 # SynapseUI
 A custom Synapse X user interface with the following changes:
 1. A brand new look! But, just like the same old Synapse you know.
@@ -25,13 +13,13 @@ A custom Synapse X user interface with the following changes:
 # Screenshots
 
 <p align="center">
-  <img src="https://media.discordapp.net/attachments/881180813918617660/959971038165348392/preview.png">
+  <img src="https://i.imgur.com/3KMX5Am.png">
 </p>
 
 # Installation
 The installation is super simple. 
 
-Simply head over to the ["Releases"](https://github.com/slash1div/SynapseUI/releases) tab and download the latest SynapseUI.exe from under the Assets.
+Simply head over to the ["Releases"](https://github.com/asunax-aaa/SynapseUI/releases) tab and download the latest SynapseUI.exe from under the Assets.
 
 Once downloaded, simply drag and drop this into your already pre-existing Synapse X folder and open it.
 
@@ -52,7 +40,7 @@ This Synapse UI can auto-update both itself and the additional files. Meaning yo
 
 I will be updating this UI at some point in the future with new features and bug fixes, DM me with any known bug fixes / any features you might want added.
 
-Virus total: https://www.virustotal.com/gui/file/1fa66f3dfa43ebeafa107871ada1899a960815fafb5e0fffe2fd232c1ee8d899/summary
+Virus total: https://www.virustotal.com/gui/file/504700c53fd06a0c56b870553138435449a9cf99005f19184e13a47840e213dd/summary
 
 # License
 You are free to use, copy, modify, merge, publish and distribute this open source project.
@@ -63,10 +51,8 @@ You do not need to provide a copy of this project, but only a reference back to 
 
 
 # Credits
-Synapse X Developers - Making sxlib for custom UIs.
+asunax#5833 (616599336410808320) 
 
-asunax#5833 (616599336410808320) - Everything that was not listed in the credits.
-
-slashdiv#5797 (200344440538136577) - Reinstall ROBLOX button and custom script hub images.
+Synapse X Developers (sxlib).
 
 Some random person in #dev-general from which I stole the mode-lua.js file that contains Synapse library syntax keywords.
