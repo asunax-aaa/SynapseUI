@@ -51,7 +51,7 @@ You do not need to provide a copy of this project, but only a reference back to 
 
 
 # Credits
-asunax#5833 (616599336410808320) 
+asunax#0146 (303256002113961996) 
 
 Synapse X Developers (sxlib).
 
